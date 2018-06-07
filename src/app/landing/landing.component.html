@@ -1,0 +1,24 @@
+<div class="landing-container">
+  <app-carousel></app-carousel>
+  <app-drawer></app-drawer>
+  <div class="main-quote">
+    "Individual commitment to a group effort.
+    <br/> That is what makes a team work, a company work,
+    <br/> a society work, a civilization work."
+    <br/>- Vince Lombardi -
+  </div>
+  <div class="row flex-items-xs-center flex-items-xs-middle">
+    <div class="col-xs-10" *ngFor="let item of items">
+      <div class="card" id="{{item.name}}">
+        <div class="card-header">
+          {{item.name}}
+        </div>
+        <div class="card-block">
+          <div class="card-text">
+              {{item.desc}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

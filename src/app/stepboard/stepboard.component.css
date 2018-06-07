@@ -1,0 +1,74 @@
+.board-container div {
+  margin-top: 8px;
+}
+
+.btn {
+  display: block;
+  background: #f09819;
+  background: -moz-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
+  background: -webkit-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
+  background: linear-gradient(45deg, #f09819 0%, #edde5d 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09819', endColorstr='#edde5d', GradientType=1);
+  border: 0;
+  height: 45px;
+  padding: 0 0 0 1em;
+  margin-bottom: 1em;
+  outline: none;
+  text-decoration: none;
+  color: #333;
+  line-height: 45px;
+  font-size: 18px;
+  text-transform: capitalize;
+  border-radius: 10px
+}
+
+.btn .arrow {
+  display: block;
+  float: right;
+  height: 45px;
+  text-align: center;
+  background: #333;
+  color: #edde5d;
+  font-size: 1.5em;
+  width: 2em;
+  transition: margin 200ms;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.btn:hover {
+  background: white;
+}
+
+.btn:hover .arrow {
+  margin-left: 1.25em;
+  background-color: #262626;
+}
+
+.btn:active {
+  background: #ccc;
+}
+
+.btn:active .arrow {
+  margin-left: 1.5em;
+}
+
+.btn-info .arrow {
+  background-color: indianred;
+}
+
+.btn-info:hover .arrow {
+  background-color: #c14e4e;
+}
+
+.btn-learn .arrow {
+  background-color: salmon;
+}
+
+.btn-learn:hover .arrow {
+  background-color: #f56d5e;
+}
+
+button::-moz-focus-inner {
+  border: none;
+}
