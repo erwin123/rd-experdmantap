@@ -1,3 +1,50 @@
-<p>
-  step-one works!
-</p>
+<div class="header-step">
+    <a routerLink="/main/stepboard" class="btn-ctn">
+        <span class="arrow"> ❮</span>Back</a>
+</div>
+<div class="step-container">
+    <div class="row flex-items-xs-center flex-items-xs-middle">
+        <div class="col-xs-11">
+            <div class="card">
+                <div class="card-header">
+                    Photo Story
+                </div>
+                <div class="card-block">
+                    <div class="card-text">
+                        <div class="form-group">
+                            <clr-dropdown [clrCloseMenuOnItemClick]="true">
+                                <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
+                                    {{optionalRolePlay}}
+                                    <clr-icon shape="user" class="is-solid" size="22"></clr-icon>
+                                    <clr-icon shape="caret down"></clr-icon>
+                                </button>
+                                <clr-dropdown-menu *clrIfOpen>
+                                    <div *ngFor="let role of roles">
+                                        <button type="button" (click)="optionalRolePlay=role.roleName" clrDropdownItem>{{role.roleName}}</button>
+                                    </div>
+                                </clr-dropdown-menu>
+                            </clr-dropdown>
+                            <br/>
+                            <br/>
+                            <div class="upload-btn-wrapper">
+                                <!-- <button class="btn-file" [class.btn-emboss]="cameraMode" (click)="takePicture()"><clr-icon shape="camera" class="is-solid" size="23"></clr-icon> Take a Photo</button> -->
+                                <button class="btn-file" [disabled]="cameraMode" (click)="fileInput.click()"><clr-icon shape="image" class="is-solid" size="23"></clr-icon> Choose an Action</button>
+                                <input type="file" #fileInput name="myfile" (change)="readUrl($event)" />
+                            </div>
+                            <br/>
+                            <img [src]="url" class="img-preview" *ngIf="url">
+                            <div class="loader" *ngIf="initCamera">Initializing Camera...</div>
+                            <video id="myPic" *ngIf="cameraMode" class="video-js vjs-default-skin"></video>
+                        </div>
+                        <br/>
+                        <label class="required" for="text_opt">Tell about video story ?</label>
+                        <textarea id="text_opt" rows="2" [(ngModel)]="longAnswer"></textarea>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

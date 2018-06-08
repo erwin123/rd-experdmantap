@@ -1,3 +1,28 @@
-<p>
-  step-two works!
-</p>
+<div class="header-step">
+    <a routerLink="/main/stepboard" class="btn-ctn">
+        <span class="arrow"> ❮</span>Back</a>
+</div>
+<div class="step-container">
+    <video id="myVideo" class="video-js vjs-default-skin"></video>
+    <div class="row flex-items-xs-center flex-items-xs-middle">
+        <div class="col-xs-11">
+            <div class="card">
+                <div class="card-header">
+                    Story Description
+                </div>
+                <div class="card-block">
+                    <div class="card-text">
+                        <!-- Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+                        text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
+                        a type specimen book -->
+                        <label class="required" for="text_opt">Tell about video story ?</label>
+                        <textarea id="text_opt" rows="5" [(ngModel)]="longAnswer"></textarea>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button  class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

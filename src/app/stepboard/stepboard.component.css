@@ -10,22 +10,22 @@
   background: linear-gradient(45deg, #f09819 0%, #edde5d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09819', endColorstr='#edde5d', GradientType=1);
   border: 0;
-  height: 45px;
+  height: 50px;
   padding: 0 0 0 1em;
   margin-bottom: 1em;
   outline: none;
   text-decoration: none;
   color: #333;
-  line-height: 45px;
+  line-height: 50px;
   font-size: 18px;
   text-transform: capitalize;
-  border-radius: 10px
+  border-radius: 0px !important;
 }
 
 .btn .arrow {
   display: block;
   float: right;
-  height: 45px;
+  height: 50px;
   text-align: center;
   background: #333;
   color: #edde5d;

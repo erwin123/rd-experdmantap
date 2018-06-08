@@ -26,11 +26,17 @@
             "styles": [
               "src/styles.css",
               "node_modules/@clr/ui/clr-ui.min.css",
-              "node_modules/@clr/icons/clr-icons.min.css"
+              "node_modules/@clr/icons/clr-icons.min.css",
+              "node_modules/video.js/dist/video-js.min.css",
+              "node_modules/videojs-record/dist/css/videojs.record.css"
             ],
             "scripts": [
               "node_modules/@clr/icons/clr-icons.min.js",
-              "node_modules/@webcomponents/custom-elements/custom-elements.min.js"
+              "node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+              "node_modules/video.js/dist/video.min.js",
+              "node_modules/recordrtc/RecordRTC.js",
+              "node_modules/webrtc-adapter/out/adapter.js",
+              "node_modules/videojs-record/dist/videojs.record.min.js"
             ]
           },
           "configurations": {

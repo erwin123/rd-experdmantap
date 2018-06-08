@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.btn-primary{
+    color: #333 !important;
+    border:none  !important;
+    border-radius: 0px !important;
+    background: #f09819 !important;
+    background: -moz-linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
+    background: -webkit-linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
+    background: linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
+}
