@@ -27,6 +27,7 @@ import { StepFourComponent } from './step-four/step-four.component';
 import { StepFiveComponent } from './step-five/step-five.component';
 import { StepSixComponent } from './step-six/step-six.component';
 import { StepSevenComponent } from './step-seven/step-seven.component';
+import { RoledodontfilterPipe } from './pipes/roledodontfilter.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { StepSevenComponent } from './step-seven/step-seven.component';
     StepFourComponent,
     StepFiveComponent,
     StepSixComponent,
-    StepSevenComponent
+    StepSevenComponent,
+    RoledodontfilterPipe
   ],
   imports: [
     BrowserModule,

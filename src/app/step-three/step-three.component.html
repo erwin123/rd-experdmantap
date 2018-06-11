@@ -1,3 +1,94 @@
-<p>
-  step-three works!
-</p>
+<div class="step-container">
+  <div class="row flex-items-xs-center flex-items-xs-middle">
+    <div class="col-xs-11">
+      <div class="card">
+        <div class="card-header">
+          Standart Operation Procedure
+        </div>
+        <div class="card-block">
+          <div class="card-text">
+            <ul class="list">
+              <li *ngFor="let item of items">
+                {{item.SOPDesc}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card form-dodont">
+        <div class="card-header">
+          Do's & Don'ts
+        </div>
+        <div class="card-block">
+          <div class="card-text">
+            <section class="form-block">
+
+              <div class="form-group">
+                <clr-dropdown [clrCloseMenuOnItemClick]="true" class="role-ddl">
+                  <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
+                    {{optionalRolePlay}}
+                    <clr-icon shape="user" class="is-solid" size="22"></clr-icon>
+                    <clr-icon shape="caret down"></clr-icon>
+                  </button>
+                  <clr-dropdown-menu *clrIfOpen>
+                    <div *ngFor="let role of roles">
+                      <button type="button" (click)="optionalRolePlay=role.roleName" clrDropdownItem>{{role.roleName}}</button>
+                    </div>
+                  </clr-dropdown-menu>
+                </clr-dropdown>&nbsp;
+                <clr-dropdown [clrCloseMenuOnItemClick]="true" class="act-ddl">
+                  <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
+                    {{currentDoDont}}
+                    <clr-icon shape="accessibility-2" class="is-solid" size="22"></clr-icon>
+                    <clr-icon shape="caret down"></clr-icon>
+                  </button>
+                  <clr-dropdown-menu *clrIfOpen>
+                    <button type="button" (click)="currentDoDont='Do'" clrDropdownItem>Do</button>
+                    <button type="button" (click)="currentDoDont='Dont'" clrDropdownItem>Don't</button>
+                  </clr-dropdown-menu>
+                </clr-dropdown>
+                <br/>
+                <br/>
+                <textarea id="formFields_8" rows="2" [(ngModel)]="textDodont"></textarea>
+                <button class="btn btn-primary btn-block" (click)="addDodont()">
+                  <clr-icon shape="plus"></clr-icon> Add</button>
+                <br/>
+                <div class="error-msg" *ngIf="errorMsg">{{errorMsg}}</div>
+                <br/>
+                <div class="data-prev">
+                  <div class="perrole" *ngFor="let role of roles">
+                    <div class="title">{{role.roleName}}</div>
+                    <div class="action-list">
+                      <div class="do-list">Do
+                        <ul>
+                          <li *ngFor="let item of (dodonts | roledodontfilter:role.roleCode:true)">
+                            {{item.text}}
+                            <button type="button" class="btn-del">
+                              <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <br/>
+                      <div class="do-list">Don't
+                        <ul>
+                          <li *ngFor="let item of (dodonts | roledodontfilter:role.roleCode:false)">
+                            {{item.text}}
+                            <button type="button" class="btn-del">
+                              <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

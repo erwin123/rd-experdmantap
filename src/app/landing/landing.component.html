@@ -1,5 +1,10 @@
 <div class="landing-container">
-  <app-carousel></app-carousel>
+  <video *ngIf="url" onclick="alert('')" autoplay
+  preload="auto" id="landingVideo"
+  class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" controls
+    width="640" height="264">
+    <source [src]="url"  type="video/mp4" />
+  </video>
   <app-drawer></app-drawer>
   <div class="main-quote">
     "Individual commitment to a group effort.
@@ -15,7 +20,7 @@
         </div>
         <div class="card-block">
           <div class="card-text">
-              {{item.desc}}
+            {{item.desc}}
           </div>
         </div>
       </div>

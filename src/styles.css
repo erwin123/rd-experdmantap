@@ -53,3 +53,7 @@
     display: block;
     width: 100%;
 }
+
+.vjs-has-started .vjs-control-bar{
+    top:0 !important;
+  }

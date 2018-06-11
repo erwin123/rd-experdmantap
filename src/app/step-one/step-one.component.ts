@@ -28,13 +28,13 @@ export class StepOneComponent implements OnInit, OnInit, OnDestroy {
     this.cameraMode = false;
     this.initCamera = false;
     this.optionalRolePlay = "Role Play";
-    let keys = ["r005", "r006", "r007", "r009", "r001"];
+    let roleApplied = ["r005", "r006", "r007", "r009", "r001"];
 
     this.roles = this.initialDataServices.getInitiaRole()
     this.roles = this.roles.filter(
       function (e) {
         return this.indexOf(e.roleCode) >= 0;
-      }, keys
+      }, roleApplied
     );
   }
   ngOnDestroy() {

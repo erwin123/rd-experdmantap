@@ -4,3 +4,7 @@
     text-align: center;
 }
 
+.vjs-control-bar, .vjs-big-play-button {
+    display: none !important;
+ }
+
