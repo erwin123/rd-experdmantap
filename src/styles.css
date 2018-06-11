@@ -8,3 +8,48 @@
     background: -webkit-linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
     background: linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
 }
+
+.btn-ctn {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left;
+    display: block;
+    width: 100%;
+    border: 0;
+    height: 45px;
+    outline: none;
+    text-decoration: none;
+    color: #333 !important;
+    line-height: 45px;
+    font-size: 20px;
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+  
+  .btn-ctn .arrow {
+    display: block;
+    float: left;
+    height: 45px;
+    text-align: center;
+    background: transparent;
+    color: #333;
+    font-size: 1.5em;
+    width: 1em;
+    transition: margin 200ms;
+  }
+
+  .header-step {
+    display: block;
+    width: 100%;
+    background: #f09819;
+    background: -moz-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
+    background: -webkit-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
+    background: linear-gradient(45deg, #f09819 0%, #edde5d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09819', endColorstr='#edde5d', GradientType=1);
+}
+
+.step-container video {
+    position: relative;
+    display: block;
+    width: 100%;
+}

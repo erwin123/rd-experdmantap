@@ -5,6 +5,17 @@
   <meta charset="utf-8">
   <title>RdExperdmantap</title>
   <base href="/">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/ngsw-worker.js')
+        .then((registration) => {
+          console.log('SW registered');
+        })
+        .catch((err) => {
+          console.log('SW error', err);
+        });
+    }
+  </script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -13,7 +24,14 @@
 </head>
 
 <body>
-  <app-root></app-root>
+
+  <app-root>
+    <nav style="background-color: #333; height: 56px; width: 100%">
+    </nav>
+    <span class="spinner spinner-md" style="display: block; margin:50% auto;">
+      Loading...
+    </span>
+  </app-root>
 </body>
 
 </html>

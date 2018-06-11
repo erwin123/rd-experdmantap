@@ -27,7 +27,6 @@
                             <br/>
                             <br/>
                             <div class="upload-btn-wrapper">
-                                <!-- <button class="btn-file" [class.btn-emboss]="cameraMode" (click)="takePicture()"><clr-icon shape="camera" class="is-solid" size="23"></clr-icon> Take a Photo</button> -->
                                 <button class="btn-file" [disabled]="cameraMode" (click)="fileInput.click()"><clr-icon shape="image" class="is-solid" size="23"></clr-icon> Choose an Action</button>
                                 <input type="file" #fileInput name="myfile" (change)="readUrl($event)" />
                             </div>
