@@ -53,3 +53,27 @@
     display: block;
     width: 100%;
 }
+
+ .stack-view::before{
+    content: none !important;
+}
+
+.stack-view .stack-children .stack-block-label{
+    padding-left:1px !important;
+    
+}  
+.stack-view .stack-children .stack-block-label::before{
+    content: none !important;
+    background: transparent !important;
+}
+.stack-view .stack-children .stack-block-content, .stack-view .stack-children .stack-block-label{
+    background: transparent !important;
+}
+
+.stack-view{
+    border: none !important;
+}
+
+.stack-header .stack-title{
+    padding:0 !important;
+}
