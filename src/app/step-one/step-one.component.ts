@@ -4,6 +4,7 @@ import { Roles } from '../models/roles';
 import { videojs } from 'video.js';
 import { record } from 'videojs-record';
 import { RecordRTC } from 'recordrtc';
+import { SOPKeys } from '../models/sopkeys';
 
 @Component({
   selector: 'app-step-one',
@@ -21,6 +22,9 @@ export class StepOneComponent implements OnInit, OnInit, OnDestroy {
   longAnswer:string;
   roles: Roles[];
   optionalRolePlay: string = "";
+  emotionValue: number = 3;
+  emotionDesc: string = "Nothing";
+  sopkeys:SOPKeys[];
   constructor(private initialDataServices: InitialDataService) {
 
   }
@@ -28,7 +32,7 @@ export class StepOneComponent implements OnInit, OnInit, OnDestroy {
     this.cameraMode = false;
     this.initCamera = false;
     this.optionalRolePlay = "Role Play";
-    let roleApplied = ["r005", "r006", "r007", "r009", "r001"];
+    let roleApplied = ["r005", "r006", "r009"];
 
     this.roles = this.initialDataServices.getInitiaRole()
     this.roles = this.roles.filter(
@@ -36,10 +40,16 @@ export class StepOneComponent implements OnInit, OnInit, OnDestroy {
         return this.indexOf(e.roleCode) >= 0;
       }, roleApplied
     );
+    this.sopkeys = this.initialDataServices.getInitialSOP();
   }
   ngOnDestroy() {
     if (this.cameraMode)
       this.player.record().destroy();
+  }
+
+  changeMood($event) {
+    this.emotionValue = $event.target.value;
+    console.log($event.target.value + " Clicked!");
   }
 
   takePicture() {

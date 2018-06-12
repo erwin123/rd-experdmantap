@@ -27,16 +27,15 @@ label{
 }
 
 .perrole{
-    border: 1px solid rgb(153, 153, 153);
-    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 1px 0px rgba(73, 73, 73, 0.5);
     margin-top:10px;
 }
 
 .perrole .title{
-    background: #edde5d;
+    background: #F5931E;
     padding: 5px;
     font-weight: bold;
-    color:#333;
+    color:#fdfdfd;
 }
 
 .do-list{

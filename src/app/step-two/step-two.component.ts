@@ -12,6 +12,7 @@ import { RecordRTC } from 'recordrtc';
 
 export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   player: any;
+  url:string;
   longAnswer:string;
   constructor() {
 
@@ -62,6 +63,14 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnInit() {
 
   }
-
+  readUrl(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.url = event.target.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
 }
 declare var videojs: any;

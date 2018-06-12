@@ -1,12 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-.btn-primary{
-    color: #333 !important;
-    border:none  !important;
+.header, .header.header-1, header, header.header-1{
+    background-color: #084F8F !important;
+}
+.btn-primary {
+    color: #fdfdfd !important;
+    border: none !important;
     border-radius: 0px !important;
-    background: #f09819 !important;
-    background: -moz-linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
+    background: #F5931E !important;
+    /* background: -moz-linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
     background: -webkit-linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
-    background: linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important;
+    background: linear-gradient(45deg, #f09819 0%, #edde5d 100%) !important; */
 }
 
 .btn-ctn {
@@ -19,33 +22,63 @@
     height: 45px;
     outline: none;
     text-decoration: none;
-    color: #333 !important;
+    color: #fdfdfd !important;
     line-height: 45px;
     font-size: 20px;
     text-transform: capitalize;
     font-weight: bold;
-  }
-  
-  .btn-ctn .arrow {
+}
+
+.btn-ctn .arrow {
     display: block;
     float: left;
     height: 45px;
     text-align: center;
     background: transparent;
-    color: #333;
+    color: #fdfdfd;
     font-size: 1.5em;
     width: 1em;
     transition: margin 200ms;
-  }
+}
 
-  .header-step {
+.header-step {
     display: block;
     width: 100%;
+    background: #F5931E;
+}
+
+.upload-btn-wrapper {
+    display: block;
+    width: 100%;
+}
+
+.btn-file {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #fff;
     background: #f09819;
-    background: -moz-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
-    background: -webkit-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
-    background: linear-gradient(45deg, #f09819 0%, #edde5d 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09819', endColorstr='#edde5d', GradientType=1);
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.upload-btn-wrapper button {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.img-preview {
+    display: block;
+    width: 100%;
 }
 
 .step-container video {
@@ -54,6 +87,44 @@
     width: 100%;
 }
 
-.vjs-has-started .vjs-control-bar{
-    top:0 !important;
-  }
+.stack-view::before {
+    content: none !important;
+}
+
+.stack-view .stack-children .stack-block-label {
+    padding-left: 1px !important;
+}
+
+.stack-view .stack-children .stack-block-label::before {
+    content: none !important;
+    background: transparent !important;
+}
+
+.stack-view .stack-children .stack-block-content, .stack-view .stack-children .stack-block-label {
+    background: transparent !important;
+}
+
+.stack-view {
+    border: none !important;
+}
+
+.stack-header .stack-title {
+    padding: 0 !important;
+}
+
+.banding {
+    background: #ffe786 !important;
+    border-top: #ff7b00 1px solid !important;
+    border-bottom: #ff7b00 1px solid !important;
+}
+
+.step-container {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0;
+}
+
+.vjs-has-started .vjs-control-bar {
+    top: 0 !important;
+}

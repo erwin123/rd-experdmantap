@@ -4,18 +4,16 @@
 
 .btn {
   display: block;
-  background: #f09819;
-  background: -moz-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
-  background: -webkit-linear-gradient(45deg, #f09819 0%, #edde5d 100%);
-  background: linear-gradient(45deg, #f09819 0%, #edde5d 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09819', endColorstr='#edde5d', GradientType=1);
+  background: #F5931E;
+  
   border: 0;
   height: 50px;
   padding: 0 0 0 1em;
   margin-bottom: 1em;
   outline: none;
+  text-align: left;
   text-decoration: none;
-  color: #333;
+  color: #fff;
   line-height: 50px;
   font-size: 18px;
   text-transform: capitalize;
@@ -27,8 +25,8 @@
   float: right;
   height: 50px;
   text-align: center;
-  background: #333;
-  color: #edde5d;
+  background: #084F8F;
+  color: #fff;
   font-size: 1.5em;
   width: 2em;
   transition: margin 200ms;

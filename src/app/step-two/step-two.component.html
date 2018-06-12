@@ -8,19 +8,23 @@
         <div class="col-xs-11">
             <div class="card">
                 <div class="card-header">
-                    Story Description
+                    Wake Up Call
                 </div>
                 <div class="card-block">
                     <div class="card-text">
-                        <!-- Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                        text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-                        a type specimen book -->
-                        <label class="required" for="text_opt">Tell about video story ?</label>
-                        <textarea id="text_opt" rows="5" [(ngModel)]="longAnswer"></textarea>
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-file" (click)="fileInput.click()">
+                                <clr-icon shape="image" class="is-solid" size="23"></clr-icon> Choose an Action</button>
+                            <input type="file" #fileInput name="myfile" (change)="readUrl($event)" />
+                        </div>
+                        <br/>
+                        <img [src]="url" class="img-preview" *ngIf="url">
+                        <label class="required" for="text_opt">Ceritakan perasaan/pengalaman Anda :</label>
+                        <textarea id="text_opt" rows="2" [(ngModel)]="longAnswer"></textarea>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button  class="btn btn-primary">Submit</button>
+                    <button class="btn btn-primary btn-block">Submit</button>
                 </div>
             </div>
         </div>

@@ -1,3 +1,38 @@
-<p>
-  step-four works!
-</p>
+<div class="header-step">
+  <a routerLink="/main/stepboard" class="btn-ctn">
+    <span class="arrow"> ❮</span>Back</a>
+</div>
+<div class="step-container">
+  <div class="row flex-items-xs-center flex-items-xs-middle">
+    <div class="col-xs-11">
+      <div class="card form-dodont">
+        <div class="card-header">
+          Do's & Dont's
+        </div>
+        <div class="card-block">
+          
+          <div class="card-text">
+
+            <clr-stack-view *ngFor="let week of weeks">
+              <clr-stack-header>Week {{week.weekNum}}</clr-stack-header>
+              <clr-stack-block #lazyBlock [clrSbExpandable]="true" *ngFor="let role of roles">
+                <clr-stack-label>{{role.roleName}}</clr-stack-label>
+                <clr-stack-content>Achievement</clr-stack-content>
+                <clr-stack-block *ngFor="let child of (employees|employeerole:role.roleCode:week.weekNum);let i = index" [class.banding]="i%2 === 0">
+                  <clr-stack-label>{{child.employeeFirstName}}&nbsp;{{child.employeeLastName}}</clr-stack-label>
+                  <clr-stack-content>
+                    <input style="width: 10px !important; min-width: 30px !important;" [(ngModel)]="child.mark" type="tel" (keydown)="check($event)"
+                      maxlength="2">
+                    <clr-icon shape="star" class="is-warning is-solid"></clr-icon>
+                  </clr-stack-content>
+                </clr-stack-block>
+              </clr-stack-block>
+            </clr-stack-view>
+            <br/>
+            <button class="btn btn-primary btn-block">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

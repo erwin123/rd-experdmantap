@@ -17,7 +17,7 @@ import { NguCarouselModule } from '@ngu/carousel';
 import { CarouselComponent } from './carousel/carousel.component';
 import { DrawerComponent } from './drawer/drawer.component';
 import { FooterComponent } from './footer/footer.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { StepboardComponent } from './stepboard/stepboard.component';
 import { StepOneComponent } from './step-one/step-one.component';
@@ -28,6 +28,9 @@ import { StepFiveComponent } from './step-five/step-five.component';
 import { StepSixComponent } from './step-six/step-six.component';
 import { StepSevenComponent } from './step-seven/step-seven.component';
 import { RoledodontfilterPipe } from './pipes/roledodontfilter.pipe';
+import { SoprolesPipe } from './pipes/soproles.pipe';
+import { EmployeerolePipe } from './pipes/employeerole.pipe';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import { RoledodontfilterPipe } from './pipes/roledodontfilter.pipe';
     StepFiveComponent,
     StepSixComponent,
     StepSevenComponent,
-    RoledodontfilterPipe
+    RoledodontfilterPipe,
+    SoprolesPipe,
+    EmployeerolePipe
   ],
   imports: [
     BrowserModule,
@@ -56,7 +61,9 @@ import { RoledodontfilterPipe } from './pipes/roledodontfilter.pipe';
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     NguCarouselModule,
+    PdfViewerModule,
     ScrollToModule.forRoot()
   ],
   providers: [AuthguardService, {provide: LocationStrategy, useClass:HashLocationStrategy}],

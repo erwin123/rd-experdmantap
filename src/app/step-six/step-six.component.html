@@ -1,3 +1,51 @@
-<p>
-  step-six works!
-</p>
+<div class="header-step">
+  <a routerLink="/main/stepboard" class="btn-ctn">
+    <span class="arrow"> ❮</span>Back</a>
+</div>
+<div class="step-container">
+  <div class="row flex-items-xs-center flex-items-xs-middle">
+    <div class="col-xs-11">
+      <div class="upload-ppt">
+        <h4>Rangkuman Laporan Pelayanan</h4>
+        <pdf-viewer [src]="pdfSrc" [show-all]="false" [render-text]="false" style="display: block;" [fit-to-page]="true" [(page)]="page"></pdf-viewer>
+        <button class="btn btn-primary" style="float: left;" (click)="page=page-1" *ngIf="page>1">PREV</button>
+        <button class="btn btn-primary" style="float: right;" (click)="page=page+1">NEXT</button>
+        <br/>
+
+        <br/>
+        <div class="upload-btn-wrapper">
+          <button class="btn-file" (click)="fileInput.click()">
+            <clr-icon shape="image" class="is-solid" size="23"></clr-icon> Choose an Action</button>
+          <input type="file" #fileInput name="myfile" (change)="readUrl($event)" />
+        </div>
+        <br/>
+        <button class="btn btn-primary btn-block">Upload</button>
+        <br/>
+      </div>
+    </div>
+
+    <div class="col-xs-11">
+      <h4>Dokumentasi</h4>
+
+      <div class="upload-btn-wrapper">
+        <button class="btn-file" (click)="fileInput.click()">
+          <clr-icon shape="image" class="is-solid" size="23"></clr-icon> Choose an Action</button>
+        <input type="file" accept="image/*" #fileInput name="myfile" (change)="readUrlImg($event)" />
+      </div>
+      <br/>
+      <ngu-carousel [inputs]="carouselBanner" (onMove)="onmoveFn($event)">
+        <ngu-item NguCarouselItem class="bannerStyle" *ngFor="let img of imgs.length ? imgs : imgsSample">
+          <h1>
+            <img [src]="img" alt="" title="winning team">
+          </h1>
+        </ngu-item>
+        <button NguCarouselPrev class='directors leftRs'></button>
+        <button NguCarouselNext class='directors rightRs'></button>
+      </ngu-carousel>
+      <button class="btn btn-primary btn-block">Upload</button>
+      <br/>
+
+    </div>
+  </div>
+
+</div>

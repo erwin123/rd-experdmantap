@@ -1,3 +1,23 @@
-<p>
-  step-seven works!
-</p>
+<div class="header-step">
+    <a routerLink="/main/stepboard" class="btn-ctn">
+        <span class="arrow"> ❮</span>Back</a>
+</div>
+<div class="step-container">
+    <div class="row flex-items-xs-center flex-items-xs-middle">
+        <div class="col-xs-11">
+            <div class="card">
+                <div class="card-header">
+                    Experd Feedback :
+                </div>
+                <div class="card-block">
+                    <div class="card-text">
+                      
+                        <textarea id="text_opt" rows="15" [(ngModel)]="longAnswer" disabled>
+                           
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

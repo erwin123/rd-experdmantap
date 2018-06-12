@@ -23,7 +23,7 @@ export class StepThreeComponent implements OnInit {
 
   ngOnInit() {
     this.items = this.initialDataServices.getInitialSOP();
-    let roleApplied = ["r005", "r006", "r007", "r009"];
+    let roleApplied = ["r005", "r006", "r009"];
 
     this.roles = this.initialDataServices.getInitiaRole()
     this.roles = this.roles.filter(
