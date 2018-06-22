@@ -3,4 +3,5 @@ export class SOPKeys {
     SOPDesc:string;
     roleCode:string;
     imgPath:string;
+    value:number;
 }

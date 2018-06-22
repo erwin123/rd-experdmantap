@@ -10,7 +10,7 @@ import { InitialDataService } from '../services/initial-data.service';
   styleUrls: ['./step-four.component.css']
 })
 export class StepFourComponent implements OnInit {
-
+  textFeedBack:string;
   roles:Roles[];
   employees:Employee[];
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));

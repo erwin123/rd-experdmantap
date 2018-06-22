@@ -6,4 +6,5 @@ export class Employee {
     employeePhones:string;
     mark:number;
     week:number;
+    feedback:string;
 }

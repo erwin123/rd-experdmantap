@@ -63,6 +63,11 @@
     font-weight: bold;
 }
 
+
+.upload-btn-wrapper{
+    position: relative;
+}
+
 .upload-btn-wrapper input[type=file] {
     font-size: 20px;
     position: absolute;
@@ -128,3 +133,5 @@
 .vjs-has-started .vjs-control-bar {
     top: 0 !important;
 }
+
+.invert { filter: invert(100%); }

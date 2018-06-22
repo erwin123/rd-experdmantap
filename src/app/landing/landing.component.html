@@ -1,16 +1,16 @@
 <div class="landing-container">
-  <video *ngIf="url" onclick="alert('')" autoplay
+  <!-- <video *ngIf="url" onclick="alert('')" autoplay
   preload="auto" id="landingVideo"
   class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" controls
     width="640" height="264">
     <source [src]="url"  type="video/mp4" />
-  </video>
+  </video> -->
+  <app-carousel></app-carousel>
   <app-drawer></app-drawer>
   <div class="main-quote">
-    "Individual commitment to a group effort.
-    <br/> That is what makes a team work, a company work,
-    <br/> a society work, a civilization work."
-    <br/>- Vince Lombardi -
+      Start Your Service Excellence Journey through <br/>“7 Steps”<br/>
+      <br/>Guidance for you and your team to develop your service culture within organization
+      
   </div>
   <div class="row flex-items-xs-center flex-items-xs-middle">
     <div class="col-xs-10" *ngFor="let item of items">
@@ -26,4 +26,5 @@
       </div>
     </div>
   </div>
+  <br/>
 </div>

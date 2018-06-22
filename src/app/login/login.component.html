@@ -1,15 +1,15 @@
 <div class="login-container">
     <form class="login" (ngSubmit)="login()">
-        <h1 class="welcome">Login</h1>
-            Experd Click
+        <h1 class="welcome">Masuk Aplikasi</h1>
+            Experd Serve
         <div class="login-group">
             <input class="username" type="text" id="login_username" placeholder="Username">
             <input class="password" type="password" id="login_password" placeholder="Password">
             <div *ngIf="hasError" class="error active">
                 Invalid user name or password
             </div>
-            <button type="button" (click)="login()" class="btn btn-primary btn-block">LOGIN</button>
-            <a href="javascript://" class="signup">Register</a>
+            <button type="button" (click)="login()" class="btn btn-primary btn-block">Masuk</button>
+            <a href="javascript://" class="signup">Daftar</a>
         </div>
     </form>
 </div>

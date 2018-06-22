@@ -12,7 +12,7 @@ import { InitialDataService } from '../services/initial-data.service';
 })
 export class StepThreeComponent implements OnInit {
 
-  errorMsg:string;
+  errorMsg: string;
   items: SOPKeys[];
   roles: Roles[];
   dodonts: Dodont[];
@@ -40,22 +40,27 @@ export class StepThreeComponent implements OnInit {
     //   return 0;
     // });
 
-    this.initialDataServices.currentDodonts.subscribe(res=>{
+    this.initialDataServices.currentDodonts.subscribe(res => {
       this.dodonts = res;
     });
-    this.currentDoDont = "Do";
-    this.optionalRolePlay = "Role Play";
+    this.currentDoDont = "Do's";
+    this.optionalRolePlay = "Posisi";
   }
 
+  changeDo(wordDo) {
+    if (wordDo === 1)
+      this.currentDoDont = "Do`s";
+    else
+      this.currentDoDont = "Don't`s";
+
+  }
   addDodont() {
-    if(this.optionalRolePlay === "Role Play")
-    { 
+    if (this.optionalRolePlay === "Posisi") {
       this.errorMsg = "Please select role play required";
       return false;
     }
 
-    if(this.textDodont === "")
-    { 
+    if (this.textDodont === "") {
       this.errorMsg = "Please fill text required";
       return false;
     }
@@ -103,7 +108,7 @@ export class StepThreeComponent implements OnInit {
 
     }
     this.initialDataServices.setDodont(dataDodont);
-    
+
     console.log(this.dodonts);
   }
 }

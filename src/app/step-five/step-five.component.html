@@ -1,51 +1,71 @@
 <div class="header-step">
   <a routerLink="/main/stepboard" class="btn-ctn">
-    <span class="arrow"> ❮</span>Back</a>
+    <span class="arrow"> ❮</span>Kembali</a>
 </div>
 <div class="step-container">
   <div class="upload-ppt">
 
     <div class="row flex-items-xs-center flex-items-xs-middle">
       <div class="col-xs-11">
-        <h4>Hasil Presentasi Cabang</h4>
-        <pdf-viewer [src]="pdfSrc" [show-all]="false" [render-text]="false" style="display: block;" [fit-to-page]="true" [(page)]="page"></pdf-viewer>
-        <button class="btn btn-primary" style="float: left;" (click)="page=page-1" *ngIf="page>1">PREV</button>
-        <button class="btn btn-primary" style="float: right;" (click)="page=page+1">NEXT</button>
-        <br/>
+        <div class="card">
+          <div class="card-header">
+            Talk The Walk
+          </div>
+          <div class="card-block">
+            <div class="card-text">
+              Setelah kita berusaha menerapkan setiap langkah perbaikan dalam <i>Do’s & Don’t’s</i> serta me-<i>review</i> kembali hasil dari <i>mistery
+              caller</i>, marilah kita <i>brainstorming</i> kembali:
+              <ul>
+                <li>Mana strategi yang perlu disesuaikan kembali setelah melihat hasil pelaksanaan di lapangan</li>
+                <li>Mana strategi yang membutuhkan bantuan dari manajemen agar bisa mencapai perubahan yang kita inginkan.</li>
+              </ul>
+              <pdf-viewer [src]="pdfSrc" [show-all]="false" [render-text]="false" style="display: block;" [fit-to-page]="true" [(page)]="page"></pdf-viewer>
+              <button class="btn btn-primary" style="float: left;" (click)="page=page-1" *ngIf="page>1">Sebelum</button>
+              <button class="btn btn-primary" style="float: right;" (click)="page=page+1">Berikutnya</button>
+              <br/>
 
-        <br/>
-        <div class="upload-btn-wrapper">
-          <button class="btn-file" (click)="fileInput.click()">
-            <clr-icon shape="image" class="is-solid" size="23"></clr-icon> Choose an Action</button>
-          <input type="file" accept=".pdf" #fileInput name="myfile" (change)="readUrl($event)" />
+              <br/>
+              <b>Silahkan unggah hasil <i>brainstorming</i> cabang Anda</b>
+              <div class="upload-btn-wrapper">
+                <button class="btn-file" (click)="fileInput.click()">
+                  <clr-icon shape="file" class="is-solid" size="23"></clr-icon> Pilih Dokumen</button>
+                <input type="file" accept=".pdf" #fileInput name="myfile" (change)="readUrl($event)" />
+              </div>
+              (Dokumen Pdf)
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary btn-block">Kirim</button>
+          </div>
         </div>
-        <br/>
-        <button class="btn btn-primary btn-block">Upload</button>
-        <br/>
+
+        <div class="card">
+          <div class="card-header">
+            Surat Cinta ke Management
+          </div>
+          <div class="card-block">
+            <div class="card-text">
+              <pdf-viewer [src]="pdfSrc2" [show-all]="false" [render-text]="false" style="display: block;" [fit-to-page]="true" [(page)]="page2"></pdf-viewer>
+              <button class="btn btn-primary" style="float: left;" (click)="page2=page2-1" *ngIf="page2>1">Sebelum</button>
+              <button class="btn btn-primary" style="float: right;" (click)="page2=page2+1">Berikutnya</button>
+              <br/>
+
+              <br/>
+              <b>Silahkan unggah surat cinta kepada manajemen jika diperlukan</b><br/>
+              <div class="upload-btn-wrapper">
+                <button class="btn-file" (click)="fileInput.click()">
+                  <clr-icon shape="file" class="is-solid" size="23"></clr-icon> Pilih Dokumen</button>
+                <input type="file" accept=".pdf" #fileInput name="myfile" (change)="readUrl($event)" />
+              </div>
+              (Dokumen Pdf)
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary btn-block">Kirim</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="upload-surat">
-
-    <div class="row flex-items-xs-center flex-items-xs-middle">
-      <div class="col-xs-11">
-        <h4>Surat Cinta ke Management</h4>
-        <pdf-viewer [src]="pdfSrc2" [show-all]="false" [render-text]="false" style="display: block;" [fit-to-page]="true" [(page)]="page2"></pdf-viewer>
-        <button class="btn btn-primary" style="float: left;" (click)="page2=page2-1" *ngIf="page2>1">PREV</button>
-        <button class="btn btn-primary" style="float: right;" (click)="page2=page2+1">NEXT</button>
-        <br/>
-
-        <br/>
-        <div class="upload-btn-wrapper">
-          <button class="btn-file" (click)="fileInput.click()">
-            <clr-icon shape="image" class="is-solid" size="23"></clr-icon> Choose an Action</button>
-          <input type="file" accept=".pdf" #fileInput name="myfile" (change)="readUrl($event)" />
-        </div>
-        <br/>
-        <button class="btn btn-primary btn-block">Upload</button>
-        <br/>
-      </div>
-    </div>
-  </div>
 </div>
