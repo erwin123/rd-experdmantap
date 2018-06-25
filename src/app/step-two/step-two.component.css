@@ -14,23 +14,15 @@
 }
 
 .emoji1::-webkit-slider-thumb {
-    background-image: url("../../assets/img/1.png");
-}
-
-.emoji2::-webkit-slider-thumb {
-    background-image: url("../../assets/img/2.png");
+    background-image: url("../../assets/img/1.webp");
 }
 
 .emoji3::-webkit-slider-thumb {
-    background-image: url("../../assets/img/3.png");
+    background-image: url("../../assets/img/3.webp");
 }
 
 .emoji4::-webkit-slider-thumb {
-    background-image: url("../../assets/img/4.png");
-}
-
-.emoji5::-webkit-slider-thumb {
-    background-image: url("../../assets/img/5.png");
+    background-image: url("../../assets/img/4.webp");
 }
 
 .range-slider {

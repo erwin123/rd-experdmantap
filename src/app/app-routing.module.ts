@@ -17,16 +17,16 @@ const appRoutes: Routes = [
   
   { path: 'main', component: MainComponent,
     children: [
-      { path: 'landing', component: LandingComponent},
-      { path: 'login', component: LoginComponent },
-      { path: 'stepboard', component: StepboardComponent, canActivate: [AuthguardService] },
-      { path: 'stepone', component: StepOneComponent, canActivate: [AuthguardService] },
-      { path: 'steptwo', component: StepTwoComponent, canActivate: [AuthguardService] },
-      { path: 'stepthree', component: StepThreeComponent, canActivate: [AuthguardService] },
-      { path: 'stepfour', component: StepFourComponent, canActivate: [AuthguardService] },
-      { path: 'stepfive', component: StepFiveComponent, canActivate: [AuthguardService] },
-      { path: 'stepsix', component: StepSixComponent, canActivate: [AuthguardService] },
-      { path: 'stepseven', component: StepSevenComponent, canActivate: [AuthguardService] }
+      { path: 'landing', component: LandingComponent, data: { state: 'landing' }},
+      { path: 'login', component: LoginComponent, data: { state: 'login' } },
+      { path: 'stepboard', component: StepboardComponent, canActivate: [AuthguardService], data: { state: 'stepboard' } },
+      { path: 'stepone', component: StepOneComponent, canActivate: [AuthguardService], data: { state: 'stepone' } },
+      { path: 'steptwo', component: StepTwoComponent, canActivate: [AuthguardService] , data: { state: 'steptwo' }},
+      { path: 'stepthree', component: StepThreeComponent, canActivate: [AuthguardService], data: { state: 'stepthree' } },
+      { path: 'stepfour', component: StepFourComponent, canActivate: [AuthguardService], data: { state: 'stepfour' } },
+      { path: 'stepfive', component: StepFiveComponent, canActivate: [AuthguardService], data: { state: 'stepfive' } },
+      { path: 'stepsix', component: StepSixComponent, canActivate: [AuthguardService] , data: { state: 'stepsix' }},
+      { path: 'stepseven', component: StepSevenComponent, canActivate: [AuthguardService], data: { state: 'stepseven' } }
   ]},
   //{ path: '', redirectTo: 'main/landing'},
 

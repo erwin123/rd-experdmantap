@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NguCarousel, NguCarouselStore  } from '@ngu/carousel';
+import { Component, OnInit, Input } from '@angular/core';
+import { NguCarousel, NguCarouselStore } from '@ngu/carousel';
+import { Banner } from '../models/banner';
 
 @Component({
   selector: 'app-carousel',
@@ -7,6 +8,8 @@ import { NguCarousel, NguCarouselStore  } from '@ngu/carousel';
   styleUrls: ['./carousel.component.css']
 })
 export class CarouselComponent implements OnInit {
+
+  @Input() banners: Banner[];
   public carouselBanner: NguCarousel;
   constructor() { }
 
@@ -35,13 +38,13 @@ export class CarouselComponent implements OnInit {
           .ngucarouselPoint li {
             display: inline-block;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.55);
+            background: #aec5da;
             padding: 5px;
             margin: 0 3px;
             transition: .4s ease all;
           }
           .ngucarouselPoint li.active {
-              background: white;
+              background: #084F8F;
               width: 10px;
           }
         `
@@ -54,6 +57,6 @@ export class CarouselComponent implements OnInit {
 
   /* It will be triggered on every slide*/
   onmoveFn(data: NguCarouselStore) {
-    
+
   }
 }

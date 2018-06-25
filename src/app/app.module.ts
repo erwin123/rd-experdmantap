@@ -31,6 +31,10 @@ import { RoledodontfilterPipe } from './pipes/roledodontfilter.pipe';
 import { SoprolesPipe } from './pipes/soproles.pipe';
 import { EmployeerolePipe } from './pipes/employeerole.pipe';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { HeaderStepComponent } from './header-step/header-step.component';
+import { AlertComponent } from './alert/alert.component';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     StepSevenComponent,
     RoledodontfilterPipe,
     SoprolesPipe,
-    EmployeerolePipe
+    EmployeerolePipe,
+    HeaderStepComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +70,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ReactiveFormsModule,
     NguCarouselModule,
     PdfViewerModule,
-    ScrollToModule.forRoot()
+    ScrollToModule.forRoot(),
+    HttpModule,
+    HttpClientModule,
   ],
   providers: [AuthguardService, {provide: LocationStrategy, useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]

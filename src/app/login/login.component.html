@@ -3,13 +3,14 @@
         <h1 class="welcome">Masuk Aplikasi</h1>
             Experd Serve
         <div class="login-group">
-            <input class="username" type="text" id="login_username" placeholder="Username">
-            <input class="password" type="password" id="login_password" placeholder="Password">
-            <div *ngIf="hasError" class="error active">
-                Invalid user name or password
+            <input [attr.disabled]="loading ? 'disabled' : null" class="username" type="text" id="login_username" placeholder="Username" name="username" [(ngModel)]="username">
+            <input [attr.disabled]="loading ? 'disabled' : null" class="password" type="password" id="login_password" placeholder="Password" name="password" [(ngModel)]="password">
+            <div *ngIf="hasError" style="color:red">
+                {{message}}
             </div>
-            <button type="button" (click)="login()" class="btn btn-primary btn-block">Masuk</button>
+            <button [attr.disabled]="loading ? 'disabled' : null" type="button" (click)="login()" class="btn btn-primary btn-block">Masuk</button>
             <a href="javascript://" class="signup">Daftar</a>
         </div>
     </form>
 </div>
+<div *ngIf="loading" class="progress loop"><progress></progress></div>

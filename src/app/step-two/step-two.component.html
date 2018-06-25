@@ -1,9 +1,5 @@
-<div class="header-step">
-    <a routerLink="/main/stepboard" class="btn-ctn">
-        <span class="arrow"> ❮</span>Kembali</a>
-</div>
+<app-header-step></app-header-step>
 <div class="step-container">
-
     <div class="row flex-items-xs-center flex-items-xs-middle">
         <div class="col-xs-11">
             <div class="card">
@@ -24,7 +20,7 @@
                             <input type="file" #fileInput name="myfile" (change)="readUrl($event)" />
                         </div>
                         <br/>
-                        <img [src]="url" class="img-preview" *ngIf="url">
+                        <img [src]="url" class="img-preview" *ngIf="url" alt="">
                         <label class="required" for="text_opt"><b>Pesan utama <i>wake up call</i></b></label>
                         <textarea id="text_opt" rows="2" [(ngModel)]="longAnswer"></textarea>
                     </div>
@@ -69,7 +65,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary btn-block">Masuk</button>
+                    <button class="btn btn-primary btn-block">Kirim</button>
                 </div>
             </div>
         </div>

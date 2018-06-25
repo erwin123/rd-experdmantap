@@ -46,7 +46,7 @@ router.put('/users/:uname', function (req, res, next) {
 router.post('/users/login', function (req, res, next) {
     if (req.body) {
         users.loginUser(req.body.username, req.body.password, function (err, rows, fields) {
-            if (err) { res.json(err); }
+            if (err) { res.status(500);res.send('Internal Server Error'); }
             else {
                 if (rows[0][0]) {
                     var hashedPassword = bcrypt.hashSync(req.body.password, 8);

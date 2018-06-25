@@ -1,8 +1,8 @@
 <clr-main-container #container>
   <app-header></app-header>
   <div class="content-container">
-    <main class="content-area">
-      <router-outlet></router-outlet>
+    <main class="content-area" [@routerTransition]="page.activatedRouteData.state">
+      <router-outlet  #page="outlet"></router-outlet>
     </main>
   </div>
   <app-footer></app-footer>

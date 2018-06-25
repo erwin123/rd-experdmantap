@@ -19,6 +19,7 @@ export class StepThreeComponent implements OnInit {
   currentDoDont: string;
   optionalRolePlay: string = "";
   textDodont: string = "";
+  
   constructor(private initialDataServices: InitialDataService) { }
 
   ngOnInit() {
@@ -32,18 +33,14 @@ export class StepThreeComponent implements OnInit {
       }, roleApplied
     );
 
-    // this.dodonts = this.initialDataServices.getInitialDodont().sort((a, b) => {
-    //   if (a.roleCode < b.roleCode)
-    //     return -1;
-    //   if (a.roleCode > b.roleCode)
-    //     return 1;
-    //   return 0;
-    // });
-
-    this.initialDataServices.currentDodonts.subscribe(res => {
-      this.dodonts = res;
+    this.dodonts = this.initialDataServices.getInitialDodont().sort((a, b) => {
+      if (a.roleCode < b.roleCode)
+        return -1;
+      if (a.roleCode > b.roleCode)
+        return 1;
+      return 0;
     });
-    this.currentDoDont = "Do's";
+    this.currentDoDont = "Do`s";
     this.optionalRolePlay = "Posisi";
   }
 
@@ -66,39 +63,16 @@ export class StepThreeComponent implements OnInit {
     }
 
     let dataDodont: Dodont = new Dodont();
-    dataDodont.dodont = this.currentDoDont == "Do" ? true : false;
+    dataDodont.dodont = this.currentDoDont == "Do`s" ? true : false;
     dataDodont.text = this.textDodont;
     switch (this.optionalRolePlay) {
-      case "HRD": {
-        dataDodont.roleCode = "r001";
-        break;
-      }
-      case "Vice Director": {
-        dataDodont.roleCode = "r002";
-        break;
-      }
-      case "Director": {
-        dataDodont.roleCode = "r003";
-        break;
-      }
-      case "Manager": {
-        dataDodont.roleCode = "r004";
-        break;
-      }
+
       case "Security": {
         dataDodont.roleCode = "r005";
         break;
       }
-      case "CS": {
+      case "Customer Service": {
         dataDodont.roleCode = "r006";
-        break;
-      }
-      case "Staff": {
-        dataDodont.roleCode = "r007";
-        break;
-      }
-      case "Branch Manager": {
-        dataDodont.roleCode = "r008";
         break;
       }
       case "Teller": {
@@ -108,7 +82,18 @@ export class StepThreeComponent implements OnInit {
 
     }
     this.initialDataServices.setDodont(dataDodont);
+    this.textDodont = "";
+  }
 
-    console.log(this.dodonts);
+  removeDodont(dodont:Dodont){
+    console.log(dodont);
+    this.initialDataServices.removeDodont(dodont);
+    this.dodonts = this.initialDataServices.getInitialDodont().sort((a, b) => {
+      if (a.roleCode < b.roleCode)
+        return -1;
+      if (a.roleCode > b.roleCode)
+        return 1;
+      return 0;
+    });
   }
 }

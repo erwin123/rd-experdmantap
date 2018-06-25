@@ -1,8 +1,8 @@
 {
-  "name": "e-nav",
-  "short_name": "e-nav",
+  "name": "E-Serve",
+  "short_name": "E-Serve",
   "theme_color": "#084F8F",
-  "background_color": "#084F8F",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",

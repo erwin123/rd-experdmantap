@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Draweritems } from '../models/draweritems';
+import { Banner } from '../models/banner';
 import { InitialDataService } from '../services/initial-data.service';
 
 import { videojs } from 'video.js';
@@ -15,6 +16,7 @@ export class LandingComponent implements OnInit {
   url: string;
   player: any;
   items: Draweritems[];
+  banners:Banner[];
   constructor(private initialDataService: InitialDataService) { }
   ngOnDestroy() {
     // this.player.dispose();
@@ -52,6 +54,7 @@ export class LandingComponent implements OnInit {
   ngOnInit() {
     // this.url = "/assets/vid/videoplayback.mp4";
     this.items = this.initialDataService.getInitialDrawer();
+    this.banners = this.initialDataService.getInitialBanner();
   }
 
 }

@@ -1,7 +1,7 @@
 <clr-header class="header-1">
     <div class="branding">
         <a routerLink="/main/anchor" class="nav-link">
-            <img src="assets/img/logo.png">
+            <img src="assets/img/logo.png" alt="" title="exp-logo">
         </a>
     </div>
     <div class="header-actions">
@@ -11,8 +11,11 @@
     </div>
 </clr-header>
 <nav class="header-nav menus" [clr-nav-level]="1">
-        <a routerLink="/main/login" class="nav-link" style="color:black;vertical-align: middle;">
+        <a *ngIf="!isLogin" routerLink="/main/login" class="nav-link" style="color:black;vertical-align: middle;">
             <clr-icon shape="login" size="18"></clr-icon> Masuk
+        </a>
+        <a *ngIf="isLogin" routerLink="/main/stepboard" class="nav-link" style="color:black;vertical-align: middle;">
+            <clr-icon shape="list" class="is-solid"></clr-icon> My Step Board
         </a>
         <a routerLink="/main/login" class="nav-link" style="color:black;vertical-align: middle;">
             <clr-icon shape="phone-handset" class="is-solid" size="18"></clr-icon> Hubungi Kami

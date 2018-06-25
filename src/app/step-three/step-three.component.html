@@ -1,7 +1,4 @@
-<div class="header-step">
-  <a routerLink="/main/stepboard" class="btn-ctn">
-    <span class="arrow"> ❮</span>Kembali</a>
-</div>
+<app-header-step></app-header-step>
 <div class="step-container">
   <div class="row flex-items-xs-center flex-items-xs-middle">
     <div class="col-xs-11">
@@ -44,11 +41,11 @@
                     <button type="button" (click)="changeDo(0)" clrDropdownItem>Don't's</button>
                   </clr-dropdown-menu>
                 </clr-dropdown>
-                <br/>
-                <br/>
+                <br/><br/>
                 <textarea id="formFields_8" placeholder="Perilaku yang diizinkan dan yang tidak diizinkan" rows="3" [(ngModel)]="textDodont"></textarea>
                 <button class="btn btn-primary btn-block" (click)="addDodont()">
-                  <clr-icon shape="plus"></clr-icon> Tambah</button>
+                  <clr-icon shape="plus"></clr-icon> Tambah
+                </button>
                 <br/>
                 <div class="error-msg" *ngIf="errorMsg">{{errorMsg}}</div>
                 <br/>
@@ -60,7 +57,7 @@
                         <ul>
                           <li *ngFor="let item of (dodonts | roledodontfilter:role.roleCode:true)">
                             {{item.text}}
-                            <button type="button" class="btn-del">
+                            <button type="button" class="btn-del" (click)="removeDodont(item)">
                               <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
                             </button>
                           </li>
@@ -71,7 +68,7 @@
                         <ul>
                           <li *ngFor="let item of (dodonts | roledodontfilter:role.roleCode:false)">
                             {{item.text}}
-                            <button type="button" class="btn-del">
+                            <button type="button" class="btn-del" (click)="removeDodont(item)">
                               <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
                             </button>
                           </li>

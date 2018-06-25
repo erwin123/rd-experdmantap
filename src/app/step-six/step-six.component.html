@@ -1,7 +1,4 @@
-<div class="header-step">
-  <a routerLink="/main/stepboard" class="btn-ctn">
-    <span class="arrow"> ❮</span>Kembali</a>
-</div>
+<app-header-step></app-header-step>
 <div class="step-container">
   <div class="row flex-items-xs-center flex-items-xs-middle">
     <div class="col-xs-11">
@@ -54,15 +51,7 @@
               <input type="file" accept="image/*" #fileInput name="myfile" (change)="readUrlImg($event)" />
             </div>
             <br/>
-            <ngu-carousel [inputs]="carouselBanner" (onMove)="onmoveFn($event)">
-              <ngu-item NguCarouselItem class="bannerStyle" *ngFor="let img of imgs.length ? imgs : imgsSample">
-                <h1>
-                  <img [src]="img" alt="" title="winning team">
-                </h1>
-              </ngu-item>
-              <button NguCarouselPrev class='directors leftRs'></button>
-              <button NguCarouselNext class='directors rightRs'></button>
-            </ngu-carousel>
+            <app-carousel [banners] = 'imgs.length ? imgs : imgsSample'></app-carousel>
           </div>
         </div>
         <div class="card-footer">

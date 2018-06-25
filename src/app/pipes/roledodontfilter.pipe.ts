@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Dodont } from '../models/dodont';
 
 @Pipe({
-  name: 'roledodontfilter'
+  name: 'roledodontfilter',
+  pure: false
 })
 export class RoledodontfilterPipe implements PipeTransform {
   transform(value: Dodont[], args1?: any, args2?: boolean): any {

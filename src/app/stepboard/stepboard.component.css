@@ -5,7 +5,6 @@
 .btn {
   display: block;
   background: #F5931E;
-  
   border: 0;
   height: 50px;
   padding: 0 0 0 1em;
@@ -18,6 +17,8 @@
   font-size: 16px;
   text-transform: capitalize;
   border-radius: 0px !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
 }
 
 .btn .arrow {
@@ -34,39 +35,7 @@
   border-bottom-right-radius: 5px;
 }
 
-.btn:hover {
-  background: white;
-}
-
 .btn:hover .arrow {
   margin-left: 1.25em;
   background-color: #262626;
-}
-
-.btn:active {
-  background: #ccc;
-}
-
-.btn:active .arrow {
-  margin-left: 1.5em;
-}
-
-.btn-info .arrow {
-  background-color: indianred;
-}
-
-.btn-info:hover .arrow {
-  background-color: #c14e4e;
-}
-
-.btn-learn .arrow {
-  background-color: salmon;
-}
-
-.btn-learn:hover .arrow {
-  background-color: #f56d5e;
-}
-
-button::-moz-focus-inner {
-  border: none;
 }

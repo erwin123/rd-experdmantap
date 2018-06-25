@@ -10,9 +10,9 @@ var state = {
 exports.connect = function (mode, done) {
   state.pool = mysql.createPoolCluster();
   state.pool.add('um', {
-    host: '192.168.100.210',
+    host: 'localhost',
     user: 'root',
-    password: 'experdpwd',
+    password: 'admin',
     database: um
   });
   state.mode = mode;
