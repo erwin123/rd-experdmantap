@@ -1,6 +1,7 @@
 var mysql = require('mysql')
 
-var um = 'extappum'
+var um = 'extappum',
+  trx = 'transexperdserve'
 
 var state = {
   pool: null,
@@ -10,16 +11,23 @@ var state = {
 exports.connect = function (mode, done) {
   state.pool = mysql.createPoolCluster();
   state.pool.add('um', {
-    host: 'localhost',
+    host: '192.168.100.210',
     user: 'root',
-    password: 'admin',
+    password: 'experdpwd',
     database: um
+  });
+  state.pool.add('trx', {
+    host: '192.168.100.210',
+    user: 'root',
+    password: 'experdpwd',
+    database: trx
   });
   state.mode = mode;
   done();
 }
 
 exports.um = 'um'
+exports.trx = 'trx'
 
 exports.get = function (type, done) {
   var pool = state.pool
@@ -28,6 +36,12 @@ exports.get = function (type, done) {
   switch (type) {
     case exports.um:
       state.pool.getConnection('um', function (err, connection) {
+        if (err) return done(err)
+        done(null, connection)
+      })
+      break;
+    case exports.trx:
+      state.pool.getConnection('trx', function (err, connection) {
         if (err) return done(err)
         done(null, connection)
       })

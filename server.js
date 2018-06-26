@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // API file for interacting with api route
 const api_um = require('./server/routes/api_um');
+const api_trx = require('./server/routes/api_trx');
 
 var auth = function (req, res, next) {
     if (req.originalUrl === '/api/um/users/login' || req.originalUrl === '/api/um/users/register')
@@ -45,6 +46,7 @@ app.use(auth)
 
 // API location
 app.use('/api/um', api_um);
+app.use('/api/trx', api_trx);
 
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {

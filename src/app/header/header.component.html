@@ -10,6 +10,7 @@
         </a>
     </div>
 </clr-header>
+<div *ngIf="traffic" class="progress loop" style="background: #F5931E !important; font-size: 3px; position: absolute;"><progress></progress></div>
 <nav class="header-nav menus" [clr-nav-level]="1">
         <a *ngIf="!isLogin" routerLink="/main/login" class="nav-link" style="color:black;vertical-align: middle;">
             <clr-icon shape="login" size="18"></clr-icon> Masuk
@@ -22,5 +23,8 @@
         </a>
         <a routerLink="/main/login" class="nav-link" style="color:black;vertical-align: middle;">
             <clr-icon shape="help" class="is-solid" size="18"></clr-icon> Bantuan
+        </a>
+        <a *ngIf="isLogin" (click)="logout()" class="nav-link" style="color:black;vertical-align: middle;">
+            <clr-icon shape="list" class="is-solid"></clr-icon> Keluar
         </a>
 </nav>

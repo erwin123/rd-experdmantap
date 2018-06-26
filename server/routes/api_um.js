@@ -57,8 +57,7 @@ router.post('/users/login', function (req, res, next) {
 
                     
                     res.setHeader('Content-Type', 'application/json');
-                    res.status(200).send({ auth: true, token: token });
-                    //res.send(JSON.stringify(rows[0][0]));
+                    res.status(200).send({ auth: true, token: token, username:req.body.username });
                 }
                 else {
                     res.status(401);
