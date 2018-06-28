@@ -22,15 +22,14 @@ export class LoginService {
     .map(
         res => {
           localStorage.setItem('currentUser', JSON.stringify(res));
-          this.stateService.setParamChange(true);
           this.stateService.setCurrentStateLogin("1");
+          return res;
         }
     );
   }
 
   logout() {
-    localStorage.removeItem('currentUser');
-    this.stateService.setParamChange(true);
+    localStorage.clear();
     this.stateService.setCurrentStateLogin("0");
   }
 }

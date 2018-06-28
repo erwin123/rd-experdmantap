@@ -48,18 +48,6 @@ export class InitialDataService {
     // { BannerDesc:"title-7-step-4", BannerPath:"assets/img/banner-5.jpeg" }
   ]
 
-  initialRoles: Roles[] = [
-    { roleCode: "r001", roleName: "HRD", active: false },
-    { roleCode: "r002", roleName: "Vice Director", active: false },
-    { roleCode: "r003", roleName: "Director", active: false },
-    { roleCode: "r004", roleName: "Manager", active: false },
-    { roleCode: "r005", roleName: "Security", active: false },
-    { roleCode: "r006", roleName: "Customer Service", active: false },
-    { roleCode: "r007", roleName: "Staff", active: false },
-    { roleCode: "r008", roleName: "Branch Manager", active: false },
-    { roleCode: "r009", roleName: "Teller", active: false }
-  ]
-
   initialCompanyRole: CompanyRoles[] = [
     { roleCode: "r005", companyCode: "c000001" },
     { roleCode: "r006", companyCode: "c000001" },
@@ -132,9 +120,6 @@ export class InitialDataService {
     return this.initialBanners;
   }
 
-  getInitiaRole() {
-    return this.initialRoles;
-  }
 
   getInitiaCompanyRole() {
     return this.initialCompanyRole;

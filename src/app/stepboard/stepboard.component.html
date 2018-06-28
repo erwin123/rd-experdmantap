@@ -1,13 +1,45 @@
 <div class="board-container">
   <div class="row flex-items-xs-left flex-items-xs-middle">
     <div class="col-xs-11">
-      <a routerLink="/main/stepone" class="btn"><clr-icon shape="flag" class="is-solid" size="24"></clr-icon> Internship  <span class="arrow">1 ❯</span></a>
-      <a routerLink="/main/steptwo"class="btn"><clr-icon shape="alarm-clock" class="is-solid" size="24"></clr-icon> Zoom The Ground  <span class="arrow">2 ❯</span></a>
-      <a routerLink="/main/stepthree" class="btn"><clr-icon shape="volume-up" class="is-solid" size="24"></clr-icon> Get Heard  <span class="arrow">3 ❯</span></a>
-      <a routerLink="/main/stepfour" class="btn"><clr-icon shape="chat-bubble" class="is-solid" size="24"></clr-icon> Walk The Talk  <span class="arrow">4 ❯</span></a>
-      <a routerLink="/main/stepfive" class="btn"><clr-icon shape="lightbulb" class="is-solid" size="24"></clr-icon> Talk The Walk  <span class="arrow">5 ❯</span></a>
-      <a routerLink="/main/stepsix" class="btn"><clr-icon shape="coin-bag" class="is-solid" size="24"></clr-icon> Team Reward  <span class="arrow">6 ❯</span></a>
-      <a routerLink="/main/stepseven" class="btn"><clr-icon shape="collapse-card" class="is-solid" size="24"></clr-icon> Stay Tune  <span class="arrow">7 ❯</span></a>
+      <div class="welcome-note" style="margin: 0 0 0 10px; font-size: 12px;">
+        <span style="font-size: 16px; font-weight: bold;">
+          {{employeInfo.ProjectName}}
+        </span>
+        <span style="font-size: 14px; font-weight: bold;">
+          <br/>{{employeInfo.EmployeeName}} | {{employeInfo.EmployeeNPK}}
+        </span>
+        <span>
+          <br/>Cabang : {{employeInfo.BranchName}}, {{employeInfo.BranchCity}}
+        </span>
+      </div>
+      <a routerLink="/main/stepone" class="btn">
+        <clr-icon shape="flag" class="is-solid" size="24"></clr-icon> Internship
+        <span class="arrow">1 ❯</span>
+      </a>
+      <a routerLink="/main/steptwo" class="btn">
+        <clr-icon shape="alarm-clock" class="is-solid" size="24"></clr-icon> Zoom The Ground
+        <span class="arrow">2 ❯</span>
+      </a>
+      <a routerLink="/main/stepthree" class="btn">
+        <clr-icon shape="volume-up" class="is-solid" size="24"></clr-icon> Get Heard
+        <span class="arrow">3 ❯</span>
+      </a>
+      <a routerLink="/main/stepfour" class="btn">
+        <clr-icon shape="chat-bubble" class="is-solid" size="24"></clr-icon> Walk The Talk
+        <span class="arrow">4 ❯</span>
+      </a>
+      <a routerLink="/main/stepfive" class="btn">
+        <clr-icon shape="lightbulb" class="is-solid" size="24"></clr-icon> Talk The Walk
+        <span class="arrow">5 ❯</span>
+      </a>
+      <a routerLink="/main/stepsix" class="btn">
+        <clr-icon shape="coin-bag" class="is-solid" size="24"></clr-icon> Team Reward
+        <span class="arrow">6 ❯</span>
+      </a>
+      <a routerLink="/main/stepseven" class="btn">
+        <clr-icon shape="collapse-card" class="is-solid" size="24"></clr-icon> Stay Tune
+        <span class="arrow">7 ❯</span>
+      </a>
     </div>
   </div>
 </div>

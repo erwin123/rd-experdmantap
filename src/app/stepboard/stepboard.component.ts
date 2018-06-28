@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StatemanagementService } from '../services/statemanagement.service';
 
 @Component({
   selector: 'app-stepboard',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stepboard.component.css']
 })
 export class StepboardComponent implements OnInit {
-
-  constructor() { }
+  private employeInfo:any;
+  constructor(private stateService: StatemanagementService) { }
 
   ngOnInit() {
+    this.employeInfo = this.stateService.getStoredEmployee();
   }
 
 }

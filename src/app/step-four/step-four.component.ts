@@ -3,6 +3,7 @@ import { Employee } from '../models/employee';
 import { Roles } from '../models/roles';
 import { Week } from '../models/week';
 import { InitialDataService } from '../services/initial-data.service';
+import { StatemanagementService } from '../services/statemanagement.service';
 
 @Component({
   selector: 'app-step-four',
@@ -15,20 +16,12 @@ export class StepFourComponent implements OnInit {
   employees:Employee[];
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
   weeks:Week[];
-  constructor(private initialDataService:InitialDataService) { }
+  constructor(private initialDataService:InitialDataService,private stateService: StatemanagementService) { }
 
   ngOnInit() {
     
-
-    let roleApplied = ["r005", "r006", "r009"];
     let weekApplied = [1];
-
-    this.roles = this.initialDataService.getInitiaRole()
-    this.roles = this.roles.filter(
-      function (e) {
-        return this.indexOf(e.roleCode) >= 0;
-      }, roleApplied
-    );
+    this.roles = this.stateService.getStoredRolePlay();
 
     this.employees = this.initialDataService.getInitialEmployee();
     this.weeks = this.initialDataService.getInitialWeek();

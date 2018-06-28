@@ -2,7 +2,7 @@
 <div class="step-container">
     <div class="row flex-items-xs-center flex-items-xs-middle">
         <div class="col-xs-11">
-            
+
             <div class="card">
                 <div class="card-header">
                     Internship
@@ -12,10 +12,11 @@
                         Pendalaman rasa yang dimiliki oleh frontliners dalam perannya sehari-hari sebagai pejuang servis.
                     </div> -->
                     <div class="card-text">
-                            Dalami rasa yang dimiliki oleh para Frontliners Anda dalam perannya sehari-hari sebagai pejuang servis.
+                        Dalami rasa yang dimiliki oleh para Frontliners Anda dalam perannya sehari-hari sebagai pejuang servis.
                         <br/>
                         <br/>
-                        <b>Silahkan berperan sebagai Customer Service, Teller dan Security  ketika menghadapi nasabah di <i>banking hall</i>.</b>
+                        <b>Silahkan berperan sebagai Customer Service, Teller dan Security ketika menghadapi nasabah di
+                            <i>banking hall</i>.</b>
                         <br/>
                         <br/>
                         <div class="form-group">
@@ -27,33 +28,61 @@
                                 </button>
                                 <clr-dropdown-menu *clrIfOpen>
                                     <div *ngFor="let role of roles">
-                                        <button type="button" (click)="optionalRolePlay=role.roleName" clrDropdownItem>{{role.roleName}}</button>
+                                        <button type="button" (click)="optionalRolePlay=role.RoleplayName" clrDropdownItem>{{role.RoleplayName}}</button>
                                     </div>
                                 </clr-dropdown-menu>
                             </clr-dropdown>
                             <br/>
-                            <div class="upload-btn-wrapper">
-                                <button class="btn-file" [disabled]="cameraMode" (click)="fileInput.click()">
-                                    <clr-icon shape="image" class="is-solid" size="23"></clr-icon> Unggah Video "Internship" Anda</button>
-                                <input type="file" #fileInput name="myfile" (change)="readUrl($event)" />
+                            <div class="upload-btn-wrapper" *ngIf="optionalRolePlay!== 'Peran'">
+                                <button class="btn-file" (click)="fileInput.click()">
+                                    <clr-icon shape="video-camera" class="is-solid" size="23"></clr-icon> Unggah Video "Internship" Anda</button>
+                                <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" />
+                                (Durasi Maks 5 Menit)
                             </div>
-                            (Durasi Maks 5 Menit)
+                            
                             <br/>
                             <br/>
-                            <img [src]="url" class="img-preview" *ngIf="url" alt="">
-                            <div class="loader" *ngIf="initCamera">Initializing Camera...</div>
-                            <video id="myPic" *ngIf="cameraMode" class="video-js vjs-default-skin"></video>
+                            <div class="loading-video" *ngIf="loadedvideo">
+                                <span class="spinner spinner-inline">
+                                    Loading...
+                                </span>
+                                <span>
+                                    Memuat Video Preview...
+                                </span>
+                            </div>
+                            <video class="video-viewer" *ngIf="url" controls>
+                                <source src="{{url}}" type="video/mp4">
+                            </video>
                         </div>
 
-                        <label class="required" for="text_opt" *ngIf="optionalRolePlay!== 'Peran'"><b>Apa pembelajaran yang Anda dapat dari pengalaman <i>Internship</i> Anda sebagai {{optionalRolePlay}}? </b></label>
+                        <label class="required" for="text_opt" *ngIf="optionalRolePlay!== 'Peran'">
+                            <b>Apa pembelajaran yang Anda dapat dari pengalaman
+                                <i>Internship</i> Anda sebagai {{optionalRolePlay}}? </b>
+                        </label>
                         <textarea id="text_opt" rows="2" *ngIf="optionalRolePlay!== 'Peran'" [(ngModel)]="longAnswer"></textarea>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary btn-block">Kirim</button>
+                    <button *ngIf="optionalRolePlay!== 'Peran'" class="btn btn-primary btn-block">Kirim</button>
                 </div>
             </div>
-
+            <br/>
+            <div class="card">
+                <div class="card-header">
+                    Aktifitas Terakhir
+                </div>
+                <div class="card-block">
+                    <div class="card-text">
+                        <!-- <video *ngIf="url" width="320" height="240" controls>
+                            <source src="{{url}}" type="video/mp4">
+                        </video> -->
+                        <!-- <video *ngIf="url" autoplay preload="auto" id="internship" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9"
+                            controls width="640" height="264">
+                            <source [src]="url" type="video/mp4" />
+                        </video> -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

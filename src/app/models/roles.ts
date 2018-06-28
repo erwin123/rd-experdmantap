@@ -1,5 +1,5 @@
 export class Roles {
-    roleCode:string;
-    roleName:string;
-    active:boolean;
+    KdRoleplay:string;
+    RoleplayName:string;
+    RoleplayDesc:boolean;
 }

@@ -5,9 +5,29 @@ var prj_br = require('../models/trx/projectbranch');
 var prj_em = require('../models/trx/projectemployee');
 var prj_rl = require('../models/trx/projectroleplay');
 var roleplay = require('../models/trx/roleplay');
+var internship = require('../models/trx/internship');
 
 var express = require('express');
+const app = express();
+const fileUpload = require('express-fileupload');
 var router = express.Router();
+//upload
+app.use(fileUpload());
+router.post('/upload', function (req, res) {
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.');
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let internshipFile = req.files.internshipFile;
+
+    // Use the mv() method to place the file somewhere on your server
+    internshipFile.mv('../../src/assets/vid/filename.jpg', function (err) {
+        if (err)
+            return res.status(500).send(err);
+
+        res.send('File uploaded!');
+    });
+});
 
 //region branch
 router.get('/branch', function (req, res, next) {
@@ -97,6 +117,34 @@ router.get('/project', function (req, res, next) {
             res.json(rows);
         }
     });
+});
+
+router.get('/project_active', function (req, res, next) {
+    if (req.query.emp) {
+        prj_em.getActiveProjectEmployee(req.query.emp, function (err, rows) {
+            if (err) { res.json(err); }
+            else {
+                res.json(rows);
+            }
+        });
+    }else
+    {
+        return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
+});
+
+router.get('/project_roleplay_active', function (req, res, next) {
+    if (req.query.prj) {
+        prj_rl.getActiveProjectRolePlay(req.query.prj, function (err, rows) {
+            if (err) { res.json(err); }
+            else {
+                res.json(rows);
+            }
+        });
+    }else
+    {
+        return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
 });
 
 router.post('/project/cr/', function (req, res, next) {
@@ -213,7 +261,8 @@ router.delete('/project_employee/:key', function (req, res, next) {
 router.get('/project_roleplay', function (req, res, next) {
     prj_rl.getAllProjectRolePlay(function (err, rows) {
         if (err) { res.json(err); }
-        else {res.json(rows); 
+        else {
+            res.json(rows);
         }
     });
 });
@@ -252,7 +301,8 @@ router.delete('/project_roleplay/:key', function (req, res, next) {
 router.get('/roleplay', function (req, res, next) {
     roleplay.getAllRolePlay(function (err, rows) {
         if (err) { res.json(err); }
-        else {res.json(rows); 
+        else {
+            res.json(rows);
         }
     });
 });
@@ -287,4 +337,70 @@ router.delete('/roleplay/:key', function (req, res, next) {
     });
 });
 
+
+//internship
+router.get('/internship', function (req, res, next) {
+    internship.getAllInternship(function (err, rows) {
+        if (err) { res.json(err); }
+        else {
+            res.json(rows);
+        }
+    });
+});
+
+router.get('/internship/last', function (req, res, next) {
+    if (req.query.br && req.query.prj) {
+        internship.getLastInternship(req.query.br, req.query.prj , function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+});
+
+router.post('/internship/cr/', function (req, res, next) {
+    if (req.body) {
+        internship.getAllInternshipByCriteria(req.body, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+});
+
+router.post('/internship/', function (req, res, next) {
+    internship.insertInternship(req.body, function (err, document_no) {
+        if (err) { res.json(err); }
+        else { res.json(document_no); }
+    });
+});
+
+router.put('/internship/:key', function (req, res, next) {
+    internship.updateInternship(req.params.key, req.body, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
+router.delete('/internship/:key', function (req, res, next) {
+    internship.deleteInternship(req.params.key, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
+router.post('/internship/upload', function(req, res) {
+    console.log(req.files);
+    if (!req.files)
+      return res.status(400).send('No files were uploaded.');
+   
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let internshipFile = req.files.internshipFile;
+   
+    // Use the mv() method to place the file somewhere on your server
+    internshipFile.mv('../../src/assets/vid/test.mp4', function(err) {
+      if (err)
+        return res.status(500).send(err);
+   
+      res.send('File uploaded!');
+    });
+  });
 module.exports = router;

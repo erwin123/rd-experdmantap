@@ -7,16 +7,18 @@ import * as globalVar from '../global'; //<==== this one
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService {
-  private url = globalVar.global_trx + '/project';  // URL to web api
+export class BranchService {
+  private url = globalVar.global_trx + '/branch';  // URL to web api
   private _headers = new HttpHeaders().set('Content-Type', 'application/json');
   private token: any;
 
   constructor(private httpClient: HttpClient) { }
-  getProject(): Observable<any> {
+
+  getBranch(branchCode: string): Observable<any> {
     this.token = JSON.parse(localStorage.getItem('currentUser'));
     const headers = this._headers.append('x-access-token', this.token.token);
-    return this.httpClient.get(this.url, { headers: headers })
+
+    return this.httpClient.post(this.url + '/cr', { BranchCode: branchCode }, { headers: headers })
       .map(res => {
         if (res[0]) {
           return res[0];
@@ -25,23 +27,10 @@ export class ProjectService {
       });
   }
 
-  getActiveProject(empCode: string): Observable<any> {
-    this.token = JSON.parse(localStorage.getItem('currentUser'));
-    const headers = this._headers.append('x-access-token', this.token.token);
-    return this.httpClient.get(this.url + "_active?emp=" + empCode, { headers: headers })
-      .map(res => {
-        if (res[0]) {
-          return res[0];
-        }
-        throw new Error('Not Found');
-      });
-  }
-
-  completeUserProject(project: any) {
+  completeUserBranch(branch:any) {
     var emp = JSON.parse(localStorage.getItem('currentEmp'));
-    emp.ProjectCode = project.ProjectCode;
-    emp.ProjectName = project.ProjectName;
-    emp.Week = project.Week;
+    emp.BranchName = branch.BranchName;
+    emp.BranchCity = branch.BranchCity;
     localStorage.setItem('currentEmp', JSON.stringify(emp))
   }
 }

@@ -10,21 +10,23 @@ import * as globalVar from '../global'; //<==== this one
 })
 export class EmployeeService {
   private url = globalVar.global_trx + '/employee';  // URL to web api
-  private httpOptions = {
-    headers: new HttpHeaders(
-      { 'Content-Type': 'application/json' }
-    )
-  };
+  private _headers = new HttpHeaders().set('Content-Type', 'application/json');
+  private token: any;
 
-  private retrievedObject = localStorage.getItem('currentUser');
   constructor(private httpClient: HttpClient) { }
 
   getEmployee(): Observable<any> {
-    var token = JSON.parse(this.retrievedObject);
-    this.httpOptions.headers.append("x-access-token", token.token);
-    return this.httpClient.post(this.url + '/cr', { username: token.username }, this.httpOptions)
-      .map(
-        res => { console.log(res); }
-      );
+    this.token = JSON.parse(localStorage.getItem('currentUser'));
+    const headers = this._headers.append('x-access-token', this.token.token);
+    
+    return this.httpClient.post(this.url + '/cr', { username: this.token.username }, { headers: headers })
+      .map(res => {
+        if(res[0])
+        {
+          localStorage.setItem('currentEmp', JSON.stringify(res[0]));
+          return res[0];
+        }
+        throw new Error('Not Found');
+      });
   }
 }

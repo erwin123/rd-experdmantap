@@ -4,4 +4,7 @@
 
 .menus a{
     margin: 15px;
+    color:black;
+    vertical-align: middle;
+    cursor: pointer;
 }

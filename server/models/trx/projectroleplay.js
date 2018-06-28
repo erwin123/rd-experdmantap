@@ -12,6 +12,17 @@ exports.getAllProjectRolePlay = function (done) {
     })
 }
 
+exports.getActiveProjectRolePlay = function (key, done) {
+    db.get(db.trx, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query('SELECT r.KdRoleplay, r.RoleplayName, r.RoleplayDesc FROM ProjectRoleplay pr INNER JOIN Roleplay r on pr.Roleplay_KdRoleplay = r.KdRoleplay where pr.Project_ProjectCode = ?', key, function (err, rows) {
+            connection.release();
+            if (err) return done(err)
+            done(null, rows)
+        })
+    })
+}
+
 exports.getAllProjectRolePlayByCriteria = function (ProjectRolePlay, done) {
     var wh = db.whereCriteriaGenerator(ProjectRolePlay);
     db.get(db.trx, function (err, connection) {

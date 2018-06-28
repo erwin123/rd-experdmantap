@@ -8,9 +8,12 @@ cors = require('cors');
 
 // use it before all route definitions
 const app = express();
+
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('./server/config');
+
+
 
 
 //Cors
@@ -19,7 +22,9 @@ app.options('*', cors());
 
 // Parsers
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -42,11 +47,13 @@ var auth = function (req, res, next) {
     }
 }
 
-app.use(auth)
+app.use(auth);
 
 // API location
 app.use('/api/um', api_um);
 app.use('/api/trx', api_trx);
+
+
 
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {

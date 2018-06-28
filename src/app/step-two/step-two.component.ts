@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy,ViewChild, ElementRef } from '@angular/core';
 import { InitialDataService } from '../services/initial-data.service';
+import { StatemanagementService } from '../services/statemanagement.service';
 import { Roles } from '../models/roles';
 import { videojs } from 'video.js';
 import { record } from 'videojs-record';
@@ -23,10 +24,9 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   emotionDesc: string = "Nothing";
   sopkeys: SOPKeys[];
   @ViewChild('videoSprite') elementView:ElementRef;
-  constructor(private initialDataServices: InitialDataService) {
+  constructor(private initialDataServices: InitialDataService,private stateService: StatemanagementService) {
 
   }
-
   
   ngOnDestroy() {
     this.player.record().destroy();
@@ -74,14 +74,8 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   ngOnInit() {
     this.optionalRolePlay = "Intership Role";
-    let roleApplied = ["r005", "r006", "r009"];
-
-    this.roles = this.initialDataServices.getInitiaRole()
-    this.roles = this.roles.filter(
-      function (e) {
-        return this.indexOf(e.roleCode) >= 0;
-      }, roleApplied
-    );
+    this.roles = this.stateService.getStoredRolePlay();
+    
     this.sopkeys = this.initialDataServices.getInitialSOP();
 
   }

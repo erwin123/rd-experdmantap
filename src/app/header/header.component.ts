@@ -13,14 +13,9 @@ export class HeaderComponent implements OnInit {
   traffic: boolean = false;
   constructor(private router: Router, private stateService: StatemanagementService, private loginService: LoginService) { }
   ngOnInit() {
-    //this.stateService.setCurrentStateLogin();
-    this.stateService.currentStateLogin.subscribe(res => { this.isLogin = res; console.log(this.isLogin) });
-    // this.stateService.paramChange
-    //   .subscribe(() => {
-        
-    //     this.stateService.currentStateLogin.subscribe(res => { this.isLogin = res; console.log(res) });
-    // });
-
+    this.stateService.currentStateLogin.subscribe(res => {
+      this.isLogin = res; console.log(this.isLogin) }
+    );
     this.stateService.currentExistTraffic.subscribe(res => {
       this.traffic = res;
     });

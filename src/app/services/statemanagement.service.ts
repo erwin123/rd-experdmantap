@@ -29,15 +29,19 @@ export class StatemanagementService {
     }
   }
 
-  getCurrentStateUser() {
-    return localStorage.getItem('currentUser');
-  }
-
   setParamChange(val) {
     this.paramChange.emit(val);
   };
 
   setTraffic(existTraffic: boolean) {
     this.existTraffic.next(existTraffic);
+  }
+
+  getStoredEmployee(){
+    return JSON.parse(localStorage.getItem('currentEmp'));
+  }
+
+  getStoredRolePlay(){
+    return JSON.parse(localStorage.getItem('collsrolepl'));
   }
 }

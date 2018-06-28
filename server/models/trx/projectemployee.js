@@ -12,6 +12,17 @@ exports.getAllProjectEmployee = function (done) {
     })
 }
 
+exports.getActiveProjectEmployee = function (key, done) {
+    db.get(db.trx, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query("CALL sp_FetchActiveProject(?)",key, function (err, rows) {
+            connection.release();
+            if (err) return done(err)
+            done(null, rows[0])
+        })
+    })
+}
+
 exports.getAllProjectEmployeeByCriteria = function (ProjectEmployee, done) {
     var wh = db.whereCriteriaGenerator(ProjectEmployee);
     db.get(db.trx, function (err, connection) {

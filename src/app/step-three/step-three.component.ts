@@ -3,7 +3,7 @@ import { SOPKeys } from '../models/sopkeys';
 import { Roles } from '../models/roles';
 import { Dodont } from '../models/dodont';
 import { InitialDataService } from '../services/initial-data.service';
-
+import { StatemanagementService } from '../services/statemanagement.service';
 
 @Component({
   selector: 'app-step-three',
@@ -20,18 +20,11 @@ export class StepThreeComponent implements OnInit {
   optionalRolePlay: string = "";
   textDodont: string = "";
   
-  constructor(private initialDataServices: InitialDataService) { }
+  constructor(private initialDataServices: InitialDataService,private stateService: StatemanagementService) { }
 
   ngOnInit() {
     this.items = this.initialDataServices.getInitialSOP();
-    let roleApplied = ["r005", "r006", "r009"];
-
-    this.roles = this.initialDataServices.getInitiaRole()
-    this.roles = this.roles.filter(
-      function (e) {
-        return this.indexOf(e.roleCode) >= 0;
-      }, roleApplied
-    );
+    this.roles = this.stateService.getStoredRolePlay();
 
     this.dodonts = this.initialDataServices.getInitialDodont().sort((a, b) => {
       if (a.roleCode < b.roleCode)
