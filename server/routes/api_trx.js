@@ -8,26 +8,9 @@ var roleplay = require('../models/trx/roleplay');
 var internship = require('../models/trx/internship');
 
 var express = require('express');
-const app = express();
-const fileUpload = require('express-fileupload');
 var router = express.Router();
 //upload
-app.use(fileUpload());
-router.post('/upload', function (req, res) {
-    if (!req.files)
-        return res.status(400).send('No files were uploaded.');
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let internshipFile = req.files.internshipFile;
-
-    // Use the mv() method to place the file somewhere on your server
-    internshipFile.mv('../../src/assets/vid/filename.jpg', function (err) {
-        if (err)
-            return res.status(500).send(err);
-
-        res.send('File uploaded!');
-    });
-});
 
 //region branch
 router.get('/branch', function (req, res, next) {
@@ -127,8 +110,7 @@ router.get('/project_active', function (req, res, next) {
                 res.json(rows);
             }
         });
-    }else
-    {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -141,8 +123,7 @@ router.get('/project_roleplay_active', function (req, res, next) {
                 res.json(rows);
             }
         });
-    }else
-    {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -350,7 +331,7 @@ router.get('/internship', function (req, res, next) {
 
 router.get('/internship/last', function (req, res, next) {
     if (req.query.br && req.query.prj) {
-        internship.getLastInternship(req.query.br, req.query.prj , function (err, rows) {
+        internship.getLastInternship(req.query.br, req.query.prj, function (err, rows) {
             if (err) { res.json(err); }
             else { res.json(rows); }
         });
@@ -387,20 +368,22 @@ router.delete('/internship/:key', function (req, res, next) {
     });
 });
 
-router.post('/internship/upload', function(req, res) {
-    console.log(req.files);
+router.post('/internship/upload', function (req, res) {
     if (!req.files)
-      return res.status(400).send('No files were uploaded.');
-   
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+        return res.status(400).send('No files were uploaded.');
+
     let internshipFile = req.files.internshipFile;
-   
-    // Use the mv() method to place the file somewhere on your server
-    internshipFile.mv('../../src/assets/vid/test.mp4', function(err) {
-      if (err)
-        return res.status(500).send(err);
-   
-      res.send('File uploaded!');
+    const uuidv1 = require('uuid/v1');
+    let ftype = internshipFile.mimetype.split('/')[1];
+    internshipFile.name = uuidv1()+"."+ftype;
+    
+    //let storage = './src/assets/vid/';
+    let storage = './dist/rd-experdmantap/assets/vid/';
+
+    internshipFile.mv(storage + internshipFile.name, function (err) {
+        if (err)
+            return res.status(500).send(err);
+        res.status(200).send({"filename":internshipFile.name});
     });
-  });
+});
 module.exports = router;

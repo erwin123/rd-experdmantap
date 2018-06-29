@@ -8,7 +8,8 @@ cors = require('cors');
 
 // use it before all route definitions
 const app = express();
-
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('./server/config');
@@ -61,6 +62,22 @@ app.get('*', (req, res) => {
 });
 
 
+
+// app.post('/internship/upload', function (req, res) {
+//     if (!req.files)
+//         return res.status(400).send('No files were uploaded.');
+
+//     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+//     let internshipFile = req.files.internshipFile;
+
+//     // Use the mv() method to place the file somewhere on your server
+//     internshipFile.mv('./src/assets/vid/filename.jpg', function (err) {
+//         if (err)
+//             return res.status(500).send(err);
+
+//         res.send('File uploaded!');
+//     });
+// });
 
 //Set Port
 const port = process.env.PORT || '3000';

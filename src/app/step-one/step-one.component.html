@@ -36,10 +36,9 @@
                             <div class="upload-btn-wrapper" *ngIf="optionalRolePlay!== 'Peran'">
                                 <button class="btn-file" (click)="fileInput.click()">
                                     <clr-icon shape="video-camera" class="is-solid" size="23"></clr-icon> Unggah Video "Internship" Anda</button>
-                                <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" />
-                                (Durasi Maks 5 Menit)
+                                <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" accept="video/mp4" /> (Durasi Maks 5 Menit)
                             </div>
-                            
+
                             <br/>
                             <br/>
                             <div class="loading-video" *ngIf="loadedvideo">
@@ -63,26 +62,33 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button *ngIf="optionalRolePlay!== 'Peran'" class="btn btn-primary btn-block">Kirim</button>
+                    <button *ngIf="optionalRolePlay!== 'Peran'" class="btn btn-primary btn-block" (click)="submit()">Kirim</button>
                 </div>
             </div>
             <br/>
-            <div class="card">
+            <div class="card" *ngIf="internShipLatest">
                 <div class="card-header">
-                    Aktifitas Terakhir
+                    Aktivitas Terakhir Anda Sebagai {{roleLastest}}
                 </div>
                 <div class="card-block">
                     <div class="card-text">
-                        <!-- <video *ngIf="url" width="320" height="240" controls>
-                            <source src="{{url}}" type="video/mp4">
-                        </video> -->
-                        <!-- <video *ngIf="url" autoplay preload="auto" id="internship" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9"
-                            controls width="640" height="264">
-                            <source [src]="url" type="video/mp4" />
-                        </video> -->
+                        <video crossorigin class="video-viewer" *ngIf="urlLastestVideo" controls>
+                            <source [src]="urlLastestVideo" type="video/mp4" *ngIf="urlLastestVideo">
+                        </video>
+                        <textarea disabled="disabled" id="text_opt" rows="2" [(ngModel)]="this.internShipLatest.HighlightDesc"></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<clr-modal [(clrModalOpen)]="finish" [clrModalSize]="'sm'" [clrModalClosable]="false">
+    <h3 class="modal-title">Informasi</h3>
+    <div class="modal-body">
+      <p>Data Internship Anda Terkirim</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modalClose()">Ok</button>
+    </div>
+</clr-modal>

@@ -7,7 +7,7 @@ import { StatemanagementService } from '../services/statemanagement.service';
   styleUrls: ['./stepboard.component.css']
 })
 export class StepboardComponent implements OnInit {
-  private employeInfo:any;
+  employeInfo:any;
   constructor(private stateService: StatemanagementService) { }
 
   ngOnInit() {

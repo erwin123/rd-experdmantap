@@ -17,7 +17,7 @@
         </clr-dropdown>
     </div>
 </clr-header>
-<div *ngIf="traffic" class="progress loop" style="background: #F5931E !important; font-size: 3px; position: absolute;"><progress></progress></div>
+<div *ngIf="traffic" class="progress loop" style="background: #F5931E !important; font-size: 3px; position: absolute; z-index: 99;"><progress></progress></div>
 <nav class="header-nav menus" [clr-nav-level]="1">
         <a *ngIf="!isLogin" routerLink="/main/login" class="nav-link">
             <clr-icon shape="login" size="18"></clr-icon> Masuk

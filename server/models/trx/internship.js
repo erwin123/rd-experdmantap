@@ -37,7 +37,7 @@ exports.getAllInternshipByCriteria = function (Internship, done) {
 }
 
 exports.insertInternship = function (Internship, done) {
-    var values = [Internship.ProjectCode, Internship.BranchCode, Internship.RolePlay, Internship.UrlVideo, Internship.HighlightDesc, Internship.Username ]
+    var values = [Internship.ProjectCode, Internship.BranchCode, Internship.Roleplay, Internship.UrlVideo, Internship.HighlightDesc, Internship.Username ]
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
         connection.query('CALL sp_InternshipGenerator(?,?,?,?,?,?)', values, function (err, result) {
