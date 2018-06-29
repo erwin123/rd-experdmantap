@@ -62,6 +62,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
+                    <div *ngIf="error" class="alert" style="color:red">Mohon lengkapi data internship</div>
                     <button *ngIf="optionalRolePlay!== 'Peran'" class="btn btn-primary btn-block" (click)="submit()">Kirim</button>
                 </div>
             </div>

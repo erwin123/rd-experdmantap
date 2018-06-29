@@ -26,6 +26,7 @@ export class StepOneComponent implements OnInit {
   internShip: Internship;
   internShipLatest: Internship = null;
   finish: boolean = false;
+  error:boolean = false;
 
 
   constructor(private stateService: StatemanagementService,
@@ -72,6 +73,13 @@ export class StepOneComponent implements OnInit {
   }
 
   submit() {
+    if(this.url == "" || this.longAnswer =="")
+    {
+      this.error = true;
+      setTimeout(() => {
+        this.error = false;
+      }, 4000);
+    }
     this.internshipService.uploadVideo(this.fileToUpload).subscribe(data => {
       this.internShip = new Internship();
       this.internShip.UrlVideo = data;
