@@ -27,7 +27,6 @@ import { StepFourComponent } from './step-four/step-four.component';
 import { StepFiveComponent } from './step-five/step-five.component';
 import { StepSixComponent } from './step-six/step-six.component';
 import { StepSevenComponent } from './step-seven/step-seven.component';
-import { RoledodontfilterPipe } from './pipes/roledodontfilter.pipe';
 import { SoprolesPipe } from './pipes/soproles.pipe';
 import { EmployeerolePipe } from './pipes/employeerole.pipe';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -35,6 +34,12 @@ import { HeaderStepComponent } from './header-step/header-step.component';
 import { AlertComponent } from './alert/alert.component';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { BlockUIModule } from 'ng-block-ui';
+import { StdservicerolePipe } from './pipes/stdservicerole.pipe';
+import { StdservicerolevalPipe } from './pipes/stdserviceroleval.pipe';
+import { GetheardPipe } from './pipes/getheard.pipe';
+import { ToastrModule } from 'ngx-toastr';
+import { ChpwdComponent } from './chpwd/chpwd.component';
 
 @NgModule({
   declarations: [
@@ -54,11 +59,14 @@ import { HttpClientModule } from '@angular/common/http';
     StepFiveComponent,
     StepSixComponent,
     StepSevenComponent,
-    RoledodontfilterPipe,
     SoprolesPipe,
     EmployeerolePipe,
     HeaderStepComponent,
-    AlertComponent
+    AlertComponent,
+    StdservicerolePipe,
+    StdservicerolevalPipe,
+    GetheardPipe,
+    ChpwdComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +81,8 @@ import { HttpClientModule } from '@angular/common/http';
     ScrollToModule.forRoot(),
     HttpModule,
     HttpClientModule,
+    BlockUIModule.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [AuthguardService, {provide: LocationStrategy, useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]

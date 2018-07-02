@@ -7,25 +7,33 @@
           Walk the Talk
         </div>
         <div class="card-block">
-          
           <div class="card-text">
-              Jalani 15 hari bersama implementasi <i>action plan (Do’s & Don’t's)</i> guna peningkatan servis pada cabang Anda.
-              Monitor setiap perubahan yang terjadi dan berikan apresiasi kepada rekan kerja yang melakukan <i>do’s</i> yang sempurna & menghentikan <i>don't’s</i> yang biasanya terjadi. 
-              Berikan <i>feedback</i> untuk peningkatan kualitas standar pelayanan mereka.
-              <br/>
-              <br/><b>Silahkan isi jumlah total bintang per minggu untuk setiap peran servis serta beri <i>feedback</i> untuk peningkatan kualitas pelayanan setiap orang.</b>
+            Jalani 15 hari bersama implementasi
+            <i>action plan (Do’s & Don’t's)</i> guna peningkatan servis pada cabang Anda. Monitor setiap perubahan yang terjadi
+            dan berikan apresiasi kepada rekan kerja yang melakukan
+            <i>do’s</i> yang sempurna & menghentikan
+            <i>don't’s</i> yang biasanya terjadi. Berikan
+            <i>feedback</i> untuk peningkatan kualitas standar pelayanan mereka.
+            <br/>
+            <br/>
+            <b>Silahkan isi jumlah total bintang per minggu untuk setiap peran servis serta beri
+              <i>feedback</i> untuk peningkatan kualitas pelayanan setiap orang.</b>
             <clr-stack-view *ngFor="let week of weeks">
-              <clr-stack-header>Minggu {{week.weekNum}}</clr-stack-header>
+              <clr-stack-header>Minggu {{week}}</clr-stack-header>
               <clr-stack-block #lazyBlock [clrSbExpandable]="true" *ngFor="let role of roles">
-                <clr-stack-label>{{role.roleName}}</clr-stack-label>
+                <clr-stack-label>{{role.RoleplayName}}</clr-stack-label>
                 <clr-stack-content>Jumlah Bintang</clr-stack-content>
-                <clr-stack-block *ngFor="let child of (employees|employeerole:role.roleCode:week.weekNum);let i = index" [class.banding]="i%2 === 0">
-                  <clr-stack-label>{{child.employeeFirstName}}&nbsp;{{child.employeeLastName}}</clr-stack-label>
+                <clr-stack-block *ngFor="let child of (employeeswtt|employeerole:role.KdRoleplay:week);let i = index" [class.banding]="i%2 === 0">
+                  <clr-stack-label>{{child.EmployeeName}}</clr-stack-label>
                   <clr-stack-content>
-                    <input style="width: 10px !important; min-width: 30px !important;" [(ngModel)]="child.mark" type="tel" (keydown)="check($event)"
+                    <input style="width: 10px !important; min-width: 30px !important;" [(ngModel)]="child.Star" type="tel" (keydown)="check($event)"
                       maxlength="2">
-                    <clr-icon shape="star" class="is-warning is-solid"></clr-icon><br/>
-                    <textarea id="formFields_8" placeholder="Feedback" rows="1" [(ngModel)]="child.feedback"></textarea>
+                    <clr-icon shape="star" class="is-warning is-solid"></clr-icon>
+                    <br/>
+                    <textarea class="feedback" id="formFields_8" placeholder="Feedback" rows="1" [(ngModel)]="child.Feedback"></textarea>
+                    <button class="btn btn-primary btn-sm btn-icon btn-block" (click)="addStar(child)">
+                        <clr-icon shape="star" class="is-solid"></clr-icon>  Simpan
+                    </button>
                   </clr-stack-content>
                 </clr-stack-block>
               </clr-stack-block>

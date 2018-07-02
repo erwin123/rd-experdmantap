@@ -7,26 +7,47 @@
                     Zoom The Ground
                 </div>
                 <div class="card-block" #videoSprite style="width: 100%;">
-                        Anda adalah andalan cabang. Anda perlu membangkitkan semangat tim Anda, karenanya mulailah setiap pagi dengan <i>wake up call</i> pada tim Anda. Ceritakan apa yang Anda rasakan ketika <i>internship</i>, paparkan hasil observasi harian Anda, apa yang sudah baik dan apa yang masih perlu diperbaiki. Ingatkan mereka tentang level standar layanan cabang saat ini, dan jangan lupa untuk sampaikan obsesi & komitmen Anda.
-                    <video id="myVideo" class="video-js vjs-default-skin"></video>
+                    Anda adalah andalan cabang. Anda perlu membangkitkan semangat tim Anda, karenanya mulailah setiap pagi dengan
+                    <i>wake up call</i> pada tim Anda. Ceritakan apa yang Anda rasakan ketika
+                    <i>internship</i>, paparkan hasil observasi harian Anda, apa yang sudah baik dan apa yang masih perlu diperbaiki.
+                    Ingatkan mereka tentang level standar layanan cabang saat ini, dan jangan lupa untuk sampaikan obsesi
+                    & komitmen Anda.
+                    <!-- <video id="myVideo" class="video-js vjs-default-skin"></video> -->
                     <div class="card-text">
-                        <br/>
-                        <b>Silahkan unggah video <i>wake up call</i> Anda</b>
+                        <b>Silahkan unggah video
+                            <i>wake up call</i> Anda</b>
                         <div class="upload-btn-wrapper">
                             <button class="btn-file" (click)="fileInput.click()">
                                 <clr-icon shape="image" class="is-solid" size="23"></clr-icon>&nbsp; Unggah Video "Wake Up Call" Anda
                             </button>
                             (Durasi Maks 15 Menit)
-                            <input type="file" #fileInput name="myfile" (change)="readUrl($event)" />
+                            <input type="file" #fileInput name="wkcallFile" (change)="readUrl($event)" />
                         </div>
-                        <br/>
-                        <img [src]="url" class="img-preview" *ngIf="url" alt="">
-                        <label class="required" for="text_opt"><b>Pesan utama <i>wake up call</i></b></label>
+                        <div class="loading-video" *ngIf="loadedvideo">
+                            <span class="spinner spinner-inline">
+                                Loading...
+                            </span>
+                            <span>
+                                Memuat Video Preview...
+                            </span>
+                        </div>
+                        <video class="video-viewer" *ngIf="url" controls>
+                            <source src="{{url}}" type="video/mp4">
+                        </video>
+                        <video class="video-viewer" *ngIf="urlLast" controls>
+                            <source src="{{urlLast}}" type="video/mp4">
+                        </video>
+                        <label class="required" for="text_opt">
+                            <b>Pesan utama
+                                <i>wake up call</i>
+                            </b>
+                        </label>
                         <textarea id="text_opt" rows="2" [(ngModel)]="longAnswer"></textarea>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary btn-block">Kirim</button>
+                    <div *ngIf="error" class="alert" style="color:red">Mohon lengkapi data wake up call Anda</div>
+                    <button class="btn btn-primary btn-block" (click)="submit()">Kirim</button>
                 </div>
             </div>
 
@@ -39,24 +60,23 @@
                         <b>Hasil observasi Anda terhadap layanan cabang saat ini</b>
                         <clr-stack-view>
                             <clr-stack-block #lazyBlock [clrSbExpandable]="true" *ngFor="let role of roles">
-                                <clr-stack-label>{{role.roleName}}</clr-stack-label>
-                                <clr-stack-content>standar Layanan</clr-stack-content>
-                                <clr-stack-block *ngFor="let child of (sopkeys|soproles:role.roleCode);let i = index" [class.banding]="i%2 === 0">
-                                    <clr-stack-label>{{child.SOPDesc}}</clr-stack-label>
+                                <clr-stack-label>{{role.RoleplayName}}</clr-stack-label>
+                                <clr-stack-content>Standar Layanan</clr-stack-content>
+                                <clr-stack-block *ngFor="let stdService of (stdServiceVal|stdservicerole:role.KdRoleplay);let i = index" [class.banding]="i%2 === 0">
+                                    <clr-stack-label>{{stdService.StdServiceDesc}}</clr-stack-label>
                                     <clr-stack-content>
                                         <div class="emotion-slider" style="position: relative;">
-                                            <input class="base-slider" list="tickmarks" type="range" min="1" max="3" value="{{child.value}}" step="1" />
+                                            <input class="base-slider" list="tickmarks" type="range" min="1" max="3" value="{{stdService.Value}}" step="1" />
                                             <datalist id="tickmarks">
                                                 <option value="1">
                                                     <option value="2">
                                                         <option value="3">
                                             </datalist>
-                                            <input class="range-slider" type="range" min="1" max="3" value="{{child.value}}" step="1" (change)="changeMood($event, child)"
-                                                [ngClass]="{'emoji1': child.value == 1,
-                                                        'emoji3': child.value == 2,
-                                                        'emoji4': child.value == 3}" style="position: absolute; top:-5px !important; left:0;"
-                                            />
-
+                                            <input class="range-slider" type="range" min="1" max="3" value="{{stdService.Value}}" step="1" (change)="changeMood($event, stdService)"
+                                                [ngClass]="{'emoji1': stdService.Value == 1,
+                                                        'emoji3': stdService.Value == 2,
+                                                        'emoji4': stdService.Value == 3}"
+                                                        style="position: absolute; top:-5px !important; left:0;" />
                                         </div>
                                     </clr-stack-content>
                                 </clr-stack-block>
@@ -64,10 +84,17 @@
                         </clr-stack-view>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary btn-block">Kirim</button>
-                </div>
             </div>
         </div>
     </div>
 </div>
+
+<clr-modal [(clrModalOpen)]="finish" [clrModalSize]="'sm'" [clrModalClosable]="false">
+    <h3 class="modal-title">Informasi</h3>
+    <div class="modal-body">
+        <p>Data Wake Up Call Anda Terkirim</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modalClose()">Ok</button>
+    </div>
+</clr-modal>

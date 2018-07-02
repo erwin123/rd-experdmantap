@@ -51,7 +51,7 @@ exports.updateBranch = function (key, Branch, done) {
 exports.deleteBranch = function (key, done) {
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('DELETE Branch where BranchCode=?', key, function (err, result) {
+        connection.query('DELETE FROM Branch where BranchCode=?', key, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)

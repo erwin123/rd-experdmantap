@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { StaytuneService } from '../services/staytune.service';
+import { StatemanagementService } from '../services/statemanagement.service';
+import { Staytune } from '../models/staytune';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-step-seven',
@@ -7,10 +11,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StepSevenComponent implements OnInit {
   longAnswer:string;
-  constructor() { }
+  empInfo: any;
+  constructor(private toastr: ToastrService, private stService: StaytuneService
+    , private stateService: StatemanagementService) { }
 
   ngOnInit() {
-    this.longAnswer ="Experd feedback";
+    this.stateService.setTraffic(true);
+    this.empInfo = this.stateService.getStoredEmployee();
+    this.stService.getStaytune(this.empInfo.BranchCode, this.empInfo.ProjectCode).subscribe(res=>{
+      this.longAnswer = res.BranchFeedback;
+      this.stateService.setTraffic(false);
+    });
   }
+
 
 }

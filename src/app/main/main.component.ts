@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener, Optional } from '@angular/core';
-import {trigger, animate, style, group, animateChild, query, stagger, transition, state} from '@angular/animations';
+import { trigger, animate, style, group, animateChild, query, stagger, transition, state } from '@angular/animations';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { StatemanagementService } from '../services/statemanagement.service';
 
 @Component({
   selector: 'app-main',
@@ -8,7 +10,7 @@ import {trigger, animate, style, group, animateChild, query, stagger, transition
   animations: [
     trigger('routerTransition', [
       transition('* => stepboard', [
-        query(':enter, :leave', style({ position: 'fixed', width:'100%' })
+        query(':enter, :leave', style({ position: 'fixed', width: '100%' })
           , { optional: true }),
         group([
           query(':enter', [
@@ -23,8 +25,8 @@ import {trigger, animate, style, group, animateChild, query, stagger, transition
       ]),
       transition('stepboard => *', [
         group([
-          query(':enter, :leave', style({ position: 'fixed', width:'100%' })
-          , { optional: true }),
+          query(':enter, :leave', style({ position: 'fixed', width: '100%' })
+            , { optional: true }),
           query(':enter', [
             style({ transform: 'translateX(100%)' }),
             animate('0.5s ease-in-out', style({ transform: 'translateX(0%)' }))
@@ -36,12 +38,13 @@ import {trigger, animate, style, group, animateChild, query, stagger, transition
         ])
       ])
     ])
-   ]
+  ]
 })
 export class MainComponent implements OnInit {
-
+  @BlockUI('content') blockUIList: NgBlockUI;
+  traffic: boolean = false;
   @ViewChild('container') container: ElementRef;
-  constructor() { }
+  constructor(private stateService: StatemanagementService) { }
   @HostListener('click', ['$event']) onClick($event) {
     if (!this.container.nativeElement.querySelector('img').classList.contains('invert') &&
       this.container.nativeElement.classList.contains('open-hamburger-menu')) {
@@ -52,7 +55,17 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    // Wires up BlockUI instance
+    this.stateService.currentExistTraffic.subscribe(res => {
+      this.traffic = res;
+      if(this.traffic)
+      {
+        this.blockUIList.start('Memuat...'); // Start blocking element only
+      }else{
+        this.blockUIList.stop(); // Stop blocking
+      }
+    });
+    
   }
 
 }

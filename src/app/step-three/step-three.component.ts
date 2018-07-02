@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SOPKeys } from '../models/sopkeys';
 import { Roles } from '../models/roles';
-import { Dodont } from '../models/dodont';
-import { InitialDataService } from '../services/initial-data.service';
 import { StatemanagementService } from '../services/statemanagement.service';
+import { GetheardService } from '../services/getheard.service';
+import { Getheard } from '../models/getheard';
 
 @Component({
   selector: 'app-step-three',
@@ -13,28 +12,42 @@ import { StatemanagementService } from '../services/statemanagement.service';
 export class StepThreeComponent implements OnInit {
 
   errorMsg: string;
-  items: SOPKeys[];
   roles: Roles[];
-  dodonts: Dodont[];
+  empInfo: any;
+
+  getheard: Getheard[];
+
   currentDoDont: string;
   optionalRolePlay: string = "";
   textDodont: string = "";
-  
-  constructor(private initialDataServices: InitialDataService,private stateService: StatemanagementService) { }
+
+  constructor(private stateService: StatemanagementService, private getheardService: GetheardService) { }
 
   ngOnInit() {
-    this.items = this.initialDataServices.getInitialSOP();
     this.roles = this.stateService.getStoredRolePlay();
+    this.empInfo = this.stateService.getStoredEmployee();
+    this.fetch();
 
-    this.dodonts = this.initialDataServices.getInitialDodont().sort((a, b) => {
-      if (a.roleCode < b.roleCode)
-        return -1;
-      if (a.roleCode > b.roleCode)
-        return 1;
-      return 0;
-    });
     this.currentDoDont = "Do`s";
     this.optionalRolePlay = "Posisi";
+  }
+
+  fetch() {
+    this.stateService.setTraffic(true);
+    this.getheardService.getGetheard(this.empInfo.ProjectCode, this.empInfo.BranchCode).subscribe(res => {
+      this.getheard = res.sort((a, b) => {
+        if (a.Roleplay < b.Roleplay)
+          return -1;
+        if (a.Roleplay > b.Roleplay)
+          return 1;
+        return 0;
+      });
+      this.stateService.setTraffic(false);
+    },error => {
+      if (!error.error.auth) {
+        this.stateService.redirectLogin();
+      }
+    });
   }
 
   changeDo(wordDo) {
@@ -44,49 +57,55 @@ export class StepThreeComponent implements OnInit {
       this.currentDoDont = "Don't`s";
 
   }
+
   addDodont() {
+    
     if (this.optionalRolePlay === "Posisi") {
-      this.errorMsg = "Please select role play required";
+      this.errorMsg = "Mohon pilih Posisi";
       return false;
     }
 
     if (this.textDodont === "") {
-      this.errorMsg = "Please fill text required";
+      this.errorMsg = "Mohon isi deskripsi";
       return false;
     }
-
-    let dataDodont: Dodont = new Dodont();
-    dataDodont.dodont = this.currentDoDont == "Do`s" ? true : false;
-    dataDodont.text = this.textDodont;
-    switch (this.optionalRolePlay) {
-
-      case "Security": {
-        dataDodont.roleCode = "r005";
-        break;
+    this.stateService.setTraffic(true);
+    let getheard: Getheard = new Getheard();
+    getheard.Type = this.currentDoDont == "Do`s" ? 1 : 0;
+    getheard.DetailDesc = this.textDodont;
+    getheard.Username = this.empInfo.Username;
+    getheard.BranchCode = this.empInfo.BranchCode;
+    getheard.ProjectCode = this.empInfo.ProjectCode;
+    getheard.Roleplay = this.roles.filter(i => i.RoleplayName === this.optionalRolePlay)[0].KdRoleplay;
+    this.getheardService.postGetheard(getheard).subscribe(res => {
+      this.errorMsg = "";
+      this.textDodont = "";
+      this.fetch();
+      this.stateService.setTraffic(false);
+    },error => {
+      if (!error.error.auth) {
+        this.stateService.redirectLogin();
       }
-      case "Customer Service": {
-        dataDodont.roleCode = "r006";
-        break;
-      }
-      case "Teller": {
-        dataDodont.roleCode = "r009";
-        break;
-      }
+    })
 
-    }
-    this.initialDataServices.setDodont(dataDodont);
-    this.textDodont = "";
   }
 
-  removeDodont(dodont:Dodont){
-    console.log(dodont);
-    this.initialDataServices.removeDodont(dodont);
-    this.dodonts = this.initialDataServices.getInitialDodont().sort((a, b) => {
-      if (a.roleCode < b.roleCode)
-        return -1;
-      if (a.roleCode > b.roleCode)
-        return 1;
-      return 0;
-    });
+  removeDodont(getHeard: Getheard) {
+    this.stateService.setTraffic(true);
+    this.getheardService.deleteGetheard(getHeard).subscribe(res => {
+      console.log(res.affectedRows);
+    },
+      err => {
+        this.errorMsg = "Terjadi Kesalahan Sistem";
+        this.stateService.setTraffic(false);
+        if (!err.error.auth) {
+          this.stateService.redirectLogin();
+        }
+      },
+      () => {
+        this.fetch();
+        this.stateService.setTraffic(false);
+      });
+
   }
 }

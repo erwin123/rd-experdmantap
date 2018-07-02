@@ -26,7 +26,7 @@
                   </button>
                   <clr-dropdown-menu *clrIfOpen>
                     <div *ngFor="let role of roles">
-                      <button type="button" (click)="optionalRolePlay=role.roleName" clrDropdownItem>{{role.roleName}}</button>
+                      <button type="button" (click)="optionalRolePlay=role.RoleplayName" clrDropdownItem>{{role.RoleplayName}}</button>
                     </div>
                   </clr-dropdown-menu>
                 </clr-dropdown>&nbsp;
@@ -41,22 +41,22 @@
                     <button type="button" (click)="changeDo(0)" clrDropdownItem>Don't's</button>
                   </clr-dropdown-menu>
                 </clr-dropdown>
-                <br/><br/>
+                <br/>
+                <div class="error-msg" *ngIf="errorMsg" style="color:red;">{{errorMsg}}</div>
+                <br/>
                 <textarea id="formFields_8" placeholder="Perilaku yang diizinkan dan yang tidak diizinkan" rows="3" [(ngModel)]="textDodont"></textarea>
                 <button class="btn btn-primary btn-block" (click)="addDodont()">
                   <clr-icon shape="plus"></clr-icon> Tambah
                 </button>
                 <br/>
-                <div class="error-msg" *ngIf="errorMsg">{{errorMsg}}</div>
-                <br/>
                 <div class="data-prev">
                   <div class="perrole" *ngFor="let role of roles">
-                    <div class="title">{{role.roleName}}</div>
+                    <div class="title">{{role.RoleplayName}}</div>
                     <div class="action-list">
                       <div class="do-list">Do's
                         <ul>
-                          <li *ngFor="let item of (dodonts | roledodontfilter:role.roleCode:true)">
-                            {{item.text}}
+                          <li *ngFor="let item of (getheard | getheardpipe:role.KdRoleplay:1)">
+                            {{item.DetailDesc}}
                             <button type="button" class="btn-del" (click)="removeDodont(item)">
                               <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
                             </button>
@@ -66,8 +66,8 @@
                       <br/>
                       <div class="do-list">Don't's
                         <ul>
-                          <li *ngFor="let item of (dodonts | roledodontfilter:role.roleCode:false)">
-                            {{item.text}}
+                          <li *ngFor="let item of (getheard | getheardpipe:role.KdRoleplay:0)">
+                            {{item.DetailDesc}}
                             <button type="button" class="btn-del" (click)="removeDodont(item)">
                               <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
                             </button>

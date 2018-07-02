@@ -123,3 +123,7 @@
 }
 
 .invert { filter: invert(100%); }
+
+.block-ui-wrapper {
+    background: rgba(155, 155, 155, 0.65) !important;
+}

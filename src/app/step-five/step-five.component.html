@@ -26,13 +26,13 @@
               <div class="upload-btn-wrapper">
                 <button class="btn-file" (click)="fileInput.click()">
                   <clr-icon shape="file" class="is-solid" size="23"></clr-icon> Pilih Dokumen</button>
-                <input type="file" accept=".pdf" #fileInput name="myfile" (change)="readUrl($event)" />
+                <input type="file" accept=".pdf" #fileInput name="ttwFile" (change)="readUrl($event)" />
               </div>
               (Dokumen Pdf)
             </div>
           </div>
           <div class="card-footer">
-            <button class="btn btn-primary btn-block">Kirim</button>
+            <button class="btn btn-primary btn-block" (click)="submit(1)">Kirim</button>
           </div>
         </div>
 
@@ -46,19 +46,18 @@
               <button class="btn btn-primary" style="float: left;" (click)="page2=page2-1" *ngIf="page2>1">Sebelum</button>
               <button class="btn btn-primary" style="float: right;" (click)="page2=page2+1">Berikutnya</button>
               <br/>
-
               <br/>
               <b>Silahkan unggah surat cinta kepada manajemen jika diperlukan</b><br/>
               <div class="upload-btn-wrapper">
                 <button class="btn-file" (click)="fileInput.click()">
                   <clr-icon shape="file" class="is-solid" size="23"></clr-icon> Pilih Dokumen</button>
-                <input type="file" accept=".pdf" #fileInput name="myfile" (change)="readUrl($event)" />
+                <input type="file" accept=".pdf" #fileInput name="ttwFile" (change)="readUrl2($event)" />
               </div>
               (Dokumen Pdf)
             </div>
           </div>
           <div class="card-footer">
-            <button class="btn btn-primary btn-block">Kirim</button>
+            <button class="btn btn-primary btn-block" (click)="submit(2)">Kirim</button>
           </div>
         </div>
       </div>

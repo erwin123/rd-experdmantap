@@ -1,9 +1,9 @@
 <clr-main-container #container>
-  <app-header></app-header>
-  <div class="content-container">
-    <main class="content-area" [@routerTransition]="page.activatedRouteData.state">
-      <router-outlet  #page="outlet"></router-outlet>
-    </main>
-  </div>
-  <app-footer></app-footer>
+    <app-header></app-header>
+    <div class="content-container" *blockUI="'content'">
+      <main class="content-area" [@routerTransition]="page.activatedRouteData.state">
+        <router-outlet #page="outlet"></router-outlet>
+      </main>
+    </div>
+    <app-footer></app-footer>
 </clr-main-container>

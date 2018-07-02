@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { TalkthewalkService } from '../services/talkthewalk.service';
+import { StatemanagementService } from '../services/statemanagement.service';
+import { Talkthewalk } from '../models/talkthewalk';
+import * as globalVar from '../global'; //<==== this one
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/concat';
 
 @Component({
   selector: 'app-step-five',
@@ -6,17 +13,40 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./step-five.component.css']
 })
 export class StepFiveComponent implements OnInit {
-  pdfSrc: string = '../assets/file/template.pdf';
-  pdfSrc2: string = '../assets/file/suratcinta.pdf';
-  page:number=1;
-  page2:number=1;
-  constructor() { }
+  empInfo: any;
+  pdfSrc: string;// = '../assets/file/template.pdf';
+  pdfSrc2: string;// = '../assets/file/suratcinta.pdf';
+  page: number = 1;
+  page2: number = 1;
+  pdfBrainStorm: File = null;
+  pdfSuratCinta: File = null;
+  ttw: Talkthewalk;
+  constructor(private toastr: ToastrService, private ttwService: TalkthewalkService
+    , private stateService: StatemanagementService) { }
 
   ngOnInit() {
+    this.stateService.setTraffic(true);
+    this.empInfo = this.stateService.getStoredEmployee();
+    var q = Observable.forkJoin(this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 1),
+      this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 2));
+
+    var sub = q.subscribe(res => {
+      if (res[0]) {
+        this.pdfSrc = globalVar.storagePdf + res[0].URLpath;
+      }
+      if (res[1]) {
+        this.pdfSrc2 = globalVar.storagePdf + res[1].URLpath;
+      }
+      this.stateService.setTraffic(false);
+    }, err => {
+      this.stateService.setTraffic(false);
+      this.toastr.error('', 'Terjadi kesalahan jaringan');
+    });
   }
 
   readUrl(event: any) {
     if (event.target.files && event.target.files[0]) {
+      this.pdfBrainStorm = event.target.files[0];
       var reader = new FileReader();
       reader.onload = (event: any) => {
         this.pdfSrc = event.target.result;
@@ -27,11 +57,56 @@ export class StepFiveComponent implements OnInit {
 
   readUrl2(event: any) {
     if (event.target.files && event.target.files[0]) {
+      this.pdfSuratCinta = event.target.files[0];
       var reader = new FileReader();
       reader.onload = (event: any) => {
         this.pdfSrc2 = event.target.result;
       }
       reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  submit(type: number) {
+    if (type == 1) {
+      if (this.pdfBrainStorm == null) {
+        this.toastr.warning('', 'Anda belum memilih dokumen');
+        return;
+      }
+      this.ttwService.uploadPdf(this.pdfBrainStorm).subscribe(res => {
+        let ttw: Talkthewalk = new Talkthewalk();
+        ttw.URLpath = res;
+        ttw.BranchCode = this.empInfo.BranchCode;
+        ttw.ProjectCode = this.empInfo.ProjectCode;
+        ttw.TTWtype = 1;
+        this.ttwService.postTtw(ttw).subscribe(data => {
+          this.toastr.success('', 'Dokumen berhasil tersimpan');
+        }, err =>{
+          this.toastr.error('', 'Terjadi kesalahan jaringan');
+        })
+      }, err =>{
+        this.toastr.error('', 'Terjadi kesalahan jaringan');
+      });
+    }
+
+    if (type == 2) {
+      if (this.pdfSuratCinta == null) {
+        this.toastr.warning('', 'Anda belum memilih dokumen');
+        return;
+      }
+      this.ttwService.uploadPdf(this.pdfBrainStorm).subscribe(res => {
+        let ttw: Talkthewalk = new Talkthewalk();
+        ttw.URLpath = res;
+        ttw.BranchCode = this.empInfo.BranchCode;
+        ttw.ProjectCode = this.empInfo.ProjectCode;
+        ttw.TTWtype = 2;
+        this.ttwService.postTtw(ttw).subscribe(data => {
+          this.toastr.success('', 'Dokumen berhasil tersimpan');
+        }, err =>{
+          this.toastr.error('', 'Terjadi kesalahan jaringan');
+        })
+      }, err =>{
+        this.toastr.error('', 'Terjadi kesalahan jaringan');
+      });
     }
   }
 }

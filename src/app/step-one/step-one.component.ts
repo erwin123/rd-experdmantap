@@ -5,6 +5,7 @@ import { Roles } from '../models/roles';
 import { RoleplayService } from '../services/roleplay.service';
 import { Internship } from '../models/internship';
 import { Router } from '@angular/router';
+import * as globalVar from '../global';
 
 @Component({
   selector: 'app-step-one',
@@ -14,9 +15,9 @@ import { Router } from '@angular/router';
 
 export class StepOneComponent implements OnInit {
 
-  url:string="";
+  url: string = "";
   urlLastestVideo: string;
-  roleLastest:string;
+  roleLastest: string;
   loadedvideo: boolean = false;
   empInfo: any;
   longAnswer: string;
@@ -26,34 +27,34 @@ export class StepOneComponent implements OnInit {
   internShip: Internship;
   internShipLatest: Internship = null;
   finish: boolean = false;
-  error:boolean = false;
-
+  error: boolean = false;
 
   constructor(private stateService: StatemanagementService,
     private roleplayService: RoleplayService,
     private internshipService: InternshipService,
-    private router:Router) {
+    private router: Router) {
   }
 
   ngOnInit() {
+    this.stateService.setTraffic(true);
     this.longAnswer = "";
     this.empInfo = this.stateService.getStoredEmployee();
     this.roles = this.stateService.getStoredRolePlay();
-    if (!this.roles) {
-      this.roleplayService.getRoleActive(this.empInfo.ProjectCode).subscribe((res) => {
-        this.roles = res;
-      });
-    }
-
     this.internshipService.getLastestInternship(this.empInfo.ProjectCode, this.empInfo.BranchCode)
-    .subscribe(res=>{
-      if(res)
-      {
-        this.internShipLatest = res[0];
-        this.urlLastestVideo = 'assets/vid/'+this.internShipLatest.UrlVideo;
-        this.roleLastest = this.roles.filter(i => i.KdRoleplay == this.internShipLatest.Roleplay)[0].RoleplayName;
-      }
-    });
+      .subscribe(res => {
+        if (res) {
+          this.internShipLatest = res[0];
+          this.urlLastestVideo = globalVar.storageIS + this.internShipLatest.UrlVideo;
+          this.roleLastest = this.roles.filter(i => i.KdRoleplay == this.internShipLatest.Roleplay)[0].RoleplayName;
+        }
+        this.stateService.setTraffic(false);
+      },
+        error => {
+          this.stateService.setTraffic(false);
+          if (!error.error.auth) {
+            this.stateService.redirectLogin();
+          }
+        });
   }
 
   readUrl(event: any) {
@@ -73,32 +74,40 @@ export class StepOneComponent implements OnInit {
   }
 
   submit() {
-    if(this.url == "" || this.longAnswer =="")
-    {
+    if (this.url == "" || this.longAnswer == "") {
       this.error = true;
       setTimeout(() => {
         this.error = false;
       }, 4000);
     }
+    this.stateService.setTraffic(true);
     this.internshipService.uploadVideo(this.fileToUpload).subscribe(data => {
       this.internShip = new Internship();
       this.internShip.UrlVideo = data;
       this.internShip.BranchCode = this.empInfo.BranchCode;
       this.internShip.HighlightDesc = this.longAnswer;
       this.internShip.ProjectCode = this.empInfo.ProjectCode;
-      this.internShip.Roleplay = this.roles.filter(i=>i.RoleplayName === this.optionalRolePlay)[0].KdRoleplay;
+      this.internShip.Roleplay = this.roles.filter(i => i.RoleplayName === this.optionalRolePlay)[0].KdRoleplay;
       this.internShip.Username = this.empInfo.Username;
-      this.internshipService.postInternship(this.internShip).subscribe(res=>{
+      this.internshipService.postInternship(this.internShip).subscribe(res => {
         this.finish = true;
-            
+        this.longAnswer = "";
+        this.stateService.setTraffic(false);
+      }, error => {
+        this.stateService.setTraffic(false);
+        if (!error.error.auth) {
+          this.stateService.redirectLogin();
+        }
       });
     }, error => {
-      console.log(error);
+      this.stateService.setTraffic(false);
+      if (!error.error.auth) {
+        this.stateService.redirectLogin();
+      }
     });
   }
 
-  modalClose(){
+  modalClose() {
     this.router.navigate(['main/stepboard']);
   }
-
 }

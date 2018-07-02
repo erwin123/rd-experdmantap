@@ -16,7 +16,7 @@ export class InternshipService {
   constructor(private httpClient: HttpClient, private stateService: StatemanagementService) { }
 
   uploadVideo(fileToUpload: File): Observable<string> {
-    this.stateService.setTraffic(true);
+    
     this.token = JSON.parse(localStorage.getItem('currentUser'));
     let _headers = new HttpHeaders().set('x-access-token', this.token.token);
     const formData: FormData = new FormData();
@@ -26,7 +26,6 @@ export class InternshipService {
       .map(res => {
         if (res) {
           var str: string = String(res.filename);
-          this.stateService.setTraffic(false);
           return str;
         }
         throw new Error('Not Found');
@@ -34,14 +33,11 @@ export class InternshipService {
   }
 
   postInternship(internship: Internship): Observable<Internship> {
-    this.stateService.setTraffic(true);
     this.token = JSON.parse(localStorage.getItem('currentUser'));
     const headers = this._headers.append('x-access-token', this.token.token);
-    console.log(internship);
     return this.httpClient.post<Internship>(this.url, internship, { headers: headers })
       .map(res => {
         if (res) {
-          this.stateService.setTraffic(false);
           return res;
         }
         throw new Error('Not Found');

@@ -28,7 +28,8 @@
               "node_modules/@clr/ui/clr-ui.min.css",
               "node_modules/@clr/icons/clr-icons.min.css",
               "node_modules/video.js/dist/video-js.min.css",
-              "node_modules/videojs-record/dist/css/videojs.record.css"
+              "node_modules/videojs-record/dist/css/videojs.record.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/@clr/icons/clr-icons.min.js",

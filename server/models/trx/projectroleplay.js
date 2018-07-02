@@ -62,7 +62,7 @@ exports.updateProjectRolePlay = function (key, ProjectRolePlay, done) {
 exports.deleteProjectRolePlay = function (key, done) {
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('DELETE ProjectRolePlay where Project_ProjectCode=?', key, function (err, result) {
+        connection.query('DELETE FROM ProjectRolePlay where Project_ProjectCode=?', key, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)

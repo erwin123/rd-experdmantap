@@ -8,6 +8,7 @@ import { RoleplayService } from '../services/roleplay.service';
 import { StatemanagementService } from '../services/statemanagement.service';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/concat';
+import { Roles } from '../models/roles';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,13 @@ import 'rxjs/add/observable/concat';
 export class LoginComponent implements OnInit {
   lock: boolean = false;
   hasError: boolean = false;
+  roles: Roles[];
   constructor(private router: Router, private route: ActivatedRoute,
     private loginService: LoginService, private stateService: StatemanagementService,
     private employeeService: EmployeeService, private branchService: BranchService,
-    private projectService: ProjectService) { }
-  username: string = "erwin.ant";
-  password: string = "Sunter123";
+    private projectService: ProjectService, private roleplayService: RoleplayService) { }
+  username: string = "";
+  password: string = "";
   message: string = "";
   returnUrl: string;
 
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
     this.stateService.setTraffic(true);
     this.lock = true;
 
+
     setTimeout(() => {
       this.loginService.login(this.username, this.password)
         .subscribe(res => {
@@ -60,6 +63,14 @@ export class LoginComponent implements OnInit {
               this.stateService.setParamChange(true);
               this.lock = false;
               this.stateService.setTraffic(false);
+
+              this.roles = this.stateService.getStoredRolePlay();
+              if (!this.roles) {
+                this.roleplayService.getRoleActive(res[1].ProjectCode).subscribe((res) => {
+                  this.roles = res;
+                });
+              }
+
               this.router.navigate(['/main/stepboard']);
             },
               err => { this.handleError("Belum ada aktifitas untuk Anda"); }
@@ -73,7 +84,7 @@ export class LoginComponent implements OnInit {
     }, 300);
   }
 
-  handleError(msg:string) {
+  handleError(msg: string) {
     this.message = msg;
     this.hasError = true;
     this.lock = false;

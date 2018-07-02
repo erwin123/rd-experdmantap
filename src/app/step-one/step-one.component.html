@@ -18,7 +18,6 @@
                         <b>Silahkan berperan sebagai Customer Service, Teller dan Security ketika menghadapi nasabah di
                             <i>banking hall</i>.</b>
                         <br/>
-                        <br/>
                         <div class="form-group">
                             <clr-dropdown [clrCloseMenuOnItemClick]="true">
                                 <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
@@ -36,11 +35,9 @@
                             <div class="upload-btn-wrapper" *ngIf="optionalRolePlay!== 'Peran'">
                                 <button class="btn-file" (click)="fileInput.click()">
                                     <clr-icon shape="video-camera" class="is-solid" size="23"></clr-icon> Unggah Video "Internship" Anda</button>
-                                <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" accept="video/mp4" /> (Durasi Maks 5 Menit)
+                                <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" accept="video/mp4" />
+                                (Durasi Maks 5 Menit)
                             </div>
-
-                            <br/>
-                            <br/>
                             <div class="loading-video" *ngIf="loadedvideo">
                                 <span class="spinner spinner-inline">
                                     Loading...
@@ -53,7 +50,6 @@
                                 <source src="{{url}}" type="video/mp4">
                             </video>
                         </div>
-
                         <label class="required" for="text_opt" *ngIf="optionalRolePlay!== 'Peran'">
                             <b>Apa pembelajaran yang Anda dapat dari pengalaman
                                 <i>Internship</i> Anda sebagai {{optionalRolePlay}}? </b>

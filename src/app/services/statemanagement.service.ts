@@ -1,8 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
-
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +14,7 @@ export class StatemanagementService {
   private stateLogin = new BehaviorSubject<boolean>(localStorage.getItem('currentUser') ? true : false);
   currentStateLogin = this.stateLogin.asObservable();
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   setCurrentStateLogin(val?: string) {
     if (val) {
@@ -43,5 +41,10 @@ export class StatemanagementService {
 
   getStoredRolePlay(){
     return JSON.parse(localStorage.getItem('collsrolepl'));
+  }
+
+  redirectLogin(){
+    localStorage.clear();
+    this.router.navigate(['main/login']);
   }
 }

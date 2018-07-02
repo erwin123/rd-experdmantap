@@ -1,16 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Employee } from '../models/employee';
+import { Employeewtt } from '../models/employeewtt';
 
 @Pipe({
   name: 'employeerole'
 })
 export class EmployeerolePipe implements PipeTransform {
 
-  transform(value: Employee[], args?: any, args1?: any): any {
-    if (!value || !args|| !args1) {
+  transform(value: Employeewtt[], args?: any, args1?:number): any {
+    if (!value || !args) {
       return value;
     }
-    return value.filter(item => item.roleCode.indexOf(args) !== -1).filter(item => item.week ===args1);
+    return value.filter(item => item.Roleplay.indexOf(args) !== -1 && item.Week == args1);
   }
 
 }

@@ -3,19 +3,18 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const http = require('http');
-
-cors = require('cors');
-
-// use it before all route definitions
+const cors = require('cors');
 const app = express();
 const fileUpload = require('express-fileupload');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const config = require('./server/config');
+// API file for interacting with api route
+const api_um = require('./server/routes/api_um');
+const api_trx = require('./server/routes/api_trx');
+
+//fileupload
 app.use(fileUpload());
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
-var config = require('./server/config');
-
-
-
 
 //Cors
 app.use(cors());
@@ -30,10 +29,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 5
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// API file for interacting with api route
-const api_um = require('./server/routes/api_um');
-const api_trx = require('./server/routes/api_trx');
-
+//secure the api with auth
 var auth = function (req, res, next) {
     if (req.originalUrl === '/api/um/users/login' || req.originalUrl === '/api/um/users/register')
         next();
@@ -47,13 +43,11 @@ var auth = function (req, res, next) {
         });
     }
 }
-
 app.use(auth);
 
-// API location
+// API location route
 app.use('/api/um', api_um);
 app.use('/api/trx', api_trx);
-
 
 
 // Send all other requests to the Angular app

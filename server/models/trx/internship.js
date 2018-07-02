@@ -63,7 +63,7 @@ exports.updateInternship = function (key, Internship, done) {
 exports.deleteInternship = function (key, done) {
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('DELETE Internship where KdInternship=?', key, function (err, result) {
+        connection.query('DELETE FROM Internship where KdInternship=?', key, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)

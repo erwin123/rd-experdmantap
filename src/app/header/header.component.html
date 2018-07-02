@@ -11,7 +11,7 @@
                 <clr-icon shape="caret down"></clr-icon>
             </button>
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-                <a href="..." clrDropdownItem>Ganti Kata Sandi</a>
+                <a routerLink="/main/chpwd" style="color:#000" class="nav-link" clrDropdownItem>Ganti Kata Sandi</a>
                 <a (click)="logout()" clrDropdownItem>Keluar</a>
             </clr-dropdown-menu>
         </clr-dropdown>
@@ -22,8 +22,11 @@
         <a *ngIf="!isLogin" routerLink="/main/login" class="nav-link">
             <clr-icon shape="login" size="18"></clr-icon> Masuk
         </a>
+        <a routerLink="/main/landing" class="nav-link">
+            <clr-icon shape="home" class="is-solid" size="18"></clr-icon> Home
+        </a>
         <a *ngIf="isLogin" routerLink="/main/stepboard" class="nav-link">
-            <clr-icon shape="list" class="is-solid"></clr-icon> My Step Board
+            <clr-icon shape="list" class="is-solid"></clr-icon> Step Saya
         </a>
         <a routerLink="/main/login" class="nav-link">
             <clr-icon shape="phone-handset" class="is-solid" size="18"></clr-icon> Hubungi Kami

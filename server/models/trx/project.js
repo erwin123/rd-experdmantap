@@ -51,7 +51,7 @@ exports.updateProject = function (key, Project, done) {
 exports.deleteProject = function (key, done) {
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('DELETE Project where ProjectCode=?', key, function (err, result) {
+        connection.query('DELETE FROM Project where ProjectCode=?', key, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)
