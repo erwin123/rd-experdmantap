@@ -28,10 +28,12 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 5
 
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
-
+// API location route
+app.use('/api/um', api_um);
+app.use('/api/trx', api_trx);
 //secure the api with auth
 var auth = function (req, res, next) {
-    if (req.originalUrl === '/api/um/users/login' || req.originalUrl === '/api/um/users/register')
+    if (req.originalUrl.contains('/um/users/login') || req.originalUrl.contains('/um/users/register'))
         next();
     else {
         var token = req.headers['x-access-token'];
@@ -45,9 +47,7 @@ var auth = function (req, res, next) {
 }
 app.use(auth);
 
-// API location route
-app.use('/api/um', api_um);
-app.use('/api/trx', api_trx);
+
 
 
 // Send all other requests to the Angular app

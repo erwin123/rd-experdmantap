@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { StatemanagementService } from '../services/statemanagement.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as globalVar from '../global'; //<==== this one
+import * as globalVar from '../global';
 import { Wakeupcall } from '../models/wakeupcall';
 
 @Injectable({

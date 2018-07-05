@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StaytuneService } from '../services/staytune.service';
 import { StatemanagementService } from '../services/statemanagement.service';
-import { Staytune } from '../models/staytune';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-step-seven',
@@ -12,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class StepSevenComponent implements OnInit {
   longAnswer:string;
   empInfo: any;
-  constructor(private toastr: ToastrService, private stService: StaytuneService
+  constructor(private stService: StaytuneService
     , private stateService: StatemanagementService) { }
 
   ngOnInit() {

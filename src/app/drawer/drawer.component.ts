@@ -14,11 +14,12 @@ export class DrawerComponent implements OnInit {
   constructor(private initialDataService:InitialDataService, private _scrollToService: ScrollToService) { }
 
   ngOnInit() {
-    this.items = this.initialDataService.getInitialDrawer();
+    this.initialDataService.getJSON("drawer.json").subscribe(res =>{
+      this.items = res;
+    });
   }
 
   triggerScrollTo(target) {
-    
     const config: ScrollToConfigOptions = {
       target: target
     };

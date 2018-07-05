@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Getheard } from '../models/getheard';
-import * as globalVar from '../global'; //<==== this one
+import * as globalVar from '../global';  
 
 @Injectable({
   providedIn: 'root'

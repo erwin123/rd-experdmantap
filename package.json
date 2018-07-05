@@ -6,7 +6,7 @@
     "start": "ng serve",
     "start:prod": "ng build --prod && lite-server --baseDir dist/rd-experdmantap",
     "start:cloud": "ng build --prod --aot --base-href https://erwinant.000webhostapp.com/",
-    "start:cloud2": "ng build --prod --base-href https://erwinant2.000webhostapp.com/",
+    "start:cloud2": "ng build --prod --base-href https://experdserve.experd.com/",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

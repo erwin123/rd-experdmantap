@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as globalVar from '../global'; //<==== this one
+import * as globalVar from '../global';  
 import { Stdservice } from '../models/stdservice';
 
 @Injectable({

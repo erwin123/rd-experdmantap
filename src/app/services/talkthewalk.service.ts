@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Talkthewalk } from '../models/talkthewalk';
-import * as globalVar from '../global'; //<==== this one
+import * as globalVar from '../global';  
 
 @Injectable({
   providedIn: 'root'

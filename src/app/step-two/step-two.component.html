@@ -31,12 +31,15 @@
                                 Memuat Video Preview...
                             </span>
                         </div>
-                        <video class="video-viewer" *ngIf="url" controls>
+                        <video class="video-viewer" *ngIf="url; else elseBlock" controls>
                             <source src="{{url}}" type="video/mp4">
                         </video>
-                        <video class="video-viewer" *ngIf="urlLast" controls>
-                            <source src="{{urlLast}}" type="video/mp4">
-                        </video>
+                        <ng-template #elseBlock>
+                            <video class="video-viewer" *ngIf="urlLast" controls>
+                                <source src="{{urlLast}}" type="video/mp4">
+                            </video>
+                        </ng-template>
+                        
                         <label class="required" for="text_opt">
                             <b>Pesan utama
                                 <i>wake up call</i>

@@ -53,8 +53,12 @@ export class LandingComponent implements OnInit,AfterViewInit, OnDestroy {
 
   ngOnInit() {
     // this.url = "/assets/vid/videoplayback.mp4";
-    this.items = this.initialDataService.getInitialDrawer();
-    this.banners = this.initialDataService.getInitialBanner();
+    this.initialDataService.getJSON("drawer.json").subscribe(res =>{
+      this.items = res;
+    });
+    this.initialDataService.getJSON("banner.json").subscribe(res =>{
+      this.banners = res;
+    });
   }
 
 }

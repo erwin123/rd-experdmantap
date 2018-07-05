@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { Employee } from '../models/employee';
 import { Employeewtt } from '../models/employeewtt';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as globalVar from '../global'; //<==== this one
+import * as globalVar from '../global';  
 
 
 @Injectable({

@@ -10,12 +10,14 @@
 
           <div class="card-text">
             Rayakan segala usaha yang telah tim Anda wujudkan bersama untuk meningkatkan kualitas servis, temukan cara – cara kreatif
-            untuk memberikan <i>reward</i> tanpa biaya, serta perayaan yang akan Anda nikmati bersama bilamana cabang berhasil mencapai
-            target servisnya. Potret perubahan kualitas servis cabang Anda dari masa ke masa.
+            untuk memberikan
+            <i>reward</i> tanpa biaya, serta perayaan yang akan Anda nikmati bersama bilamana cabang berhasil mencapai target
+            servisnya. Potret perubahan kualitas servis cabang Anda dari masa ke masa.
             <br/>
             <br/>
             <b>
-              Silahkan unggah dokumentasi program <i>reward & recognition</i> dalam bentuk Pdf & foto dokumentasi pelaksanaan program
+              Silahkan unggah dokumentasi program
+              <i>reward & recognition</i> dalam bentuk Pdf & foto dokumentasi pelaksanaan program
             </b>
             <pdf-viewer [src]="pdfSrc" [show-all]="false" [render-text]="false" style="display: block;" [fit-to-page]="true" [(page)]="page"></pdf-viewer>
             <button class="btn btn-primary" style="float: left;" (click)="page=page-1" *ngIf="page>1">Sebelum</button>
@@ -31,7 +33,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-primary btn-block">Kirim</button>
+          <button class="btn btn-primary btn-block" (click)="submit(1)">Kirim</button>
         </div>
       </div>
 
@@ -43,19 +45,27 @@
 
           <div class="card-text">
             <b>
-              Silahkan unggah foto dokumentasi pelaksanaan program
+              Silahkan unggah foto-foto dokumentasi pelaksanaan program
             </b>
             <div class="upload-btn-wrapper">
               <button class="btn-file" (click)="fileInput.click()">
                 <clr-icon shape="image" class="is-solid" size="23"></clr-icon> Pilih Foto</button>
-              <input type="file" accept="image/*" #fileInput name="myfile" (change)="readUrlImg($event)" />
+              <input type="file" accept="image/*" #fileInput name="myfile" (change)="readUrlImg($event)" multiple/>
             </div>
             <br/>
-            <app-carousel [banners] = 'imgs.length ? imgs : imgsSample'></app-carousel>
+            <div class="loading-photo" *ngIf="loadedPhoto">
+              <span class="spinner spinner-inline">
+                Loading...
+              </span>
+              <span>
+                Memuat Gambar...
+              </span>
+            </div>
+            <app-carousel [banners]='imgs.length ? imgs : imgsSample'></app-carousel>
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-primary btn-block">Kirim</button>
+          <button class="btn btn-primary btn-block" (click)="submit(2)">Kirim</button>
         </div>
       </div>
 

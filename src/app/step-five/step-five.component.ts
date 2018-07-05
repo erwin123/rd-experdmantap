@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TalkthewalkService } from '../services/talkthewalk.service';
 import { StatemanagementService } from '../services/statemanagement.service';
 import { Talkthewalk } from '../models/talkthewalk';
-import * as globalVar from '../global'; //<==== this one
+import * as globalVar from '../global'; 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/concat';
 
@@ -14,8 +14,8 @@ import 'rxjs/add/observable/concat';
 })
 export class StepFiveComponent implements OnInit {
   empInfo: any;
-  pdfSrc: string;// = '../assets/file/template.pdf';
-  pdfSrc2: string;// = '../assets/file/suratcinta.pdf';
+  pdfSrc: string;
+  pdfSrc2: string;
   page: number = 1;
   page2: number = 1;
   pdfBrainStorm: File = null;
@@ -72,6 +72,7 @@ export class StepFiveComponent implements OnInit {
         this.toastr.warning('', 'Anda belum memilih dokumen');
         return;
       }
+      this.stateService.setTraffic(true);
       this.ttwService.uploadPdf(this.pdfBrainStorm).subscribe(res => {
         let ttw: Talkthewalk = new Talkthewalk();
         ttw.URLpath = res;
@@ -79,11 +80,14 @@ export class StepFiveComponent implements OnInit {
         ttw.ProjectCode = this.empInfo.ProjectCode;
         ttw.TTWtype = 1;
         this.ttwService.postTtw(ttw).subscribe(data => {
+          this.stateService.setTraffic(false);
           this.toastr.success('', 'Dokumen berhasil tersimpan');
         }, err =>{
+          this.stateService.setTraffic(false);
           this.toastr.error('', 'Terjadi kesalahan jaringan');
         })
       }, err =>{
+        this.stateService.setTraffic(false);
         this.toastr.error('', 'Terjadi kesalahan jaringan');
       });
     }
@@ -93,18 +97,22 @@ export class StepFiveComponent implements OnInit {
         this.toastr.warning('', 'Anda belum memilih dokumen');
         return;
       }
-      this.ttwService.uploadPdf(this.pdfBrainStorm).subscribe(res => {
+      this.stateService.setTraffic(true);
+      this.ttwService.uploadPdf(this.pdfSuratCinta).subscribe(res => {
         let ttw: Talkthewalk = new Talkthewalk();
         ttw.URLpath = res;
         ttw.BranchCode = this.empInfo.BranchCode;
         ttw.ProjectCode = this.empInfo.ProjectCode;
         ttw.TTWtype = 2;
         this.ttwService.postTtw(ttw).subscribe(data => {
+          this.stateService.setTraffic(false);
           this.toastr.success('', 'Dokumen berhasil tersimpan');
         }, err =>{
+          this.stateService.setTraffic(false);
           this.toastr.error('', 'Terjadi kesalahan jaringan');
         })
       }, err =>{
+        this.stateService.setTraffic(false);
         this.toastr.error('', 'Terjadi kesalahan jaringan');
       });
     }

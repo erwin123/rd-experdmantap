@@ -27,11 +27,9 @@ import { StepFourComponent } from './step-four/step-four.component';
 import { StepFiveComponent } from './step-five/step-five.component';
 import { StepSixComponent } from './step-six/step-six.component';
 import { StepSevenComponent } from './step-seven/step-seven.component';
-import { SoprolesPipe } from './pipes/soproles.pipe';
 import { EmployeerolePipe } from './pipes/employeerole.pipe';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { HeaderStepComponent } from './header-step/header-step.component';
-import { AlertComponent } from './alert/alert.component';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { BlockUIModule } from 'ng-block-ui';
@@ -59,10 +57,8 @@ import { ChpwdComponent } from './chpwd/chpwd.component';
     StepFiveComponent,
     StepSixComponent,
     StepSevenComponent,
-    SoprolesPipe,
     EmployeerolePipe,
     HeaderStepComponent,
-    AlertComponent,
     StdservicerolePipe,
     StdservicerolevalPipe,
     GetheardPipe,

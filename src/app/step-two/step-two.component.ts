@@ -5,7 +5,6 @@ import { Roles } from '../models/roles';
 import { videojs } from 'video.js';
 import { record } from 'videojs-record';
 import { RecordRTC } from 'recordrtc';
-import { SOPKeys } from '../models/sopkeys';
 import { Wakeupcall } from '../models/wakeupcall';
 import { Router } from '@angular/router';
 import * as globalVar from '../global';
@@ -219,6 +218,7 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   modalClose() {
+    this.finish = false;
     //this.router.navigate(['main/stepboard']);
   }
 }

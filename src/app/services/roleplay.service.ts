@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { StatemanagementService } from '../services/statemanagement.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Roles } from '../models/roles';
-import * as globalVar from '../global'; //<==== this one
+import * as globalVar from '../global';  
 
 @Injectable({
   providedIn: 'root'
