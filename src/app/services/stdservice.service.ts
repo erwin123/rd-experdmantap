@@ -49,7 +49,7 @@ export class StdserviceService {
         if (res) {
           return res;
         }
-        throw new Error('Not Found');
+        //throw new Error('Not Found');
       });
   }
 
@@ -62,7 +62,7 @@ export class StdserviceService {
         if (res) {
           return res;
         }
-        throw new Error('Not Found');
+        //throw new Error('Not Found');
       });
   }
 }

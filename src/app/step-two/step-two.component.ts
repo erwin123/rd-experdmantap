@@ -6,12 +6,11 @@ import { videojs } from 'video.js';
 import { record } from 'videojs-record';
 import { RecordRTC } from 'recordrtc';
 import { Wakeupcall } from '../models/wakeupcall';
-import { Router } from '@angular/router';
 import * as globalVar from '../global';
 import { StdserviceService } from '../services/stdservice.service';
 import { Stdservice } from '../models/stdservice';
 import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/observable/concat';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-step-two',
@@ -27,36 +26,37 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   longAnswer: string;
   loadedvideo: boolean = false;
   finish: boolean = false;
-  error: boolean = false;
   fileToUpload: File = null;
   wakeUpCall: Wakeupcall;
   wakeUpCallLast: Wakeupcall;
   stdService: Stdservice[];
   stdServiceVal: Stdservice[];
 
+  limit:number=900;
+  videoDuration:number=0;
   empInfo: any;
   roles: Roles[];
   emotionValue: number[];
   emotionDesc: string = "Nothing";
+  
   @ViewChild('videoSprite') elementView: ElementRef;
-  constructor(private wkCallService: WakeupcallService, private stateService: StatemanagementService,
-     private router: Router, private stdserviceService: StdserviceService) {
-
+  constructor(private toastr: ToastrService,private wkCallService: WakeupcallService, private stateService: StatemanagementService,
+private stdserviceService: StdserviceService) {
   }
 
   ngOnDestroy() {
     //this.player.record().destroy();
     this.stateService.setTraffic(true);
-    this.stdserviceService.postBulkStdService(this.stdServiceVal).subscribe(res=>{
+    this.stdserviceService.postBulkStdService(this.stdServiceVal).subscribe(res => {
       console.log(res);
       this.stateService.setTraffic(false);
     },
-    error => {
-      this.stateService.setTraffic(false);
-      if (!error.error.auth) {
-        this.stateService.redirectLogin();
-      }
-    })
+      error => {
+        this.stateService.setTraffic(false);
+        if (!error.error.auth) {
+          this.stateService.redirectLogin();
+        }
+      })
   }
   ngAfterViewInit() {
     // console.log(this.elementView.nativeElement.offsetWidth);
@@ -152,15 +152,15 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
       if (element.KdStdservice === paramStdService.KdStdservice) {
         paramStdService.Value = $event.target.value;
         this.stdServiceVal[index] = paramStdService;
-        this.stdserviceService.postStdService(paramStdService).subscribe(res=>{
+        this.stdserviceService.postStdService(paramStdService).subscribe(res => {
           console.log(res);
         },
-        error => {
-          this.stateService.setTraffic(false);
-          if (!error.error.auth) {
-            this.stateService.redirectLogin();
-          }
-        });
+          error => {
+            this.stateService.setTraffic(false);
+            if (!error.error.auth) {
+              this.stateService.redirectLogin();
+            }
+          });
       }
     });
   }
@@ -181,13 +181,23 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  onMetadata(e, video) {
+    console.log('metadata: ', e);
+    console.log('duration: ', video.duration);
+    this.videoDuration = video.duration;
+  }
+
   submit() {
     if (this.url == "" || this.longAnswer == "") {
-      this.error = true;
-      setTimeout(() => {
-        this.error = false;
-      }, 4000);
+      this.toastr.error('', 'Video atau pesan harus diisi! ');
+      return;
     }
+
+    if (this.videoDuration > this.limit) {
+      this.toastr.error('', 'Durasi video Anda melebihi batas');
+      return;
+    }
+    
     this.stateService.setTraffic(true);
     this.wkCallService.uploadVideo(this.fileToUpload).subscribe(data => {
       this.wakeUpCall = new Wakeupcall();

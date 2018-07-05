@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StatemanagementService } from '../services/statemanagement.service';
 import { InternshipService } from '../services/internship.service';
 import { Roles } from '../models/roles';
-import { RoleplayService } from '../services/roleplay.service';
 import { Internship } from '../models/internship';
 import { Router } from '@angular/router';
 import * as globalVar from '../global';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-step-one',
@@ -27,10 +27,11 @@ export class StepOneComponent implements OnInit {
   internShip: Internship;
   internShipLatest: Internship = null;
   finish: boolean = false;
-  error: boolean = false;
 
-  constructor(private stateService: StatemanagementService,
-    private roleplayService: RoleplayService,
+  limit:number=300;
+  videoDuration:number=0;
+
+  constructor(private toastr: ToastrService, private stateService: StatemanagementService,
     private internshipService: InternshipService,
     private router: Router) {
   }
@@ -73,12 +74,20 @@ export class StepOneComponent implements OnInit {
     }
   }
 
+  onMetadata(e, video) {
+    console.log('metadata: ', e);
+    console.log('duration: ', video.duration);
+    this.videoDuration = video.duration;
+  }
+
   submit() {
     if (this.url == "" || this.longAnswer == "") {
-      this.error = true;
-      setTimeout(() => {
-        this.error = false;
-      }, 4000);
+      this.toastr.error('', 'Video atau kesan harus diisi!');
+      return;
+    }
+    if (this.videoDuration > this.limit) {
+      this.toastr.error('', 'Durasi video Anda melebihi batas');
+      return;
     }
     this.stateService.setTraffic(true);
     this.internshipService.uploadVideo(this.fileToUpload).subscribe(data => {

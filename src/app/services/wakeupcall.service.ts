@@ -52,7 +52,7 @@ export class WakeupcallService {
         if (res[0]) {
           return res;
         }
-        throw new Error('Not Found');
+        //throw new Error('Not Found');
       });
   }
 }

@@ -15,7 +15,7 @@ import 'rxjs/add/observable/concat';
 })
 export class StepSixComponent implements OnInit {
   empInfo: any;
-  pdfSrc: string;// = '../assets/file/rewards.pdf';
+  pdfSrc: string="";// = '../assets/file/rewards.pdf';
   page: number = 1;
   pdfRwd: File = null;
   imgRwd: Array<File> = new Array();
@@ -33,6 +33,7 @@ export class StepSixComponent implements OnInit {
       this.ttwService.getTrImg(this.empInfo.BranchCode, this.empInfo.ProjectCode, 2));
 
     var sub = q.subscribe(res => {
+      
       if (res[0]) {
         this.pdfSrc = globalVar.storagePhoto + res[0].URLpath;
       }
@@ -42,9 +43,12 @@ export class StepSixComponent implements OnInit {
         });
       }
       this.stateService.setTraffic(false);
+      console.log(this.pdfSrc);
     }, err => {
       this.stateService.setTraffic(false);
-      this.toastr.error('', 'Terjadi kesalahan jaringan');
+      
+      this.pdfSrc = globalVar.storagePhoto + "rewards.pdf";
+      //this.toastr.error('', 'Terjadi kesalahan jaringan');
     });
   }
 

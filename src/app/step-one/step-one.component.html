@@ -46,7 +46,7 @@
                                     Memuat Video Preview...
                                 </span>
                             </div>
-                            <video class="video-viewer" *ngIf="url" controls>
+                            <video class="video-viewer" #video (loadedmetadata)="onMetadata($event, video)" *ngIf="url" controls>
                                 <source src="{{url}}" type="video/mp4">
                             </video>
                         </div>
@@ -58,7 +58,6 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div *ngIf="error" class="alert" style="color:red">Mohon lengkapi data internship</div>
                     <button *ngIf="optionalRolePlay!== 'Peran'" class="btn btn-primary btn-block" (click)="submit()">Kirim</button>
                 </div>
             </div>

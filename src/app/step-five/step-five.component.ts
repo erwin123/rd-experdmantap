@@ -14,8 +14,8 @@ import 'rxjs/add/observable/concat';
 })
 export class StepFiveComponent implements OnInit {
   empInfo: any;
-  pdfSrc: string;
-  pdfSrc2: string;
+  pdfSrc: string="";
+  pdfSrc2: string="";
   page: number = 1;
   page2: number = 1;
   pdfBrainStorm: File = null;
@@ -27,21 +27,51 @@ export class StepFiveComponent implements OnInit {
   ngOnInit() {
     this.stateService.setTraffic(true);
     this.empInfo = this.stateService.getStoredEmployee();
-    var q = Observable.forkJoin(this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 1),
-      this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 2));
-
-    var sub = q.subscribe(res => {
-      if (res[0]) {
-        this.pdfSrc = globalVar.storagePdf + res[0].URLpath;
+    this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 1).subscribe(res =>{
+      if (res) {
+        this.pdfSrc = globalVar.storagePdf + res.URLpath;
+        this.stateService.setTraffic(false);
       }
-      if (res[1]) {
-        this.pdfSrc2 = globalVar.storagePdf + res[1].URLpath;
-      }
-      this.stateService.setTraffic(false);
     }, err => {
+      this.pdfSrc = globalVar.storagePdf + "template.pdf";
       this.stateService.setTraffic(false);
-      this.toastr.error('', 'Terjadi kesalahan jaringan');
     });
+
+    this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 2).subscribe(res =>{
+      if (res) {
+        this.pdfSrc2 = globalVar.storagePdf + res.URLpath;
+        this.stateService.setTraffic(false);
+      }
+    }, err => {
+      this.pdfSrc2 = globalVar.storagePdf + "suratcinta.pdf";
+      this.stateService.setTraffic(false);
+    });
+
+    // var q = Observable.combineLatest(
+    //   this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 1).catch(err => {
+    //     console.log("1");
+    //     this.pdfSrc = globalVar.storagePdf + "template.pdf";
+    //     return Observable.throw(err);
+    //   }),
+    //   this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 2)).catch(err => {
+    //     console.log("2");
+    //     this.pdfSrc2 = globalVar.storagePdf + "suratcinta.pdf";
+    //     return Observable.throw(err);
+    //   });
+
+    // var sub = q.subscribe(res => {
+    //   console.log("sub");
+    //   if (res[0]) {
+    //     this.pdfSrc = globalVar.storagePdf + res[0].URLpath;
+    //   }
+    //   if (res[1]) {
+    //     this.pdfSrc2 = globalVar.storagePdf + res[1].URLpath;
+    //   }
+    //   this.stateService.setTraffic(false);
+    // }, err => {
+    //   this.stateService.setTraffic(false);
+    //   //this.toastr.error('', 'Terjadi kesalahan jaringan');
+    // });
   }
 
   readUrl(event: any) {
