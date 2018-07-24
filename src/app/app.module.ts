@@ -38,6 +38,7 @@ import { StdservicerolevalPipe } from './pipes/stdserviceroleval.pipe';
 import { GetheardPipe } from './pipes/getheard.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { ChpwdComponent } from './chpwd/chpwd.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ChpwdComponent } from './chpwd/chpwd.component';
     StdservicerolePipe,
     StdservicerolevalPipe,
     GetheardPipe,
-    ChpwdComponent
+    ChpwdComponent,
+    FeedbackComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 export class Wakeupcall {
+    KdWakeUpCall:string="";
     ProjectCode:string="";
     BranchCode:string="";
     UrlVideo:string="";

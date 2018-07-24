@@ -11,6 +11,7 @@ var stdservice = require('../models/trx/stdservice');
 var getheard = require('../models/trx/getheard');
 var wtt = require('../models/trx/walkthetalk');
 var st = require('../models/trx/staytune');
+var fb = require('../models/trx/feed');
 const config = require('../../server/config');
 var express = require('express');
 var router = express.Router();
@@ -234,8 +235,8 @@ router.put('/project_employee/:key', function (req, res, next) {
     });
 });
 
-router.delete('/project_employee/:key', function (req, res, next) {
-    prj_em.deleteProjectEmployee(req.params.key, function (err, rows) {
+router.delete('/project_employee/:pr/:em', function (req, res, next) {
+    prj_em.deleteProjectEmployee(req.params.pr, req.params.em, function (err, rows) {
         if (err) { res.json(err); }
         else { res.json(rows); }
     });
@@ -335,6 +336,17 @@ router.get('/internship', function (req, res, next) {
 router.get('/internship/last', function (req, res, next) {
     if (req.query.br && req.query.prj) {
         internship.getLastInternship(req.query.br, req.query.prj, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }else {
+        return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
+});
+
+router.get('/internship/lastrole', function (req, res, next) {
+    if (req.query.br && req.query.prj && req.query.rl) {
+        internship.getLastInternshipRole(req.query.br, req.query.prj, req.query.rl, function (err, rows) {
             if (err) { res.json(err); }
             else { res.json(rows); }
         });
@@ -774,6 +786,58 @@ router.get('/stlast', function (req, res, next) {
         });
     }else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
+});
+
+
+//region feed
+router.get('/feed', function (req, res, next) {
+    fb.getAllFeed(function (err, rows) {
+        if (err) { res.json(err); }
+        else {
+            res.json(rows);
+        }
+    });
+});
+
+router.post('/feed/cr/', function (req, res, next) {
+    if (req.body) {
+        fb.getAllFeedByCriteria(req.body, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+});
+
+router.post('/feedback/', function (req, res, next) {
+    fb.insertFeedback(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
+
+router.delete('/feed/:key', function (req, res, next) {
+    fb.deleteFeed(req.params.key, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
+router.get('/feedback', function (req, res, next) {
+    fb.getAllFeedback(function (err, rows) {
+        if (err) { res.json(err); }
+        else {
+            res.json(rows);
+        }
+    });
+});
+
+router.post('/feedback/cr/', function (req, res, next) {
+    if (req.body) {
+        fb.getAllFeedbackByCriteria(req.body, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
     }
 });
 module.exports = router;

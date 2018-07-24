@@ -6,6 +6,7 @@ import { Internship } from '../models/internship';
 import { Router } from '@angular/router';
 import * as globalVar from '../global';
 import { ToastrService } from 'ngx-toastr';
+import { FeedbackComponent } from '../feedback/feedback.component'
 
 @Component({
   selector: 'app-step-one',
@@ -16,8 +17,6 @@ import { ToastrService } from 'ngx-toastr';
 export class StepOneComponent implements OnInit {
 
   url: string = "";
-  urlLastestVideo: string;
-  roleLastest: string;
   loadedvideo: boolean = false;
   empInfo: any;
   longAnswer: string;
@@ -25,11 +24,11 @@ export class StepOneComponent implements OnInit {
   optionalRolePlay: string = "Peran";
   fileToUpload: File = null;
   internShip: Internship;
-  internShipLatest: Internship = null;
+  internShipLatest: Internship[] = new Array();
   finish: boolean = false;
 
-  limit:number=300;
-  videoDuration:number=0;
+  limit: number = 300;
+  videoDuration: number = 0;
 
   constructor(private toastr: ToastrService, private stateService: StatemanagementService,
     private internshipService: InternshipService,
@@ -41,21 +40,28 @@ export class StepOneComponent implements OnInit {
     this.longAnswer = "";
     this.empInfo = this.stateService.getStoredEmployee();
     this.roles = this.stateService.getStoredRolePlay();
-    this.internshipService.getLastestInternship(this.empInfo.ProjectCode, this.empInfo.BranchCode)
-      .subscribe(res => {
-        if (res) {
-          this.internShipLatest = res[0];
-          this.urlLastestVideo = globalVar.storageIS + this.internShipLatest.UrlVideo;
-          this.roleLastest = this.roles.filter(i => i.KdRoleplay == this.internShipLatest.Roleplay)[0].RoleplayName;
-        }
-        this.stateService.setTraffic(false);
-      },
-        error => {
-          this.stateService.setTraffic(false);
-          if (!error.error.auth) {
-            this.stateService.redirectLogin();
+
+    this.roles.forEach(val => {
+      this.stateService.setTraffic(true);
+      this.internshipService.getLastestInternshipRole(this.empInfo.ProjectCode, this.empInfo.BranchCode, val.KdRoleplay)
+        .subscribe(res => {
+          if (res) {
+            let internShip: Internship = new Internship();
+            internShip = res[0];
+            internShip.UrlVideo = globalVar.storageIS + internShip.UrlVideo;
+            internShip.Roleplay = this.roles.filter(i => i.KdRoleplay == res[0].Roleplay)[0].RoleplayName;
+            this.internShipLatest.push(internShip);
           }
-        });
+          this.stateService.setTraffic(false);
+        },
+          error => {
+            this.stateService.setTraffic(false);
+            if (!error.error.auth) {
+              this.stateService.redirectLogin();
+            }
+          });
+    });
+
   }
 
   readUrl(event: any) {
@@ -90,6 +96,7 @@ export class StepOneComponent implements OnInit {
       return;
     }
     this.stateService.setTraffic(true);
+    
     this.internshipService.uploadVideo(this.fileToUpload).subscribe(data => {
       this.internShip = new Internship();
       this.internShip.UrlVideo = data;

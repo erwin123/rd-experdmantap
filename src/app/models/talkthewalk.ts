@@ -6,4 +6,5 @@ export class Talkthewalk {
     "TTWtype": number=1;//1. brain 2.cinta
     "TRtype": number=1;//extend for TR 1.pdf 2.photo
     "URLpath":string="";
+    "Username":string="";
 }

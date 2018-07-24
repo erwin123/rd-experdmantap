@@ -66,13 +66,13 @@ exports.updateUser = function (uname, User, done) {
     })
 }
 
-exports.loginUser = function (username, password, done) {
-    var values = [username, password];
+exports.loginUser = function (username, password, appcode, done) {
+    var values = [username, password, appcode];
     db.get(db.um, function (err, connection) {
         if (err) {
             return done('Database problem');
         }
-        connection.query('CALL sp_Login(?, ?)',values, function (err, rows) {
+        connection.query('CALL sp_Login(?, ?, ?)',values, function (err, rows) {
             connection.release();
             if (err) return done(err)
             done(null, rows)

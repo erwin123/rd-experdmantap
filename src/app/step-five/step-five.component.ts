@@ -16,8 +16,12 @@ export class StepFiveComponent implements OnInit {
   empInfo: any;
   pdfSrc: string="";
   pdfSrc2: string="";
+  pdfCode:string="";
+  pdfCode2:string="";
   page: number = 1;
   page2: number = 1;
+  totalPages: number =0;
+  totalPages2: number =0;
   pdfBrainStorm: File = null;
   pdfSuratCinta: File = null;
   ttw: Talkthewalk;
@@ -30,6 +34,7 @@ export class StepFiveComponent implements OnInit {
     this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 1).subscribe(res =>{
       if (res) {
         this.pdfSrc = globalVar.storagePdf + res.URLpath;
+        this.pdfCode = res.KdTalkTheWalk;
         this.stateService.setTraffic(false);
       }
     }, err => {
@@ -40,6 +45,7 @@ export class StepFiveComponent implements OnInit {
     this.ttwService.getTtw(this.empInfo.BranchCode, this.empInfo.ProjectCode, 2).subscribe(res =>{
       if (res) {
         this.pdfSrc2 = globalVar.storagePdf + res.URLpath;
+        this.pdfCode = res.KdTalkTheWalk;
         this.stateService.setTraffic(false);
       }
     }, err => {
@@ -96,6 +102,14 @@ export class StepFiveComponent implements OnInit {
     }
   }
 
+  afterLoadComplete(pdfData: any) {
+    this.totalPages = pdfData.numPages;
+  }
+
+  afterLoadComplete2(pdfData: any) {
+    this.totalPages2 = pdfData.numPages;
+  }
+
   submit(type: number) {
     if (type == 1) {
       if (this.pdfBrainStorm == null) {
@@ -109,6 +123,7 @@ export class StepFiveComponent implements OnInit {
         ttw.BranchCode = this.empInfo.BranchCode;
         ttw.ProjectCode = this.empInfo.ProjectCode;
         ttw.TTWtype = 1;
+        ttw.Username = this.empInfo.Username;
         this.ttwService.postTtw(ttw).subscribe(data => {
           this.stateService.setTraffic(false);
           this.toastr.success('', 'Dokumen berhasil tersimpan');
@@ -134,6 +149,7 @@ export class StepFiveComponent implements OnInit {
         ttw.BranchCode = this.empInfo.BranchCode;
         ttw.ProjectCode = this.empInfo.ProjectCode;
         ttw.TTWtype = 2;
+        ttw.Username = this.empInfo.Username;
         this.ttwService.postTtw(ttw).subscribe(data => {
           this.stateService.setTraffic(false);
           this.toastr.success('', 'Dokumen berhasil tersimpan');

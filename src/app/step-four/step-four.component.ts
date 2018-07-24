@@ -68,6 +68,7 @@ export class StepFourComponent implements OnInit {
 
   addStar(wtt:Employeewtt)
   {
+    console.log(wtt);
     this.stateService.setTraffic(true);
     wtt.Username = this.empInfo.Username;
     this.employeeService.postEmployeeByBranch(wtt).subscribe(res=>{

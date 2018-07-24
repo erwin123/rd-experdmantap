@@ -26,12 +26,12 @@
                 <clr-stack-block *ngFor="let child of (employeeswtt|employeerole:role.KdRoleplay:week);let i = index" [class.banding]="i%2 === 0">
                   <clr-stack-label>{{child.EmployeeName}}</clr-stack-label>
                   <clr-stack-content>
-                    <input style="width: 10px !important; min-width: 30px !important;" [(ngModel)]="child.Star" type="tel" (keydown)="check($event)"
+                    <input [disabled]="empInfo.RolePlay ==='RL001' ? null:'disabled'" style="width: 10px !important; min-width: 30px !important;" [(ngModel)]="child.Star" type="tel" (keydown)="check($event)"
                       maxlength="2">
                     <clr-icon shape="star" class="is-warning is-solid"></clr-icon>
                     <br/>
-                    <textarea class="feedback" id="formFields_8" placeholder="Feedback" rows="1" [(ngModel)]="child.Feedback"></textarea>
-                    <button class="btn btn-primary btn-sm btn-icon btn-block" (click)="addStar(child)">
+                    <textarea [disabled]="empInfo.RolePlay ==='RL001' ? null:'disabled'" class="feedback" id="formFields_8" placeholder="Feedback" rows="1" [(ngModel)]="child.Feedback"></textarea>
+                    <button *ngIf="empInfo.RolePlay === 'RL001'" class="btn btn-primary btn-sm btn-icon btn-block" (click)="addStar(child)">
                         <clr-icon shape="star" class="is-solid"></clr-icon>  Simpan
                     </button>
                   </clr-stack-content>
@@ -39,7 +39,7 @@
               </clr-stack-block>
             </clr-stack-view>
             <br/>
-            <button class="btn btn-primary btn-block">Kirim</button>
+            <!-- <button class="btn btn-primary btn-block">Kirim</button> -->
           </div>
         </div>
       </div>

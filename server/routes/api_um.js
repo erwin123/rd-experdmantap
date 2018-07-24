@@ -45,19 +45,19 @@ router.put('/users/:uname', function (req, res, next) {
 //region account
 router.post('/users/login', function (req, res, next) {
     if (req.body) {
-        users.loginUser(req.body.username, req.body.password, function (err, rows, fields) {
+        users.loginUser(req.body.username, req.body.password, req.body.appcode, function (err, rows, fields) {
             if (err) { res.status(500);res.send('Internal Server Error'); }
             else {
                 if (rows[0][0]) {
-                    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+                    let hashedPassword = bcrypt.hashSync(req.body.password, 8);
                     // create a token
-                    var token = jwt.sign({ username: req.body.username }, config.secret, {
+                    let token = jwt.sign({ username: req.body.username }, config.secret, {
                         expiresIn: 86400 // expires in 24 hours
                     });
+                    let result = rows[0][0];
 
-                    
                     res.setHeader('Content-Type', 'application/json');
-                    res.status(200).send({ auth: true, token: token, username:req.body.username });
+                    res.status(200).send({ auth: true, token: token, username:req.body.username, appcode:result.AppCode, ic:result.IsConsultant });
                 }
                 else {
                     res.status(401);

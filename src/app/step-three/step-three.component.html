@@ -10,45 +10,53 @@
         <div class="card-block">
           <div class="card-text">
             Diskusi dengan tim menjadi hal yang mutlak diperlukan saat Anda ingin mewujudkan komitmen bersama untuk menciptakan budaya
-            <i>service excellence</i>. Dengarkan pandangan mereka mengenai kualitas servis cabang saat ini dan dorong mereka untuk
-            merumuskan langkah – langkah perbaikan yang mereka sendiri perlu ambil untuk menjadi juara servis dalam bentuk
+            <i>service excellence</i>. Dengarkan pandangan mereka mengenai kualitas servis cabang saat ini dan dorong mereka
+            untuk merumuskan langkah – langkah perbaikan yang mereka sendiri perlu ambil untuk menjadi juara servis dalam
+            bentuk
             <i>“Do’s & Don’t's”</i> yang jelas.
             <br/>
             <br/>
-            <b>Silahkan lengkapi <i>“Do’s & Don’t's”</i> yang telah Anda dan tim Anda sepakati untuk meningkatkan standar pelayanan di cabang Anda</b>
+            <div *ngIf="empInfo.RolePlay === 'RL001'">
+              <b>Silahkan lengkapi
+                <i>“Do’s & Don’t's”</i> yang telah Anda dan tim Anda sepakati untuk meningkatkan standar pelayanan di cabang
+                Anda
+              </b>
+            </div>
             <section class="form-block">
               <div class="form-group">
-                <clr-dropdown [clrCloseMenuOnItemClick]="true" class="role-ddl">
-                  <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
-                    {{optionalRolePlay}}
-                    <clr-icon shape="user" class="is-solid" size="22"></clr-icon>
-                    <clr-icon shape="caret down"></clr-icon>
+                <div *ngIf="empInfo.RolePlay === 'RL001'">
+                  <clr-dropdown [clrCloseMenuOnItemClick]="true" class="role-ddl">
+                    <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
+                      {{optionalRolePlay}}
+                      <clr-icon shape="user" class="is-solid" size="22"></clr-icon>
+                      <clr-icon shape="caret down"></clr-icon>
+                    </button>
+                    <clr-dropdown-menu *clrIfOpen>
+                      <div *ngFor="let role of roles">
+                        <button type="button" (click)="optionalRolePlay=role.RoleplayName" clrDropdownItem>{{role.RoleplayName}}</button>
+                      </div>
+                    </clr-dropdown-menu>
+                  </clr-dropdown>&nbsp;
+                  <clr-dropdown [clrCloseMenuOnItemClick]="true" class="act-ddl">
+                    <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
+                      {{currentDoDont}}
+                      <clr-icon shape="accessibility-2" class="is-solid" size="22"></clr-icon>
+                      <clr-icon shape="caret down"></clr-icon>
+                    </button>
+                    <clr-dropdown-menu *clrIfOpen>
+                      <button type="button" (click)="changeDo(1)" clrDropdownItem>Do's</button>
+                      <button type="button" (click)="changeDo(0)" clrDropdownItem>Don't's</button>
+                    </clr-dropdown-menu>
+                  </clr-dropdown>
+                  <br/>
+                  <div class="error-msg" *ngIf="errorMsg" style="color:red;">{{errorMsg}}</div>
+                  <br/>
+                  <textarea id="formFields_8" placeholder="Perilaku yang diizinkan dan yang tidak diizinkan" rows="3" [(ngModel)]="textDodont"></textarea>
+                  <button class="btn btn-primary btn-block" (click)="addDodont()">
+                    <clr-icon shape="plus"></clr-icon> Tambah
                   </button>
-                  <clr-dropdown-menu *clrIfOpen>
-                    <div *ngFor="let role of roles">
-                      <button type="button" (click)="optionalRolePlay=role.RoleplayName" clrDropdownItem>{{role.RoleplayName}}</button>
-                    </div>
-                  </clr-dropdown-menu>
-                </clr-dropdown>&nbsp;
-                <clr-dropdown [clrCloseMenuOnItemClick]="true" class="act-ddl">
-                  <button type="button" class="dropdown-toggle btn btn-primary btn-block" clrDropdownTrigger>
-                    {{currentDoDont}}
-                    <clr-icon shape="accessibility-2" class="is-solid" size="22"></clr-icon>
-                    <clr-icon shape="caret down"></clr-icon>
-                  </button>
-                  <clr-dropdown-menu *clrIfOpen>
-                    <button type="button" (click)="changeDo(1)" clrDropdownItem>Do's</button>
-                    <button type="button" (click)="changeDo(0)" clrDropdownItem>Don't's</button>
-                  </clr-dropdown-menu>
-                </clr-dropdown>
-                <br/>
-                <div class="error-msg" *ngIf="errorMsg" style="color:red;">{{errorMsg}}</div>
-                <br/>
-                <textarea id="formFields_8" placeholder="Perilaku yang diizinkan dan yang tidak diizinkan" rows="3" [(ngModel)]="textDodont"></textarea>
-                <button class="btn btn-primary btn-block" (click)="addDodont()">
-                  <clr-icon shape="plus"></clr-icon> Tambah
-                </button>
-                <br/>
+                  <br/>
+                </div>
                 <div class="data-prev">
                   <div class="perrole" *ngFor="let role of roles">
                     <div class="title">{{role.RoleplayName}}</div>
@@ -57,7 +65,7 @@
                         <ul>
                           <li *ngFor="let item of (getheard | getheardpipe:role.KdRoleplay:1)">
                             {{item.DetailDesc}}
-                            <button type="button" class="btn-del" (click)="removeDodont(item)">
+                            <button *ngIf="empInfo.RolePlay === 'RL001'" type="button" class="btn-del" (click)="removeDodont(item)">
                               <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
                             </button>
                           </li>
@@ -68,7 +76,7 @@
                         <ul>
                           <li *ngFor="let item of (getheard | getheardpipe:role.KdRoleplay:0)">
                             {{item.DetailDesc}}
-                            <button type="button" class="btn-del" (click)="removeDodont(item)">
+                            <button *ngIf="empInfo.RolePlay === 'RL001'" type="button" class="btn-del" (click)="removeDodont(item)">
                               <clr-icon shape="times-circle" size="15" class="is-error"></clr-icon>
                             </button>
                           </li>

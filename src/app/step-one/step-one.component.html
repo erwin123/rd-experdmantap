@@ -3,7 +3,7 @@
     <div class="row flex-items-xs-center flex-items-xs-middle">
         <div class="col-xs-11">
 
-            <div class="card">
+            <div class="card" *ngIf="empInfo.RolePlay === 'RL001'">
                 <div class="card-header">
                     Internship
                 </div>
@@ -35,8 +35,7 @@
                             <div class="upload-btn-wrapper" *ngIf="optionalRolePlay!== 'Peran'">
                                 <button class="btn-file" (click)="fileInput.click()">
                                     <clr-icon shape="video-camera" class="is-solid" size="23"></clr-icon> Unggah Video "Internship" Anda</button>
-                                <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" accept="video/mp4" />
-                                (Durasi Maks 5 Menit)
+                                <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" accept="video/mp4" /> (Durasi Maks 5 Menit)
                             </div>
                             <div class="loading-video" *ngIf="loadedvideo">
                                 <span class="spinner spinner-inline">
@@ -62,19 +61,23 @@
                 </div>
             </div>
             <br/>
-            <div class="card" *ngIf="internShipLatest">
-                <div class="card-header">
-                    Aktivitas Terakhir Anda Sebagai {{roleLastest}}
-                </div>
-                <div class="card-block">
-                    <div class="card-text">
-                        <video crossorigin class="video-viewer" *ngIf="urlLastestVideo" controls>
-                            <source [src]="urlLastestVideo" type="video/mp4" *ngIf="urlLastestVideo">
-                        </video>
-                        <textarea disabled="disabled" id="text_opt" rows="2" [(ngModel)]="this.internShipLatest.HighlightDesc"></textarea>
+            <div *ngIf="internShipLatest.length > 0">
+                <div class="card" *ngFor="let last of internShipLatest">
+                    <div class="card-header">
+                        Aktivitas Terakhir Sebagai {{last.Roleplay}}
+                    </div>
+                    <div class="card-block">
+                        <div class="card-text">
+                            <video crossorigin class="video-viewer" *ngIf="last.UrlVideo" controls>
+                                <source [src]="last.UrlVideo" type="video/mp4" *ngIf="last.UrlVideo">
+                            </video>
+                            <div>{{last.HighlightDesc}}</div>
+                            <app-feedback [kdDocument]="last.KdInternship" *ngIf="empInfo.RolePlay === 'RL001'"></app-feedback>
+                        </div>
                     </div>
                 </div>
             </div>
+            <br/>
         </div>
     </div>
 </div>
@@ -82,9 +85,9 @@
 <clr-modal [(clrModalOpen)]="finish" [clrModalSize]="'sm'" [clrModalClosable]="false">
     <h3 class="modal-title">Informasi</h3>
     <div class="modal-body">
-      <p>Data Internship Anda Terkirim</p>
+        <p>Data Internship Anda Terkirim</p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="modalClose()">Ok</button>
+        <button type="button" class="btn btn-primary" (click)="modalClose()">Ok</button>
     </div>
 </clr-modal>

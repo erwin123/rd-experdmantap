@@ -18,6 +18,7 @@ export class StepSixComponent implements OnInit {
   pdfSrc: string="";// = '../assets/file/rewards.pdf';
   page: number = 1;
   pdfRwd: File = null;
+  totalPages:number = 0;
   imgRwd: Array<File> = new Array();
   ttw: Talkthewalk;
   imgs: Array<Banner> = new Array();
@@ -50,6 +51,10 @@ export class StepSixComponent implements OnInit {
       this.pdfSrc = globalVar.storagePhoto + "rewards.pdf";
       //this.toastr.error('', 'Terjadi kesalahan jaringan');
     });
+  }
+
+  afterLoadComplete(pdfData: any) {
+    this.totalPages = pdfData.numPages;
   }
 
   readUrl(event: any) {
@@ -94,6 +99,7 @@ export class StepSixComponent implements OnInit {
         tr.BranchCode = this.empInfo.BranchCode;
         tr.ProjectCode = this.empInfo.ProjectCode;
         tr.TRtype = 1;
+        tr.Username = this.empInfo.Username;
         this.ttwService.postTr(tr).subscribe(data => {
           this.stateService.setTraffic(false);
           this.toastr.success('', 'Dokumen berhasil tersimpan');
@@ -120,6 +126,7 @@ export class StepSixComponent implements OnInit {
           tr.URLpath = res;
           tr.BranchCode = this.empInfo.BranchCode;
           tr.ProjectCode = this.empInfo.ProjectCode;
+          tr.Username = this.empInfo.Username;
           tr.TRtype = 2;
           this.ttwService.postTr(tr).subscribe(data => {
             this.stateService.setTraffic(false);

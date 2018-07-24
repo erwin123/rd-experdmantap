@@ -1,7 +1,7 @@
 <div class="board-container">
   <div class="row flex-items-xs-left flex-items-xs-middle">
     <div class="col-xs-11">
-      <div class="welcome-note" style="margin: 0 0 0 10px; font-size: 12px;">
+      <div *ngIf="employeInfo.RolePlay === 'RL001'" class="welcome-note" style="margin: 0 0 0 10px; font-size: 12px;">
         <span style="font-size: 16px; font-weight: bold;">
           {{employeInfo.ProjectName}}
         </span>

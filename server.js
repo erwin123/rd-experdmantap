@@ -9,6 +9,9 @@ const fileUpload = require('express-fileupload');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('./server/config');
+const timeout = require('connect-timeout'); //express v4
+
+
 // API file for interacting with api route
 const api_um = require('./server/routes/api_um');
 const api_trx = require('./server/routes/api_trx');
@@ -29,11 +32,11 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 5
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
 // API location route
-app.use('/api/um', api_um);
-app.use('/api/trx', api_trx);
+
 //secure the api with auth
 var auth = function (req, res, next) {
-    if (req.originalUrl.contains('/um/users/login') || req.originalUrl.contains('/um/users/register'))
+    let uri = String(req.originalUrl);
+    if (uri.indexOf('/um/users/login') >= 0 || uri.indexOf('/um/users/register') >= 0)
         next();
     else {
         var token = req.headers['x-access-token'];
@@ -47,8 +50,14 @@ var auth = function (req, res, next) {
 }
 app.use(auth);
 
-
-
+//our route
+app.use('/api/um', api_um);
+app.use('/api/trx', api_trx);
+app.use(timeout('150s'));
+app.use(haltOnTimedout);
+function haltOnTimedout (req, res, next) {
+    if (!req.timedout) next()
+  }
 
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {
@@ -57,26 +66,9 @@ app.get('*', (req, res) => {
 
 
 
-// app.post('/internship/upload', function (req, res) {
-//     if (!req.files)
-//         return res.status(400).send('No files were uploaded.');
-
-//     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-//     let internshipFile = req.files.internshipFile;
-
-//     // Use the mv() method to place the file somewhere on your server
-//     internshipFile.mv('./src/assets/vid/filename.jpg', function (err) {
-//         if (err)
-//             return res.status(500).send(err);
-
-//         res.send('File uploaded!');
-//     });
-// });
-
 //Set Port
 const port = process.env.PORT || '3000';
 app.set('port', port);
 http.globalAgent.maxSockets = Infinity;
 const server = http.createServer(app);
-
 server.listen(port, () => console.log(`Running on localhost:${port}`));

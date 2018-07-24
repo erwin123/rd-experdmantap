@@ -24,6 +24,7 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   url: string;
   urlLast: string;
   longAnswer: string;
+  longAnswerLast: string;
   loadedvideo: boolean = false;
   finish: boolean = false;
   fileToUpload: File = null;
@@ -31,6 +32,7 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   wakeUpCallLast: Wakeupcall;
   stdService: Stdservice[];
   stdServiceVal: Stdservice[];
+  lastWakeUpCallCode:string="";
 
   limit:number=900;
   videoDuration:number=0;
@@ -121,6 +123,8 @@ private stdserviceService: StdserviceService) {
       if (res[0]) {
         this.wakeUpCallLast = res[0][0];
         this.urlLast = globalVar.storageWK + this.wakeUpCallLast.UrlVideo;
+        this.longAnswerLast = this.wakeUpCallLast.HighlightDesc;
+        this.lastWakeUpCallCode = this.wakeUpCallLast.KdWakeUpCall;
       }
       this.stdService = res[1];
       this.stdServiceVal = res[2];

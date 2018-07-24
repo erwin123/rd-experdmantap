@@ -40,7 +40,7 @@ exports.updateRolePlay = function (key, RolePlay, done) {
     var values = [RolePlay.RoleplayName, RolePlay.RoleplayDesc, key]
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('UPDATE RolePlay SET RoleplayName=?, RoleplayDesc=? where KdRoleplay=?', values, function (err, result) {
+        connection.query('UPDATE Roleplay SET RoleplayName=?, RoleplayDesc=? where KdRoleplay=?', values, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)

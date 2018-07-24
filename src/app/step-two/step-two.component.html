@@ -14,9 +14,10 @@
                     & komitmen Anda.
                     <!-- <video id="myVideo" class="video-js vjs-default-skin"></video> -->
                     <div class="card-text">
-                        <b>Silahkan unggah video
-                            <i>wake up call</i> Anda</b>
-                        <div class="upload-btn-wrapper">
+
+                        <div class="upload-btn-wrapper" *ngIf="empInfo.RolePlay === 'RL001'">
+                            <b>Silahkan unggah video
+                                <i>wake up call</i> Anda</b>
                             <button class="btn-file" (click)="fileInput.click()">
                                 <clr-icon shape="image" class="is-solid" size="23"></clr-icon>&nbsp; Unggah Video "Wake Up Call" Anda
                             </button>
@@ -31,25 +32,28 @@
                                 Memuat Video Preview...
                             </span>
                         </div>
-                        <video class="video-viewer" *ngIf="url; else elseBlock" #video controls  (loadedmetadata)="onMetadata($event, video)">
+                        <video class="video-viewer" *ngIf="url; else elseBlock" #video controls (loadedmetadata)="onMetadata($event, video)">
                             <source src="{{url}}" type="video/mp4">
                         </video>
                         <ng-template #elseBlock>
                             <video class="video-viewer" *ngIf="urlLast" controls>
                                 <source src="{{urlLast}}" type="video/mp4">
                             </video>
+                            <div>{{longAnswerLast}}</div>
+                            <app-feedback *ngIf="empInfo.RolePlay === 'RL001'" [kdDocument]="lastWakeUpCallCode"></app-feedback>
                         </ng-template>
-                        
-                        <label class="required" for="text_opt">
-                            <b>Pesan utama
-                                <i>wake up call</i>
-                            </b>
-                        </label>
-                        <textarea id="text_opt" rows="2" [(ngModel)]="longAnswer"></textarea>
+                        <div *ngIf="empInfo.RolePlay === 'RL001'">
+                            <label *ngIf="url" class="required" for="text_opt">
+                                <b>Pesan utama
+                                    <i>wake up call</i>
+                                </b>
+                            </label>
+                            <textarea *ngIf="url" id="text_opt" rows="2" [(ngModel)]="longAnswer"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary btn-block" (click)="submit()">Kirim</button>
+                <div class="card-footer" *ngIf="empInfo.RolePlay === 'RL001'">
+                    <button *ngIf="url" class="btn btn-primary btn-block" (click)="submit()">Kirim</button>
                 </div>
             </div>
 
@@ -74,11 +78,11 @@
                                                     <option value="2">
                                                         <option value="3">
                                             </datalist>
-                                            <input class="range-slider" type="range" min="1" max="3" value="{{stdService.Value}}" step="1" (change)="changeMood($event, stdService)"
-                                                [ngClass]="{'emoji1': stdService.Value == 1,
+                                            <input [disabled]="empInfo.RolePlay === 'RL001' ? null : 'disabled'" class="range-slider" type="range" min="1" max="3" value="{{stdService.Value}}"
+                                                step="1" (change)="changeMood($event, stdService)" [ngClass]="{'emoji1': stdService.Value == 1,
                                                         'emoji3': stdService.Value == 2,
-                                                        'emoji4': stdService.Value == 3}"
-                                                        style="position: absolute; top:-5px !important; left:0;" />
+                                                        'emoji4': stdService.Value == 3}" style="position: absolute !important; top:-5px !important; left:0 !important;"
+                                            />
                                         </div>
                                     </clr-stack-content>
                                 </clr-stack-block>

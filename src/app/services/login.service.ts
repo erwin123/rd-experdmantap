@@ -18,7 +18,7 @@ export class LoginService {
   }
 
   login(username, password): Observable<any> {
-    return this.httpClient.post(this.url + '/login', { username: username, password: password }, httpOptions)
+    return this.httpClient.post(this.url + '/login', { username: username, password: password, appcode:globalVar.global_appcode }, httpOptions)
       .map(
         res => {
           localStorage.setItem('currentUser', JSON.stringify(res));

@@ -40,7 +40,7 @@ exports.updateBranch = function (key, Branch, done) {
     var values = [Branch.BranchName, Branch.BranchCity, key]
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('UPDATE Branch SET BranchName=?, BranchCity=? where BranchCode=?', values, function (err, result) {
+        connection.query('UPDATE Branch SET BranchName=?, BranchCity=?, LastModifiedDate=NOW() where BranchCode=?', values, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)

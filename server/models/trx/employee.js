@@ -36,11 +36,11 @@ exports.insertEmployee = function (Emp, done) {
     })
 }
 
-exports.updateEmployee = function (key, Branch, done) {
+exports.updateEmployee = function (key, Emp, done) {
     var values = [Emp.BranchCode, Emp.EmployeeNPK, Emp.EmployeeName, Emp.RolePlay, Emp.RoleUMname, key]
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('UPDATE Employee SET BranchCode =?, EmployeeNPK =?, EmployeeName =?, RolePlay =?,RoleUMname =? where Username=?', values, function (err, result) {
+        connection.query('UPDATE Employee SET BranchCode =?, EmployeeNPK =?, EmployeeName =?, RolePlay =?,RoleUMname =? where EmployeeCode=?', values, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)

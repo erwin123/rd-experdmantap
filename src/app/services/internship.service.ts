@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { StatemanagementService } from '../services/statemanagement.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import * as globalVar from '../global';  
 import { Internship } from '../models/internship';
 
@@ -21,9 +21,14 @@ export class InternshipService {
     let _headers = new HttpHeaders().set('x-access-token', this.token.token);
     const formData: FormData = new FormData();
 
+    const req = new HttpRequest('POST', '/upload/file', fileToUpload, {
+      reportProgress: true
+    });
+
     formData.append('internshipFile', fileToUpload, fileToUpload.name);
-    return this.httpClient.post<any>(this.url + '/upload', formData, { headers: _headers })
-      .map(res => {
+    return this.httpClient.post<any>(this.url + '/upload', formData, { headers: _headers , reportProgress:true})
+    .timeout(60000)
+    .map(res => {
         if (res) {
           var str: string = String(res.filename);
           return str;
@@ -49,6 +54,19 @@ export class InternshipService {
     const headers = this._headers.append('x-access-token', this.token.token);
 
     return this.httpClient.get<Internship>(this.url + '/last?br=' + branchCode + '&prj=' + projectCode, { headers: headers })
+      .map(res => {
+        if (res[0]) {
+          return res;
+        }
+        throw new Error('Not Found');
+      });
+  }
+
+  getLastestInternshipRole(projectCode: string, branchCode: string, role:string): Observable<Internship> {
+    this.token = JSON.parse(localStorage.getItem('currentUser'));
+    const headers = this._headers.append('x-access-token', this.token.token);
+
+    return this.httpClient.get<Internship>(this.url + '/lastrole?br=' + branchCode + '&prj=' + projectCode+ '&rl=' + role, { headers: headers })
       .map(res => {
         if (res[0]) {
           return res;
