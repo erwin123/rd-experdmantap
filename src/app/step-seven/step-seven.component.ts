@@ -16,8 +16,7 @@ export class StepSevenComponent implements OnInit {
   ngOnInit() {
     this.stateService.setTraffic(true);
     this.empInfo = this.stateService.getStoredEmployee();
-    this.stService.getStaytune(this.empInfo.BranchCode, this.empInfo.ProjectCode).subscribe(res => {
-      console.log(res);
+    this.stService.getStaytune(this.empInfo.BranchCode, this.empInfo.ProjectCode, 0).subscribe(res => {
       this.longAnswer = res.BranchFeedback;
       this.stateService.setTraffic(false);
     }, err => {

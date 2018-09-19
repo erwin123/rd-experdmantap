@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Feedback } from '../models/feedback';
 import { FeedbackService } from '../services/feedback.service';
 import { StatemanagementService } from '../services/statemanagement.service';
@@ -8,7 +8,7 @@ import { StatemanagementService } from '../services/statemanagement.service';
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css']
 })
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent implements OnInit, AfterViewInit {
   @Input() kdDocument: string;
   empInfo: any;
   longAnswer: string;
@@ -20,6 +20,10 @@ export class FeedbackComponent implements OnInit {
     this.feedback = new Feedback();
     this.longAnswer = "";
     this.empInfo = this.stateService.getStoredEmployee();
+    
+  }
+
+  ngAfterViewInit(){
     this.getFeedback();
   }
 

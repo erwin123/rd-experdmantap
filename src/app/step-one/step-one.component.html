@@ -37,7 +37,8 @@
                                     <clr-icon shape="video-camera" class="is-solid" size="23"></clr-icon> Unggah Video "Internship" Anda</button>
                                 <input type="file" #fileInput name="internshipFile" (change)="readUrl($event)" accept="video/mp4" /> (Durasi Maks 5 Menit)
                             </div>
-                            <div class="loading-video" *ngIf="loadedvideo">
+                            <div *ngIf="url" style="font-weight: bold">video dipilih : {{url}}</div>
+                            <!-- <div class="loading-video" *ngIf="loadedvideo">
                                 <span class="spinner spinner-inline">
                                     Loading...
                                 </span>
@@ -47,11 +48,11 @@
                             </div>
                             <video class="video-viewer" #video (loadedmetadata)="onMetadata($event, video)" *ngIf="url" controls>
                                 <source src="{{url}}" type="video/mp4">
-                            </video>
+                            </video> -->
                         </div>
                         <label class="required" for="text_opt" *ngIf="optionalRolePlay!== 'Peran'">
                             <b>Apa pembelajaran yang Anda dapat dari pengalaman
-                                <i>Internship</i> Anda sebagai {{optionalRolePlay}}? </b>
+                                <i>Internship</i> Anda sebagai {{optionalRolePlay}}, dan apa yang ingin Anda sampaikan kepada {{optionalRolePlay}} Anda?</b>
                         </label>
                         <textarea id="text_opt" rows="2" *ngIf="optionalRolePlay!== 'Peran'" [(ngModel)]="longAnswer"></textarea>
                     </div>

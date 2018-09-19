@@ -12,9 +12,13 @@ var getheard = require('../models/trx/getheard');
 var wtt = require('../models/trx/walkthetalk');
 var st = require('../models/trx/staytune');
 var fb = require('../models/trx/feed');
+var af = require('../models/trx/aspek');
+var rpt = require('../models/trx/report');
 const config = require('../../server/config');
 var express = require('express');
 var router = express.Router();
+var nodeExcel = require('excel-export');
+
 
 //region branch
 router.get('/branch', function (req, res, next) {
@@ -339,7 +343,7 @@ router.get('/internship/last', function (req, res, next) {
             if (err) { res.json(err); }
             else { res.json(rows); }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -350,7 +354,7 @@ router.get('/internship/lastrole', function (req, res, next) {
             if (err) { res.json(err); }
             else { res.json(rows); }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -367,7 +371,29 @@ router.post('/internship/cr/', function (req, res, next) {
 router.post('/internship/', function (req, res, next) {
     internship.insertInternship(req.body, function (err, resultInsert) {
         if (err) { res.json(err); }
-        else { res.json(resultInsert); }
+        else {
+            var email = require("emailjs");
+            var server = email.server.connect({
+                user: "erwin.ant@experd.com",
+                password: "Gondar@001",
+                host: "smtp.gmail.com",
+                ssl: true,
+                tls: false
+            });
+
+            // send the message and get a callback with an error or details of the message that was sent
+            server.send({
+                text: resultInsert[0].CreatedBy + " baru saja upload internship, ayo cek di https://adm-experdserve.experd.com",
+                from: "Serve - Notification <serve@experd.com>",
+                to: "emil@experd.com, ranggih@experd.com, vera@experd.com, fitria@experd.com, erwin.ant@experd.com",
+                subject: "Ada Internship baru diupload",
+                attachment:
+                    [
+                        { data: "<html> <b>" + resultInsert[0].CreatedBy + "</b> baru saja upload internship, ayo cek di <a href='https://adm-experdserve.experd.com'>serve administration</a></html>", alternative: true }
+                    ]
+            }, function (err, message) { console.log(err || message); });
+            res.json(resultInsert);
+        }
     });
 });
 
@@ -419,7 +445,7 @@ router.get('/wakeupcall/last', function (req, res, next) {
             if (err) { res.json(err); }
             else { res.json(rows); }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -436,7 +462,29 @@ router.post('/wakeupcall/cr/', function (req, res, next) {
 router.post('/wakeupcall/', function (req, res, next) {
     wkcall.insertWakeupcall(req.body, function (err, resultInsert) {
         if (err) { res.json(err); }
-        else { res.json(resultInsert); }
+        else {
+            var email = require("emailjs");
+            var server = email.server.connect({
+                user: "erwin.ant@experd.com",
+                password: "Gondar@001",
+                host: "smtp.gmail.com",
+                ssl: true,
+                tls: false
+            });
+
+            // send the message and get a callback with an error or details of the message that was sent
+            server.send({
+                text: resultInsert[0].CreatedBy + " baru saja upload Wakeup call, ayo cek di https://adm-experdserve.experd.com",
+                from: "Serve - Notification <serve@experd.com>",
+                to: "emil@experd.com, ranggih@experd.com, vera@experd.com, fitria@experd.com, erwin.ant@experd.com",
+                subject: "Ada Wakeup call baru diupload",
+                attachment:
+                    [
+                        { data: "<html> <b>" + resultInsert[0].CreatedBy + "</b> baru saja upload Wakeup call, ayo cek di <a href='https://adm-experdserve.experd.com'>serve administration</a></html>", alternative: true }
+                    ]
+            }, function (err, message) { console.log(err || message); });
+            res.json(resultInsert);
+        }
     });
 });
 
@@ -518,7 +566,7 @@ router.get('/stdserviceval', function (req, res, next) {
             if (err) { res.json(err); }
             else { res.json(rows); }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -537,6 +585,124 @@ router.post('/stdservicevalbulk/', function (req, res, next) {
     });
 });
 
+
+//OH StdVal
+router.get('/stdservicevaloh', function (req, res, next) {
+    if (req.query.br && req.query.prj) {
+        stdservice.getAllStdserviceValOH(req.query.br, req.query.prj, req.query.em, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    } else {
+        return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
+});
+
+router.post('/stdservicevaloh/', function (req, res, next) {
+    stdservice.insertStdserviceValOH(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
+
+router.post('/stdservicevalbulkoh/', function (req, res, next) {
+    stdservice.insertStdserviceValBulkOH(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
+
+//aspek fisik
+
+router.get('/aspekfisik', function (req, res, next) {
+    af.getAllAspek(function (err, rows) {
+        if (err) { res.json(err); }
+        else {
+            res.json(rows);
+        }
+    });
+});
+
+router.post('/aspekfisik/cr/', function (req, res, next) {
+    if (req.body) {
+        af.getAllAspekByCriteria(req.body, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+});
+
+router.post('/aspekfisik/', function (req, res, next) {
+    af.insertAspek(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
+
+router.put('/aspekfisik/:key', function (req, res, next) {
+    af.updateAspek(req.params.key, req.body, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
+router.delete('/aspekfisik/:key', function (req, res, next) {
+    af.deleteAspek(req.params.key, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
+router.get('/aspekfisikval', function (req, res, next) {
+    if (req.query.br && req.query.prj) {
+        af.getAllAspekVal(req.query.br, req.query.prj, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    } else {
+        return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
+});
+
+router.post('/aspekfisikval/', function (req, res, next) {
+    af.insertAspekValue(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
+
+router.post('/aspekfisikvalbulk/', function (req, res, next) {
+    af.insertAspekValBulk(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
+
+//OH aspek
+router.get('/aspekfisikvaloh', function (req, res, next) {
+    if (req.query.br && req.query.prj) {
+        af.getAllAspekValOH(req.query.br, req.query.prj, req.query.em, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    } else {
+        return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
+});
+
+router.post('/aspekfisikvaloh/', function (req, res, next) {
+    af.insertAspekValueOH(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
+
+router.post('/aspekfisikvalbulkoh/', function (req, res, next) {
+    af.insertAspekValBulkOH(req.body, function (err, resultInsert) {
+        if (err) { res.json(err); }
+        else { res.json(resultInsert); }
+    });
+});
 
 //get heard
 router.get('/getheard', function (req, res, next) {
@@ -590,13 +756,13 @@ router.get('/wtt', function (req, res, next) {
 
 router.get('/wttemp', function (req, res, next) {
     if (req.query.br && req.query.prj) {
-        wtt.getAllWalkthetalkEmp(req.query.br, req.query.prj,function (err, rows) {
+        wtt.getAllWalkthetalkEmp(req.query.br, req.query.prj, function (err, rows) {
             if (err) { res.json(err); }
             else {
                 res.json(rows);
             }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -649,7 +815,7 @@ router.get('/ttwlast', function (req, res, next) {
                 res.json(rows);
             }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -722,7 +888,7 @@ router.get('/trlast', function (req, res, next) {
                 res.json(rows);
             }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
     }
 });
@@ -777,15 +943,24 @@ router.post('/tr/upload', function (req, res) {
 });
 
 router.get('/stlast', function (req, res, next) {
-    if (req.query.br && req.query.prj) {
-        st.getAllLastestStayTuned(req.query.br, req.query.prj, function (err, rows) {
+    if (req.query.br && req.query.prj && req.query.ig) {
+        st.getAllLastestStayTuned(req.query.br, req.query.prj, req.query.ig, function (err, rows) {
             if (err) { res.json(err); }
             else {
                 res.json(rows);
             }
         });
-    }else {
+    } else {
         return res.status(404).send({ auth: false, message: 'No Found.' });
+    }
+});
+
+router.post('/stlast/', function (req, res, next) {
+    if (req.body) {
+        st.insertStaytune(req.body, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
     }
 });
 
@@ -840,4 +1015,91 @@ router.post('/feedback/cr/', function (req, res, next) {
         });
     }
 });
+
+router.post('/reportAspek/', function (req, res, next) {
+    rpt.reportAspek(req.body, function (err, rows) {
+        if (err) { res.json(err); }
+        else {
+            var conf = {};
+            conf.stylesXmlFile = "styles.xml";
+            conf.name = "mysheet";
+            conf.cols = [{
+                caption: 'Project',
+                type: 'string',
+                width: 100
+            },{
+                caption: 'Kode Cabang',
+                type: 'string',
+                width: 100
+            },{
+                caption: 'Cabang',
+                type: 'string',
+                width: 100
+            }, {
+                caption: 'Deskripsi',
+                type: 'string',
+                width: 100
+            }, {
+                caption: 'Nilai',
+                type: 'number'
+            }];
+            let arrOfVals = [];
+            for(let i =0 ; i< rows.length; i++) {
+                arrOfVals.push([rows[i].ProjectCode, rows[i].BranchCode,rows[i].BranchName,rows[i].Description,rows[i].Mark]);
+            }
+            conf.rows = arrOfVals;
+            var result = nodeExcel.execute(conf);
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+            res.end(result, 'binary');
+        }
+    });
+
+});
+
+router.post('/reportStdService/', function (req, res, next) {
+    rpt.reportStdService(req.body, function (err, rows) {
+        if (err) { res.json(err); }
+        else {
+            var conf = {};
+            conf.stylesXmlFile = "styles.xml";
+            conf.name = "mysheet";
+            conf.cols = [{
+                caption: 'Project',
+                type: 'string',
+                width: 100
+            },{
+                caption: 'Kode Cabang',
+                type: 'string',
+                width: 100
+            },{
+                caption: 'Cabang',
+                type: 'string',
+                width: 100
+            }, {
+                caption: 'Peran',
+                type: 'string',
+                width: 100
+            },{
+                caption: 'Deskripsi',
+                type: 'string',
+                width: 100
+            }, {
+                caption: 'Nilai',
+                type: 'number'
+            }];
+            let arrOfVals = [];
+            for(let i =0 ; i< rows.length; i++) {
+                arrOfVals.push([rows[i].ProjectCode, rows[i].BranchCode,rows[i].BranchName,rows[i].RoleplayName,rows[i].StdServiceDesc,rows[i].Value]);
+            }
+            conf.rows = arrOfVals;
+            var result = nodeExcel.execute(conf);
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+            res.end(result, 'binary');
+        }
+    });
+
+});
+
 module.exports = router;

@@ -5,4 +5,5 @@ export class Stdservice {
     "Roleplay"?:string="";
     "Value":number=2;
     "BranchCode"?:string="";
+    "EmployeeCode"?:string;
 }

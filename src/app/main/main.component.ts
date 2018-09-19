@@ -43,6 +43,8 @@ import { StatemanagementService } from '../services/statemanagement.service';
 export class MainComponent implements OnInit {
   @BlockUI('content') blockUIList: NgBlockUI;
   traffic: boolean = false;
+  progress:number = 0;
+  message:string = "Memuat...";
   @ViewChild('container') container: ElementRef;
   constructor(private stateService: StatemanagementService) { }
   @HostListener('click', ['$event']) onClick($event) {
@@ -60,10 +62,14 @@ export class MainComponent implements OnInit {
       this.traffic = res;
       if(this.traffic)
       {
-        this.blockUIList.start('Memuat...'); // Start blocking element only
+        this.blockUIList.start(this.message); // Start blocking element only
       }else{
         this.blockUIList.stop(); // Stop blocking
       }
+    });
+
+    this.stateService.currentNumberProgrees.subscribe(res => {
+      this.progress = res;
     });
     
   }

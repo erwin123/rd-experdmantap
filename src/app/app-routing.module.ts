@@ -13,6 +13,7 @@ import { StepFiveComponent } from './step-five/step-five.component';
 import { StepSevenComponent } from './step-seven/step-seven.component';
 import { StepSixComponent } from './step-six/step-six.component';
 import { ChpwdComponent } from './chpwd/chpwd.component';
+import { HelpdeskComponent } from './helpdesk/helpdesk.component';
 
 const appRoutes: Routes = [
   
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
       { path: 'stepfour', component: StepFourComponent, canActivate: [AuthguardService], data: { state: 'stepfour' } },
       { path: 'stepfive', component: StepFiveComponent, canActivate: [AuthguardService], data: { state: 'stepfive' } },
       { path: 'stepsix', component: StepSixComponent, canActivate: [AuthguardService] , data: { state: 'stepsix' }},
-      { path: 'stepseven', component: StepSevenComponent, canActivate: [AuthguardService], data: { state: 'stepseven' } }
+      { path: 'stepseven', component: StepSevenComponent, canActivate: [AuthguardService], data: { state: 'stepseven' } },
+      { path: 'helpdesk', component: HelpdeskComponent, data: { state: 'stepseven' } }
   ]},
   //{ path: '', redirectTo: 'main/landing'},
 

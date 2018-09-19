@@ -39,21 +39,13 @@ exports.insertUser = function (User, done) {
     })
 }
 
-function converterDate(input)
-{
-    return  new Date(input).toISOString().
-    replace(/T/, ' ').      // replace T with a space
-    replace(/\..+/, '');
-}
-
 exports.updateUser = function (uname, User, done) {
     var dateNow = converterDate(new Date());
 
     var lastLoginDateNew = converterDate(User.LoginDate);
 
     var values = [User.Username, User.PasswordSalt,
-                  User.PasswordHash, dateNow,
-                  User.ModifyBy, lastLoginDateNew,
+                  User.PasswordHash, lastLoginDateNew,
                   User.IsActive, uname]
 
     db.get(db.um, function (err, connection) {
@@ -65,6 +57,87 @@ exports.updateUser = function (uname, User, done) {
         })
     })
 }
+
+//user detail
+
+exports.getAllUserDetail = function (done) {
+    db.get(db.um, function (err, connection) {
+        if (err) {console.log(err);return done('Database problem')}
+        connection.query('SELECT Username, FirstName, LastName, Phone, Gender, Email, BornDate FROM UserDetail', function (err, rows) {
+            connection.release();
+            if (err) return done(err)
+            done(null, rows)
+        })
+    })
+}
+
+exports.getAllUserDetailUsername = function (uname, done) {
+    db.get(db.um, function (err, connection) {
+        if (err) {console.log(err);return done('Database problem')}
+        connection.query('SELECT Username, FirstName, LastName, Phone, Gender, Email, BornDate FROM UserDetail WHERE Username = ?',uname, function (err, rows) {
+            connection.release();
+            if (err) return done(err)
+            done(null, rows)
+        })
+    })
+}
+
+exports.insertUserDetail = function (User, done) {
+
+    var values = [User.Username, User.FirstName,
+                  User.LastName, User.Phone,
+                  User.Gender , User.Email,
+                  User.BornDate]
+
+    db.get(db.um, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query('call sp_UserDetailIn(?,?,?,?,?,?,?)', values, function (err, result) {
+            connection.release();
+            if (err) return done(err)
+            done(null, result.insertId)
+        })
+    })
+}
+
+exports.updateUserDetail = function (uname, User, done) {
+    var values = [User.FirstName,
+        User.LastName, User.Phone,
+        User.Gender , User.Email,
+        User.BornDate, User.Username]
+
+    db.get(db.um, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query('UPDATE UserDetail set FirstName=?,LastName=?,Phone=?, Gender=?, Email=?, BornDate=? where Username=?', values, function (err, result) {
+            connection.release();
+            if (err) return done(err)
+            done(null, result.insertId)
+        })
+    })
+}
+
+exports.deleteUser = function (uname, done) {
+
+    db.get(db.um, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query('call sp_deleteUser(?)',uname, function (err, result) {
+            connection.release();
+            if (err) return done(err)
+            done(null, result.insertId)
+        })
+    })
+}
+
+function converterDate(input)
+{
+    return  new Date(input).toISOString().
+    replace(/T/, ' ').      // replace T with a space
+    replace(/\..+/, '');
+}
+
+
+
+
+//auth
 
 exports.loginUser = function (username, password, appcode, done) {
     var values = [username, password, appcode];

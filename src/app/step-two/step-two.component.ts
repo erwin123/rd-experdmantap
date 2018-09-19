@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { StatemanagementService } from '../services/statemanagement.service';
 import { WakeupcallService } from '../services/wakeupcall.service';
+import { AspekService } from '../services/aspek.service';
 import { Roles } from '../models/roles';
 import { videojs } from 'video.js';
 import { record } from 'videojs-record';
@@ -11,6 +12,9 @@ import { StdserviceService } from '../services/stdservice.service';
 import { Stdservice } from '../models/stdservice';
 import { Observable } from 'rxjs/Rx';
 import { ToastrService } from 'ngx-toastr';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Aspek } from '../models/aspek';
+import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
 @Component({
   selector: 'app-step-two',
@@ -32,34 +36,63 @@ export class StepTwoComponent implements AfterViewInit, OnInit, OnDestroy {
   wakeUpCallLast: Wakeupcall;
   stdService: Stdservice[];
   stdServiceVal: Stdservice[];
-  lastWakeUpCallCode:string="";
+  lastWakeUpCallCode: string = "";
 
-  limit:number=900;
-  videoDuration:number=0;
+  limit: number = 900;
+  videoDuration: number = 0;
   empInfo: any;
   roles: Roles[];
   emotionValue: number[];
   emotionDesc: string = "Nothing";
-  
+  emoticonExample: number = 2;
+
+  parentAspek: Aspek[];
+  childAspek: Aspek[];
+  valueAspek: Aspek[];
+
   @ViewChild('videoSprite') elementView: ElementRef;
-  constructor(private toastr: ToastrService,private wkCallService: WakeupcallService, private stateService: StatemanagementService,
-private stdserviceService: StdserviceService) {
+  constructor(private toastr: ToastrService, private wkCallService: WakeupcallService, private stateService: StatemanagementService,
+    private stdserviceService: StdserviceService, private aspekService: AspekService, private _scrollToService: ScrollToService) {
   }
 
   ngOnDestroy() {
     //this.player.record().destroy();
-    this.stateService.setTraffic(true);
-    this.stdserviceService.postBulkStdService(this.stdServiceVal).subscribe(res => {
-      console.log(res);
-      this.stateService.setTraffic(false);
-    },
-      error => {
+    if (this.empInfo.RolePlay === 'RL001' || this.empInfo.RolePlay === 'RL005') {
+      this.stateService.setTraffic(true);
+
+
+
+      this.stdserviceService.postBulkStdService(this.stdServiceVal).subscribe(res => {
+        this.aspekService.postBulkAspekFisik(this.valueAspek.filter(f => f.ParentCode !== "-")).subscribe(res2 => {
+          console.log(res2);
+          this.stateService.setTraffic(false);
+        },
+          error2 => {
+            this.stateService.setTraffic(false);
+            if (!error2.error.auth) {
+              this.stateService.redirectLogin();
+            }
+          })
+        console.log(res);
         this.stateService.setTraffic(false);
-        if (!error.error.auth) {
-          this.stateService.redirectLogin();
-        }
-      })
+      },
+        error => {
+          this.stateService.setTraffic(false);
+          if (!error.error.auth) {
+            this.stateService.redirectLogin();
+          }
+        })
+    }
   }
+
+  public triggerScrollTo(offset: number = 0) {
+    const config: ScrollToConfigOptions = {
+      target: 'backtop'
+    };
+
+    this._scrollToService.scrollTo(config);
+  }
+
   ngAfterViewInit() {
     // console.log(this.elementView.nativeElement.offsetWidth);
     // this.player = videojs('myVideo', {
@@ -116,7 +149,9 @@ private stdserviceService: StdserviceService) {
     var q = Observable.forkJoin(
       this.wkCallService.getLastestWakeupcall(this.empInfo.ProjectCode, this.empInfo.BranchCode),
       this.stdserviceService.getStdService(this.empInfo.ProjectCode),
-      this.stdserviceService.getStdServiceValue(this.empInfo.BranchCode, this.empInfo.ProjectCode)
+      this.empInfo.RolePlay === 'RL005' ? this.stdserviceService.getStdServiceValueOH(this.empInfo.BranchCode, this.empInfo.ProjectCode, this.empInfo.EmployeeCode) : this.stdserviceService.getStdServiceValue(this.empInfo.BranchCode, this.empInfo.ProjectCode),
+      this.aspekService.getAspek(this.empInfo.ProjectCode),
+      this.empInfo.RolePlay === 'RL005' ? this.aspekService.getAspekValueOH(this.empInfo.BranchCode, this.empInfo.ProjectCode, this.empInfo.EmployeeCode) : this.aspekService.getAspekValue(this.empInfo.BranchCode, this.empInfo.ProjectCode),
     );
 
     q.subscribe(res => {
@@ -138,9 +173,34 @@ private stdserviceService: StdserviceService) {
           pushStd.Roleplay = element.Roleplay;
           pushStd.StdServiceDesc = element.StdServiceDesc;
           pushStd.Value = 2;
+          if (this.empInfo.RolePlay === 'RL005') {
+            pushStd.EmployeeCode = this.empInfo.EmployeeCode;
+          }
           this.stdServiceVal.push(pushStd);
         }
       });
+
+      this.parentAspek = res[3].filter(i => i.ParentCode === '-');
+      this.childAspek = res[3];
+      this.valueAspek = res[4];
+      this.childAspek.forEach(element => {
+        //push default value = 0
+        if (this.valueAspek.filter(i => i.KdAspekFisik === element.KdAspekFisik).length == 0) {
+          let pushStd: Aspek = new Aspek();
+          pushStd.BranchCode = this.empInfo.BranchCode;
+          pushStd.KdAspekFisik = element.KdAspekFisik;
+          pushStd.ProjectCode = element.ProjectCode;
+          pushStd.ParentCode = element.ParentCode;
+          pushStd.Description = element.Description;
+          pushStd.FlagCard = element.FlagCard;
+          pushStd.Value = 0;
+          if (this.empInfo.RolePlay === 'RL005') {
+            pushStd.EmployeeCode = this.empInfo.EmployeeCode;
+          }
+          this.valueAspek.push(pushStd);
+        }
+      });
+
       this.stateService.setTraffic(false);
     },
       err => {
@@ -149,6 +209,10 @@ private stdserviceService: StdserviceService) {
           this.stateService.redirectLogin();
         }
       });
+  }
+
+  changeMoodExample($event, val: number) {
+    this.emoticonExample = $event.target.value;
   }
 
   changeMood($event, paramStdService: Stdservice) {
@@ -169,19 +233,39 @@ private stdserviceService: StdserviceService) {
     });
   }
 
+  changeSwitch($event, paramAspek: Aspek) {
+    this.valueAspek.forEach((element, index) => {
+      if (element.KdAspekFisik === paramAspek.KdAspekFisik) {
+        paramAspek.Value = $event.target.checked ? 1 : 0;
+        this.valueAspek[index] = paramAspek;
+        this.aspekService.postAspekFisik(paramAspek).subscribe(res => {
+          console.log(res);
+        },
+          error => {
+            this.stateService.setTraffic(false);
+            if (!error.error.auth) {
+              this.stateService.redirectLogin();
+            }
+          });
+      }
+    });
+
+  }
+
   readUrl(event: any) {
     this.loadedvideo = true;
     if (event.target.files && event.target.files[0]) {
       this.fileToUpload = event.target.files[0];
-      var reader = new FileReader();
-      reader.onloadend = (event: any) => {
-        this.url = "";
-        setTimeout(() => {
-          this.url = event.target.result;
-          this.loadedvideo = false;
-        }, 2500);
-      }
-      reader.readAsDataURL(event.target.files[0]);
+      this.url = this.fileToUpload.name;
+      // var reader = new FileReader();
+      // reader.onloadend = (event: any) => {
+      //   this.url = "";
+      //   setTimeout(() => {
+      //     this.url = event.target.result;
+      //     this.loadedvideo = false;
+      //   }, 2500);
+      // }
+      // reader.readAsDataURL(event.target.files[0]);
     }
   }
 
@@ -192,7 +276,7 @@ private stdserviceService: StdserviceService) {
   }
 
   submit() {
-    if (this.url == "" || this.longAnswer == "") {
+    if (this.fileToUpload == null || this.longAnswer == "") {
       this.toastr.error('', 'Video atau pesan harus diisi! ');
       return;
     }
@@ -201,29 +285,42 @@ private stdserviceService: StdserviceService) {
       this.toastr.error('', 'Durasi video Anda melebihi batas');
       return;
     }
-    
+
     this.stateService.setTraffic(true);
-    this.wkCallService.uploadVideo(this.fileToUpload).subscribe(data => {
-      this.wakeUpCall = new Wakeupcall();
-      this.wakeUpCall.UrlVideo = data;
-      this.wakeUpCall.BranchCode = this.empInfo.BranchCode;
-      this.wakeUpCall.HighlightDesc = this.longAnswer;
-      this.wakeUpCall.ProjectCode = this.empInfo.ProjectCode;
-      this.wakeUpCall.Username = this.empInfo.Username;
-      this.wkCallService.postWakeupcall(this.wakeUpCall).subscribe(res => {
-        this.finish = true;
-        this.longAnswer = "";
-        this.url = "";
-        this.stateService.setTraffic(false);
-      },
-      error => {
-        this.stateService.setTraffic(false);
-        if (!error.error.auth) {
-          this.stateService.redirectLogin();
-        }
-      });
+    this.wkCallService.uploadVideo(this.fileToUpload).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        const percentDone = Math.round(100 * event.loaded / event.total);
+        if (percentDone < 97)
+          this.stateService.setProgress(percentDone);
+      }
+      let urlVid: any;
+      if (event instanceof HttpResponse) {
+        this.stateService.setProgress(100);
+        urlVid = event.body
+        this.wakeUpCall = new Wakeupcall();
+        this.wakeUpCall.UrlVideo = urlVid.filename;
+        this.wakeUpCall.BranchCode = this.empInfo.BranchCode;
+        this.wakeUpCall.HighlightDesc = this.longAnswer;
+        this.wakeUpCall.ProjectCode = this.empInfo.ProjectCode;
+        this.wakeUpCall.Username = this.empInfo.Username;
+        this.wkCallService.postWakeupcall(this.wakeUpCall).subscribe(res => {
+          this.finish = true;
+          this.longAnswer = "";
+          this.url = "";
+          this.stateService.setTraffic(false);
+          this.stateService.setProgress(0);
+        },
+          error => {
+            this.stateService.setTraffic(false);
+            this.stateService.setProgress(0);
+            if (!error.error.auth) {
+              this.stateService.redirectLogin();
+            }
+          });
+      }
     }, error => {
       this.stateService.setTraffic(false);
+      this.stateService.setProgress(0);
       if (!error.error.auth) {
         this.stateService.redirectLogin();
       }

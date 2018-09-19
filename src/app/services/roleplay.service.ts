@@ -24,7 +24,8 @@ export class RoleplayService {
         if (res) {
           var empInfo = this.stateService.getStoredEmployee();
           //if (empInfo.RolePlay === "RL001") {
-            res = res.filter(i => i.KdRoleplay !== "RL001");
+            res = res.filter(i => i.KdRoleplay !== "RL001"); //kacab
+            res = res.filter(i => i.KdRoleplay !== "RL005"); //OH
           //}
           localStorage.setItem('collsrolepl', JSON.stringify(res));
           return res;

@@ -41,7 +41,7 @@ exports.insertStdservice = function (StdService, done) {
     var values = [StdService.StdServiceDesc, StdService.ProjectCode, StdService.Roleplay, StdService.Username]
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('CALL sp_StdserviceGenerator(?,?)', values, function (err, result) {
+        connection.query('CALL sp_StdserviceGenerator(?,?,?,?)', values, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result[0])
@@ -100,4 +100,49 @@ exports.deleteStdservice = function (key, done) {
             done(null, result)
         })
     })
+}
+
+
+
+//OH
+exports.getAllStdserviceValOH = function (branchCode, projectCode,employeeCode, done) {
+    let values = [branchCode, projectCode, employeeCode];
+    db.get(db.trx, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query("SELECT ss.KdStdservice, ss.StdServiceDesc, ss.ProjectCode, ss.Roleplay, ssv.Value, ssv.BranchCode, ssv.EmployeeCode FROM StdService ss INNER JOIN StdServiceValueOH ssv on ss.KdStdService = ssv.KdStdService WHERE ssv.BranchCode = ? AND ss.ProjectCode = ? AND ssv.EmployeeCode=?", values, function (err, rows) {
+            connection.release();
+            if (err) return done(err)
+            done(null, rows)
+        })
+    })
+}
+
+exports.insertStdserviceValOH = function (StdService, done) {
+    var values = [StdService.KdStdservice, StdService.BranchCode, StdService.Value, StdService.EmployeeCode]
+    db.get(db.trx, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query('CALL sp_StdServiceValueOHGenerator(?,?,?,?)', values, function (err, result) {
+            connection.release();
+            if (err) return done(err)
+            done(null, result[0])
+        })
+    })
+}
+
+exports.insertStdserviceValBulkOH = function (StdServices, done) {
+    async.everySeries(StdServices, (value, callback) => {
+        var values = [value.KdStdservice, value.BranchCode, value.Value, value.EmployeeCode];
+        db.get(db.trx, function (err, connection) {
+            if (err) return done('Database problem')
+            connection.query('CALL sp_StdServiceValueOHGenerator(?,?,?,?)', values, function (err, result) {
+                connection.release();
+                if (err) return callback(err,result[0][0]);
+                callback(null,result[0][0]);
+            });
+        });
+    }, (err, res) => {
+        if (err) console.error(err.message);
+        done(null, res);
+    });
+    
 }

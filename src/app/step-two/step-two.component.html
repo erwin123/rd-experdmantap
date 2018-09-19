@@ -1,4 +1,4 @@
-<app-header-step></app-header-step>
+<app-header-step id="backtop"></app-header-step>
 <div class="step-container">
     <div class="row flex-items-xs-center flex-items-xs-middle">
         <div class="col-xs-11">
@@ -22,9 +22,9 @@
                                 <clr-icon shape="image" class="is-solid" size="23"></clr-icon>&nbsp; Unggah Video "Wake Up Call" Anda
                             </button>
                             (Durasi Maks 15 Menit)
-                            <input type="file" #fileInput name="wkcallFile" (change)="readUrl($event)" />
+                            <input type="file" #fileInput name="wkcallFile" (change)="readUrl($event)" accept="video/mp4" />
                         </div>
-                        <div class="loading-video" *ngIf="loadedvideo">
+                        <!-- <div class="loading-video" *ngIf="loadedvideo">
                             <span class="spinner spinner-inline">
                                 Loading...
                             </span>
@@ -34,14 +34,11 @@
                         </div>
                         <video class="video-viewer" *ngIf="url; else elseBlock" #video controls (loadedmetadata)="onMetadata($event, video)">
                             <source src="{{url}}" type="video/mp4">
-                        </video>
-                        <ng-template #elseBlock>
-                            <video class="video-viewer" *ngIf="urlLast" controls>
-                                <source src="{{urlLast}}" type="video/mp4">
-                            </video>
-                            <div>{{longAnswerLast}}</div>
-                            <app-feedback *ngIf="empInfo.RolePlay === 'RL001'" [kdDocument]="lastWakeUpCallCode"></app-feedback>
-                        </ng-template>
+                        </video> -->
+                        <div *ngIf="url" style="font-weight: bold">video dipilih : {{url}}</div>
+                        <!-- <ng-template #elseBlock> -->
+
+                        <!-- </ng-template> -->
                         <div *ngIf="empInfo.RolePlay === 'RL001'">
                             <label *ngIf="url" class="required" for="text_opt">
                                 <b>Pesan utama
@@ -50,10 +47,23 @@
                             </label>
                             <textarea *ngIf="url" id="text_opt" rows="2" [(ngModel)]="longAnswer"></textarea>
                         </div>
+
                     </div>
                 </div>
                 <div class="card-footer" *ngIf="empInfo.RolePlay === 'RL001'">
                     <button *ngIf="url" class="btn btn-primary btn-block" (click)="submit()">Kirim</button>
+                </div>
+            </div>
+            <div class="card" *ngIf="urlLast">
+                <div class="card-header">
+                    Video terakhir
+                </div>
+                <div class="card-block" #videoSprite style="width: 100%;">
+                    <video class="video-viewer" *ngIf="urlLast" controls>
+                        <source src="{{urlLast}}" type="video/mp4">
+                    </video>
+                    <div>{{longAnswerLast}}</div>
+                    <app-feedback *ngIf="empInfo.RolePlay === 'RL001'" [kdDocument]="lastWakeUpCallCode"></app-feedback>
                 </div>
             </div>
 
@@ -64,6 +74,25 @@
                 <div class="card-block">
                     <div class="card-text">
                         <b>Hasil observasi Anda terhadap layanan cabang saat ini</b>
+                        <br/>
+                        <div class="clr-row clr-align-items-center clr-justify-content-center" >
+                            <div class="clr-col-4" style="text-align:center">
+                                Belum sama sekali
+                            </div>
+                            <div class="clr-col-4" style="text-align:center">
+                                Belum sempurna
+                            </div>
+                            <div class="clr-col-4" style="text-align:center">
+                                Sudah baik
+                            </div>
+                        </div>
+                        <br/>
+                        <input [disabled]="empInfo.RolePlay === 'RL001' || empInfo.RolePlay === 'RL005' ? null : 'disabled'" class="range-slider" type="range" min="1" max="3" value="{{emoticonExample}}"
+                            step="1" [ngClass]="{'emoji1': emoticonExample == 1,
+                        'emoji3': emoticonExample== 2,
+                        'emoji4': emoticonExample== 3}" (change)="changeMoodExample($event, emoticonExample)" style="width: 100% !important" />
+                        <br/>
+                        <br/>
                         <clr-stack-view>
                             <clr-stack-block #lazyBlock [clrSbExpandable]="true" *ngFor="let role of roles">
                                 <clr-stack-label>{{role.RoleplayName}}</clr-stack-label>
@@ -71,6 +100,7 @@
                                 <clr-stack-block *ngFor="let stdService of (stdServiceVal|stdservicerole:role.KdRoleplay);let i = index" [class.banding]="i%2 === 0">
                                     <clr-stack-label>{{stdService.StdServiceDesc}}</clr-stack-label>
                                     <clr-stack-content>
+
                                         <div class="emotion-slider" style="position: relative;">
                                             <input class="base-slider" list="tickmarks" type="range" min="1" max="3" value="{{stdService.Value}}" step="1" />
                                             <datalist id="tickmarks">
@@ -78,10 +108,10 @@
                                                     <option value="2">
                                                         <option value="3">
                                             </datalist>
-                                            <input [disabled]="empInfo.RolePlay === 'RL001' ? null : 'disabled'" class="range-slider" type="range" min="1" max="3" value="{{stdService.Value}}"
+                                            <input [disabled]="empInfo.RolePlay === 'RL001' || empInfo.RolePlay === 'RL005' ? null : 'disabled'" class="range-slider" type="range" min="1" max="3" value="{{stdService.Value}}"
                                                 step="1" (change)="changeMood($event, stdService)" [ngClass]="{'emoji1': stdService.Value == 1,
                                                         'emoji3': stdService.Value == 2,
-                                                        'emoji4': stdService.Value == 3}" style="position: absolute !important; top:-5px !important; left:0 !important;"
+                                                        'emoji4': stdService.Value == 3}" style="position: absolute !important; top:18px !important; left:0 !important;"
                                             />
                                         </div>
                                     </clr-stack-content>
@@ -91,6 +121,62 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Aspek Fisik
+                </div>
+                <div class="card-block">
+                    <div class="card-text">
+                        <b>Pengamatan Anda terhadap cabang Anda sekarang ini</b>
+                        <clr-stack-view>
+                            <clr-stack-block #lazyBlock [clrSbExpandable]="true" *ngFor="let aspekparents of parentAspek|aspekflag:1">
+                                <clr-stack-label>{{aspekparents.Description}}</clr-stack-label>
+                                <clr-stack-content>Keadaan</clr-stack-content>
+                                <clr-stack-block *ngFor="let aspekchild of (valueAspek|aspekparent:aspekparents.KdAspekFisik);let i = index" [class.banding]="i%2 === 0">
+                                    <clr-stack-label>{{aspekchild.Description}}</clr-stack-label>
+                                    <clr-stack-content>
+                                        <div class="toggle-switch">
+                                            <input [disabled]="empInfo.RolePlay === 'RL001' || empInfo.RolePlay === 'RL005' ? null : 'disabled'" type="checkbox" [id]="aspekchild.KdAspekFisik" (change)="changeSwitch($event, aspekchild)" [checked]="aspekchild.Value === 1 ? true : false">
+                                            <label for="{{aspekchild.KdAspekFisik}}"></label>
+                                        </div>
+                                    </clr-stack-content>
+                                </clr-stack-block>
+                            </clr-stack-block>
+                        </clr-stack-view>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Aspek Lainnya
+                </div>
+                <div class="card-block">
+                    <div class="card-text">
+                        <b>Pengamatan Anda terhadap cabang Anda sekarang ini</b>
+                        <clr-stack-view>
+                            <clr-stack-block #lazyBlock [clrSbExpandable]="true" *ngFor="let aspekparents of parentAspek|aspekflag:2">
+                                <clr-stack-label>{{aspekparents.Description}}</clr-stack-label>
+                                <clr-stack-content>Keadaan</clr-stack-content>
+                                <clr-stack-block *ngFor="let aspekchild of (valueAspek|aspekparent:aspekparents.KdAspekFisik);let i = index" [class.banding]="i%2 === 0">
+                                    <clr-stack-label>{{aspekchild.Description}}</clr-stack-label>
+                                    <clr-stack-content>
+                                        <div class="toggle-switch">
+                                            <input [disabled]="empInfo.RolePlay === 'RL001'  || empInfo.RolePlay === 'RL005' ? null : 'disabled'" type="checkbox" [id]="aspekchild.KdAspekFisik" (change)="changeSwitch($event, aspekchild)" [checked]="aspekchild.Value === 1 ? true : false">
+                                            <label for="{{aspekchild.KdAspekFisik}}"></label>
+                                        </div>
+                                    </clr-stack-content>
+                                </clr-stack-block>
+                            </clr-stack-block>
+                        </clr-stack-view>
+                    </div>
+                </div>
+            </div>
+            <button (click)="triggerScrollTo()" type="button" class="btn btn-primary btn-icon btn-sm" style="position: fixed; right:0; bottom: -2px;">
+                <clr-icon shape="angle"></clr-icon>
+            </button>
+            <br/>
         </div>
     </div>
 </div>

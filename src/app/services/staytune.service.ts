@@ -14,11 +14,11 @@ export class StaytuneService {
   private token: any;
   constructor(private httpClient: HttpClient) { }
 
-  getStaytune(branchCode:string,projectCode: string): Observable<Staytune> {
+  getStaytune(branchCode:string,projectCode: string, isGetHeard:number): Observable<Staytune> {
     this.token = JSON.parse(localStorage.getItem('currentUser'));
     const headers = this._headers.append('x-access-token', this.token.token);
 
-    return this.httpClient.get<Staytune>(this.url+'last?br='+branchCode+'&prj='+projectCode,{ headers: headers })
+    return this.httpClient.get<Staytune>(this.url+'last?br='+branchCode+'&prj='+projectCode+'&ig='+isGetHeard,{ headers: headers })
       .map(res => {
         if (res[0]) {
           return res[0];

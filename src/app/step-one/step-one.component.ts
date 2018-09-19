@@ -6,7 +6,7 @@ import { Internship } from '../models/internship';
 import { Router } from '@angular/router';
 import * as globalVar from '../global';
 import { ToastrService } from 'ngx-toastr';
-import { FeedbackComponent } from '../feedback/feedback.component'
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-step-one',
@@ -65,18 +65,19 @@ export class StepOneComponent implements OnInit {
   }
 
   readUrl(event: any) {
-    this.loadedvideo = true;
+    //this.loadedvideo = true;
     if (event.target.files && event.target.files[0]) {
       this.fileToUpload = event.target.files[0];
-      var reader = new FileReader();
-      reader.onloadend = (event: any) => {
-        this.url = "";
-        setTimeout(() => {
-          this.url = event.target.result;
-          this.loadedvideo = false;
-        }, 2500);
-      }
-      reader.readAsDataURL(event.target.files[0]);
+      this.url = this.fileToUpload.name;
+      // var reader = new FileReader();
+      // reader.onloadend = (event: any) => {
+      //   this.url = "";
+      //   setTimeout(() => {
+      //     this.url = event.target.result;
+      //     this.loadedvideo = false;
+      //   }, 2500);
+      // }
+      // reader.readAsDataURL(event.target.files[0]);
     }
   }
 
@@ -87,7 +88,7 @@ export class StepOneComponent implements OnInit {
   }
 
   submit() {
-    if (this.url == "" || this.longAnswer == "") {
+    if (this.fileToUpload == null || this.longAnswer == "") {
       this.toastr.error('', 'Video atau kesan harus diisi!');
       return;
     }
@@ -96,34 +97,51 @@ export class StepOneComponent implements OnInit {
       return;
     }
     this.stateService.setTraffic(true);
-    
-    this.internshipService.uploadVideo(this.fileToUpload).subscribe(data => {
-      this.internShip = new Internship();
-      this.internShip.UrlVideo = data;
-      this.internShip.BranchCode = this.empInfo.BranchCode;
-      this.internShip.HighlightDesc = this.longAnswer;
-      this.internShip.ProjectCode = this.empInfo.ProjectCode;
-      this.internShip.Roleplay = this.roles.filter(i => i.RoleplayName === this.optionalRolePlay)[0].KdRoleplay;
-      this.internShip.Username = this.empInfo.Username;
-      this.internshipService.postInternship(this.internShip).subscribe(res => {
-        this.finish = true;
-        this.longAnswer = "";
-        this.stateService.setTraffic(false);
-      }, error => {
-        this.stateService.setTraffic(false);
-        if (!error.error.auth) {
-          this.stateService.redirectLogin();
-        }
-      });
+    this.internshipService.uploadVideo(this.fileToUpload).subscribe(event => {
+      
+      if (event.type === HttpEventType.UploadProgress) {
+        
+        const percentDone = Math.round(100 * event.loaded / event.total);
+        if (percentDone < 95)
+          this.stateService.setProgress(percentDone);
+      }
+
+      let urlVid: any;
+      if (event instanceof HttpResponse) {
+        this.stateService.setProgress(100);
+        urlVid = event.body
+        this.internShip = new Internship();
+        this.internShip.UrlVideo = urlVid.filename;
+        this.internShip.BranchCode = this.empInfo.BranchCode;
+        this.internShip.HighlightDesc = this.longAnswer;
+        this.internShip.ProjectCode = this.empInfo.ProjectCode;
+        this.internShip.Roleplay = this.roles.filter(i => i.RoleplayName === this.optionalRolePlay)[0].KdRoleplay;
+        this.internShip.Username = this.empInfo.Username;
+        this.internshipService.postInternship(this.internShip).subscribe(res => {
+          this.finish = true;
+          this.longAnswer = "";
+          this.stateService.setTraffic(false);
+          this.stateService.setProgress(0);
+        }, error => {
+          this.stateService.setTraffic(false);
+          if (!error.error.auth) {
+            this.stateService.redirectLogin();
+            this.stateService.setProgress(0);
+          }
+        });
+      }
     }, error => {
       this.stateService.setTraffic(false);
+      this.stateService.setProgress(0);
       if (!error.error.auth) {
         this.stateService.redirectLogin();
       }
     });
   }
 
+
   modalClose() {
-    this.router.navigate(['main/stepboard']);
+    this.finish = false;
+    //this.router.navigate(['main/stepone']);
   }
 }

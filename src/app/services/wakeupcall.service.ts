@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { StatemanagementService } from '../services/statemanagement.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpRequest } from '@angular/common/http';
 import * as globalVar from '../global';
 import { Wakeupcall } from '../models/wakeupcall';
 
@@ -15,20 +15,14 @@ export class WakeupcallService {
   private token: any;
   constructor(private httpClient: HttpClient, private stateService: StatemanagementService) { }
 
-  uploadVideo(fileToUpload: File): Observable<string> {
+  uploadVideo(fileToUpload: File) {
     this.token = JSON.parse(localStorage.getItem('currentUser'));
     let _headers = new HttpHeaders().set('x-access-token', this.token.token);
     const formData: FormData = new FormData();
 
     formData.append('wkcallFile', fileToUpload, fileToUpload.name);
-    return this.httpClient.post<any>(this.url + '/upload', formData, { headers: _headers })
-      .map(res => {
-        if (res) {
-          var str: string = String(res.filename);
-          return str;
-        }
-        throw new Error('Not Found');
-      });
+    const req = new HttpRequest('POST', this.url + '/upload', formData, { headers: _headers , reportProgress:true});
+    return this.httpClient.request(req).map((event) => {return event});
   }
 
   postWakeupcall(wakeupcall: Wakeupcall): Observable<Wakeupcall> {

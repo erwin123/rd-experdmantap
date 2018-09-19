@@ -28,11 +28,8 @@
         <a *ngIf="isLogin" routerLink="/main/stepboard" class="nav-link">
             <clr-icon shape="list" class="is-solid"></clr-icon> Step Saya
         </a>
-        <a routerLink="/main/login" class="nav-link">
+        <a routerLink="/main/helpdesk" class="nav-link">
             <clr-icon shape="phone-handset" class="is-solid" size="18"></clr-icon> Hubungi Kami
-        </a>
-        <a routerLink="/main/login" class="nav-link">
-            <clr-icon shape="help" class="is-solid" size="18"></clr-icon> Bantuan
         </a>
         <a *ngIf="isLogin" (click)="logout()" class="nav-link">
             <clr-icon shape="list" class="is-solid"></clr-icon> Keluar

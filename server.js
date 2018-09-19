@@ -11,7 +11,9 @@ const bcrypt = require('bcryptjs');
 const config = require('./server/config');
 const timeout = require('connect-timeout'); //express v4
 
-
+//Cors
+app.use(cors());
+app.options('*', cors());
 // API file for interacting with api route
 const api_um = require('./server/routes/api_um');
 const api_trx = require('./server/routes/api_trx');
@@ -19,9 +21,7 @@ const api_trx = require('./server/routes/api_trx');
 //fileupload
 app.use(fileUpload());
 
-//Cors
-app.use(cors());
-app.options('*', cors());
+
 
 // Parsers
 app.use(bodyParser.json());
@@ -63,8 +63,6 @@ function haltOnTimedout (req, res, next) {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
-
-
 
 //Set Port
 const port = process.env.PORT || '3000';

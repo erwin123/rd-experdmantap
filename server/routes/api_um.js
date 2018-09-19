@@ -22,16 +22,9 @@ router.get('/users/:uname?', function (req, res, next) {
 });
 
 router.post('/users/', function (req, res, next) {
-    users.addUser(req.body, function (err, count) {
+    users.insertUser(req.body, function (err, count) {
         if (err) { res.json(err); }
         else { res.json(req.body); }
-    });
-});
-
-router.delete('/users/:id', function (req, res, next) {
-    users.deleteUser(req.params.id, function (err, count) {
-        if (err) { res.json(err); }
-        else { res.json(count); }
     });
 });
 
@@ -42,11 +35,48 @@ router.put('/users/:uname', function (req, res, next) {
     });
 });
 
+router.delete('/users/:uname', function (req, res, next) {
+    users.deleteUser(req.params.uname, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
+//region userdetail
+router.get('/userd/:uname?', function (req, res, next) {
+    if (req.params.uname) {
+        users.getAllUserDetailUsername(req.params.uname, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+    else {
+        users.getAllUserDetail(function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+});
+
+router.post('/userd/', function (req, res, next) {
+    users.insertUserDetail(req.body, function (err, count) {
+        if (err) { res.json(err); }
+        else { res.json(req.body); }
+    });
+});
+
+router.put('/userd/:uname', function (req, res, next) {
+    users.updateUserDetail(req.params.uname, req.body, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
 //region account
 router.post('/users/login', function (req, res, next) {
     if (req.body) {
         users.loginUser(req.body.username, req.body.password, req.body.appcode, function (err, rows, fields) {
-            if (err) { res.status(500);res.send('Internal Server Error'); }
+            if (err) { res.status(500); res.send('Internal Server Error'); }
             else {
                 if (rows[0][0]) {
                     let hashedPassword = bcrypt.hashSync(req.body.password, 8);
@@ -57,7 +87,7 @@ router.post('/users/login', function (req, res, next) {
                     let result = rows[0][0];
 
                     res.setHeader('Content-Type', 'application/json');
-                    res.status(200).send({ auth: true, token: token, username:req.body.username, appcode:result.AppCode, ic:result.IsConsultant });
+                    res.status(200).send({ auth: true, token: token, username: req.body.username, appcode: result.AppCode, ic: result.IsConsultant });
                 }
                 else {
                     res.status(401);
@@ -98,9 +128,9 @@ router.post('/users/changepwd', function (req, res, next) {
     if (req.body) {
         users.changePasswordUser(req.body.username, req.body.password, function (err, rows, fields) {
             if (err) {
-                    res.status(500);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send({ "message": "Somethin Error" });
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send({ "message": "Somethin Error" });
             }
             else {
                 if (rows[0][0]) {

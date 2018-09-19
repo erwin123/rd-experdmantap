@@ -39,6 +39,9 @@ import { GetheardPipe } from './pipes/getheard.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { ChpwdComponent } from './chpwd/chpwd.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { AspekparentPipe } from './pipes/aspekparent.pipe';
+import { AspekflagPipe } from './pipes/aspekflag.pipe';
+import { HelpdeskComponent } from './helpdesk/helpdesk.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,10 @@ import { FeedbackComponent } from './feedback/feedback.component';
     StdservicerolevalPipe,
     GetheardPipe,
     ChpwdComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    AspekparentPipe,
+    AspekflagPipe,
+    HelpdeskComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,6 @@
 .login-container{
     padding:30px;
-    background-color: #fff;
-    background: url("../../assets/img/registration.png") no-repeat;
+    background: #fff url("../../assets/img/registration.png") no-repeat;
 }
 
 .login-group *{

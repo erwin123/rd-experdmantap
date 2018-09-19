@@ -16,9 +16,14 @@ export class StdserviceService {
   constructor(private httpClient: HttpClient) { }
 
   postStdService(stdService:Stdservice): Observable<Stdservice> {
+    let OH = "";
+    if(stdService.EmployeeCode)
+    {
+      OH += "oh";
+    }
     this.token = JSON.parse(localStorage.getItem('currentUser'));
     const headers = this._headers.append('x-access-token', this.token.token);
-    return this.httpClient.post<Stdservice>(this.url+'val', stdService,{ headers: headers })
+    return this.httpClient.post<Stdservice>(this.url+'val'+OH, stdService,{ headers: headers })
       .map(res => {
         if (res) {
           return res;
@@ -27,10 +32,29 @@ export class StdserviceService {
       });
   }
 
+
   postBulkStdService(stdService:Stdservice[]): Observable<any> {
+    let OH = "";
+    if(stdService[0].EmployeeCode)
+    {
+      OH += "oh";
+    }
     this.token = JSON.parse(localStorage.getItem('currentUser'));
     const headers = this._headers.append('x-access-token', this.token.token);
-    return this.httpClient.post<any>(this.url+'valbulk', stdService,{ headers: headers })
+    return this.httpClient.post<any>(this.url+'valbulk'+OH, stdService,{ headers: headers })
+      .map(res => {
+        if (res) {
+          console.log(res);
+          return res;
+        }
+        throw new Error('Not Found');
+      });
+  }
+
+  postBulkStdServiceOH(stdService:Stdservice[]): Observable<any> {
+    this.token = JSON.parse(localStorage.getItem('currentUser'));
+    const headers = this._headers.append('x-access-token', this.token.token);
+    return this.httpClient.post<any>(this.url+'valbulkoh', stdService,{ headers: headers })
       .map(res => {
         if (res) {
           console.log(res);
@@ -58,6 +82,19 @@ export class StdserviceService {
     const headers = this._headers.append('x-access-token', this.token.token);
 
     return this.httpClient.get<Stdservice[]>(this.url+'val' + '?br='+branchCode+'&prj='+projectCode, { headers: headers })
+      .map(res => {
+        if (res) {
+          return res;
+        }
+        //throw new Error('Not Found');
+      });
+  }
+
+  getStdServiceValueOH(branchCode:string, projectCode: string, empCode:string): Observable<Stdservice[]> {
+    this.token = JSON.parse(localStorage.getItem('currentUser'));
+    const headers = this._headers.append('x-access-token', this.token.token);
+
+    return this.httpClient.get<Stdservice[]>(this.url+'valoh' + '?br='+branchCode+'&prj='+projectCode+'&em='+empCode, { headers: headers })
       .map(res => {
         if (res) {
           return res;

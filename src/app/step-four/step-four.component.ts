@@ -5,6 +5,8 @@ import { StatemanagementService } from '../services/statemanagement.service';
 import { EmployeeService } from '../services/employee.service';
 import { Employeewtt } from '../models/employeewtt';
 import { ToastrService } from 'ngx-toastr';
+import { StaytuneService } from '../services/staytune.service';
+import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
 @Component({
   selector: 'app-step-four',
@@ -19,9 +21,10 @@ export class StepFourComponent implements OnInit {
   employeeswtt: Employeewtt[];
   weeks: Array<number> = new Array();
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
+  longAnswer:string ="";
 
   constructor(private employeeService: EmployeeService, private stateService: StatemanagementService
-    , private toastr: ToastrService) { }
+    , private toastr: ToastrService, private stService: StaytuneService, private _scrollToService: ScrollToService) { }
 
   ngOnInit() {
     this.stateService.setTraffic(true);
@@ -56,6 +59,12 @@ export class StepFourComponent implements OnInit {
       });
     });
     
+    this.stService.getStaytune(this.empInfo.BranchCode, this.empInfo.ProjectCode, 1).subscribe(res => {
+      this.longAnswer = res.BranchFeedback;
+      this.stateService.setTraffic(false);
+    }, err => {
+      this.stateService.setTraffic(false);
+    });
   }
 
   check(event: KeyboardEvent) {
@@ -81,5 +90,13 @@ export class StepFourComponent implements OnInit {
         this.stateService.redirectLogin();
       }
     });
+  }
+
+  public triggerScrollTo(offset: number = 0) {
+    const config: ScrollToConfigOptions = {
+      target: 'backtop'
+    };
+ 
+    this._scrollToService.scrollTo(config);
   }
 }

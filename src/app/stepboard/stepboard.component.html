@@ -1,6 +1,12 @@
 <div class="board-container">
+    <div *ngIf="employeInfo.RolePlay === 'RL005'">
+        <button type="button" (click)="onSelectBranch()" class="btn-cabang btn-block">
+          <clr-icon shape="building" class="is-solid" size="20"></clr-icon> <b>Klik pilih cabang :</b> {{employeInfo.BranchName}}
+        </button>
+      </div>
   <div class="row flex-items-xs-left flex-items-xs-middle">
     <div class="col-xs-11">
+      
       <div *ngIf="employeInfo.RolePlay === 'RL001'" class="welcome-note" style="margin: 0 0 0 10px; font-size: 12px;">
         <span style="font-size: 16px; font-weight: bold;">
           {{employeInfo.ProjectName}}
@@ -43,3 +49,15 @@
     </div>
   </div>
 </div>
+
+<clr-modal [(clrModalOpen)]="opened">
+  <h3 class="modal-title">Pilih Cabang :</h3>
+  <div class="modal-body">
+    <label *ngIf="sending" style="color:red; font-size: 16px;">Harap tunggu, sedang set cabang</label>
+    <div *ngFor="let objC of branches;let i = index">
+      <a [ngClass]="{'btn-disable': sending}" (click)="onSelectedBranch(objC)" class="btn-cabang btn-success btn-sm btn-block" style="text-align: center !important;margin-bottom: 15px !important;">
+        {{objC.BranchName}}
+      </a>
+    </div>
+  </div>
+</clr-modal>

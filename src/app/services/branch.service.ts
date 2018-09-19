@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as globalVar from '../global';  
+import { Branch } from '../models/users';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,19 @@ export class BranchService {
       .map(res => {
         if (res[0]) {
           return res[0];
+        }
+        throw new Error('Not Found');
+      });
+  }
+
+  getAllBranch(): Observable<Branch[]> {
+    this.token = JSON.parse(localStorage.getItem('currentUser'));
+    const headers = this._headers.append('x-access-token', this.token.token);
+
+    return this.httpClient.get<Branch[]>(this.url, { headers: headers })
+      .map(res => {
+        if (res.length) {
+          return res;
         }
         throw new Error('Not Found');
       });

@@ -1,5 +1,11 @@
-.content-area{
-    padding:0 !important;
-    overflow-x:  hidden !important;
+.content-area {
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 
+.main-container {
+    background-color: #ffffff;
+    background-image: url("https://www.transparenttextures.com/patterns/arches.png");
+}

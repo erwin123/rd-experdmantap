@@ -87,7 +87,21 @@
 }
 
 .stack-view .stack-children .stack-block-label {
-    padding-left: 1px !important;
+    padding-left: 2px !important;
+}
+
+.stack-view .stack-block-expanded>.stack-block-label {
+    color:#fff !important;
+}
+
+.stack-view .stack-block-expandable>.stack-block-label{
+    background-color: rgb(25, 108, 180) !important;
+    color:#fff;
+}
+
+.stack-view .stack-block-content {
+    background-color: #c6eaff !important;
+    
 }
 
 .stack-view .stack-children .stack-block-label::before {
@@ -99,9 +113,6 @@
     background: transparent !important;
 }
 
-.stack-view {
-    border: none !important;
-}
 
 .stack-header .stack-title {
     padding: 0 !important;

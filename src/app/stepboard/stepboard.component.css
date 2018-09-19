@@ -2,6 +2,22 @@
   margin-top: 8px;
 }
 
+.btn-cabang {
+  display: block;
+  width: 98%;
+  background: #fff;
+  border: 1px #084F8F solid;
+  height: 30px;
+  margin: 3px auto;
+  outline: none;
+  text-align: left;
+  text-decoration: none;
+  color: #084F8F;
+  line-height: 30px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
 .btn {
   display: block;
   background: #F5931E;
@@ -42,4 +58,11 @@
 
 .welcome-note{
   margin:10px;
+}
+
+.btn-disable {
+  background: #eee;
+  border-color: #c0c0c0 !important;
+  color: #c0c0c0 !important;
+  pointer-events: none;
 }

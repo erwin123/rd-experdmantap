@@ -51,7 +51,7 @@ exports.updateEmployee = function (key, Emp, done) {
 exports.deleteEmployee = function (key, done) {
     db.get(db.trx, function (err, connection) {
         if (err) return done('Database problem')
-        connection.query('DELETE FROM Employee where Username=?', key, function (err, result) {
+        connection.query('DELETE FROM Employee where EmployeeCode=?', key, function (err, result) {
             connection.release();
             if (err) return done(err)
             done(null, result)

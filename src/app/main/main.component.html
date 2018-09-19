@@ -1,9 +1,14 @@
-<clr-main-container #container>
-    <app-header></app-header>
-    <div class="content-container" *blockUI="'content'">
-      <main class="content-area" [@routerTransition]="page.activatedRouteData.state">
-        <router-outlet #page="outlet"></router-outlet>
-      </main>
-    </div>
-    <app-footer></app-footer>
-</clr-main-container>
+<div *ngIf="traffic && progress > 0" class="progress top success" style="position: absolute; top: 70%; left: 0; z-index: 31000;">
+    <progress value="{{progress}}" max="100"></progress>
+</div>
+<div class="content-container" *blockUI="'content'">
+    <clr-main-container #container>
+
+        <app-header></app-header>
+        <main class="content-area" [@routerTransition]="page.activatedRouteData.state">
+            <router-outlet #page="outlet"></router-outlet>
+        </main>
+        <app-footer></app-footer>
+
+    </clr-main-container>
+</div>

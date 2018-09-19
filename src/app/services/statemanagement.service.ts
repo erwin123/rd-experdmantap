@@ -11,6 +11,9 @@ export class StatemanagementService {
   private existTraffic = new BehaviorSubject<boolean>(false);
   currentExistTraffic = this.existTraffic.asObservable();
 
+  private numberProgrees = new BehaviorSubject<number>(0);
+  currentNumberProgrees = this.numberProgrees.asObservable();
+
   private stateLogin = new BehaviorSubject<boolean>(localStorage.getItem('currentUser') ? true : false);
   currentStateLogin = this.stateLogin.asObservable();
 
@@ -33,6 +36,11 @@ export class StatemanagementService {
 
   setTraffic(existTraffic: boolean) {
     this.existTraffic.next(existTraffic);
+  }
+
+  setProgress(numberProgrees: number) {
+    console.log(numberProgrees);
+    this.numberProgrees.next(numberProgrees);
   }
 
   getStoredEmployee(){

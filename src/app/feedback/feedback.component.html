@@ -2,14 +2,14 @@
   <div *ngFor="let i of feedbacks">
     <div class="feedback-sender-info">
       <span class="feedback-sender">{{i.CreatedBy}}</span> feedback pada tanggal
-      <span class="feedback-date">{{i.CreatedDate | date: 'dd/MM/yyyy'}}</span>
+      <span class="feedback-date">{{i.CreatedDate | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
     </div>
     <div class="feedback-history">
       {{i.Feedback}}
     </div>
   </div>
   <div>
-      <textarea id="formFields_8" placeholder="Isi feedback" rows="1" [(ngModel)]="feedback.Feedback"></textarea>
-      <button class="btn btn-primary btn-sm btn-block" (click)="onSubmit()">Kirim</button>
+      <textarea id="formFields_8" placeholder="Isi komentar" rows="1" [(ngModel)]="feedback.Feedback"></textarea>
+      <button *ngIf="feedback.Feedback" class="btn btn-primary btn-sm btn-block" (click)="onSubmit()">Kirim</button>
   </div>
 </div>
