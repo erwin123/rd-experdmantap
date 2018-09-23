@@ -95,7 +95,8 @@ export class StepSixComponent implements OnInit {
       this.stateService.setTraffic(true);
       this.ttwService.uploadTr(this.pdfRwd).subscribe(res => {
         let tr: Talkthewalk = new Talkthewalk();
-        tr.URLpath = res;
+        let urlPath:any = res;
+        tr.URLpath = urlPath.filename;
         tr.BranchCode = this.empInfo.BranchCode;
         tr.ProjectCode = this.empInfo.ProjectCode;
         tr.TRtype = 1;
@@ -123,7 +124,8 @@ export class StepSixComponent implements OnInit {
       this.imgRwd.forEach((el, index, array) => {
         this.ttwService.uploadTr(el).subscribe(res => {
           let tr: Talkthewalk = new Talkthewalk();
-          tr.URLpath = res;
+          let urlPath:any = res;
+          tr.URLpath = urlPath.filename;
           tr.BranchCode = this.empInfo.BranchCode;
           tr.ProjectCode = this.empInfo.ProjectCode;
           tr.Username = this.empInfo.Username;

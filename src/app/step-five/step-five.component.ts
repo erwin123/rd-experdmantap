@@ -137,12 +137,12 @@ export class StepFiveComponent implements OnInit {
             this.stateService.setProgress(percentDone);
         }
 
-        let urlVid: any;
+        let urlPath: any;
         if (event instanceof HttpResponse) {
           this.stateService.setProgress(100);
-          urlVid = event.body
+          urlPath = event.body
           let ttw: Talkthewalk = new Talkthewalk();
-          ttw.URLpath = urlVid;
+          ttw.URLpath = urlPath.filename;
           ttw.BranchCode = this.empInfo.BranchCode;
           ttw.ProjectCode = this.empInfo.ProjectCode;
           ttw.TTWtype = 1;
@@ -176,12 +176,12 @@ export class StepFiveComponent implements OnInit {
             this.stateService.setProgress(percentDone);
         }
 
-        let urlVid: any;
+        let urlPath: any;
         if (event instanceof HttpResponse) {
           this.stateService.setProgress(100);
-          urlVid = event.body
+          urlPath = event.body
           let ttw: Talkthewalk = new Talkthewalk();
-          ttw.URLpath = urlVid;
+          ttw.URLpath = urlPath.filename;
           ttw.BranchCode = this.empInfo.BranchCode;
           ttw.ProjectCode = this.empInfo.ProjectCode;
           ttw.TTWtype = 2;
