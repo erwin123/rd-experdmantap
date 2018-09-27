@@ -33,3 +33,14 @@ exports.reportStdService = function (Crit, done) {
     })
 }
 
+exports.reportActivity = function (projectCode, done) {
+    db.get(db.trx, function (err, connection) {
+        if (err) return done('Database problem')
+        connection.query("CALL rpt_activity(?)", projectCode, function (err, rows) {
+            connection.release();
+            if (err) return done(err)
+            done(null, rows)
+        })
+    })
+}
+

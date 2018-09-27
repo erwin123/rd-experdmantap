@@ -1102,4 +1102,14 @@ router.post('/reportStdService/', function (req, res, next) {
 
 });
 
+router.post('/reportActivity/', function (req, res, next) {
+    rpt.reportActivity(req.body.ProjectCode, function (err, rows) {
+        if (err) { res.json(err); }
+        else {
+            res.json(rows[0]);
+        }
+    });
+});
+
+
 module.exports = router;
