@@ -1,4 +1,5 @@
 var users = require('../models/um/users');
+var apps = require('../models/um/apps');
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
@@ -145,6 +146,45 @@ router.post('/users/changepwd', function (req, res, next) {
 
         });
     }
+});
+
+
+
+//region apps
+router.get('/apps/:appcode?', function (req, res, next) {
+    if (req.params.appcode) {
+        apps.getAllAppsByCode(req.params.appcode, function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+    else {
+        apps.getAllApps(function (err, rows) {
+            if (err) { res.json(err); }
+            else { res.json(rows); }
+        });
+    }
+});
+
+router.post('/apps/', function (req, res, next) {
+    apps.insertApps(req.body, function (err, count) {
+        if (err) { res.json(err); }
+        else { res.json(req.body); }
+    });
+});
+
+router.put('/apps/:appcode', function (req, res, next) {
+    apps.updateApps(req.params.appcode, req.body, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
+});
+
+router.delete('/apps/:appcode', function (req, res, next) {
+    apps.deleteApps(req.params.appcode, function (err, rows) {
+        if (err) { res.json(err); }
+        else { res.json(rows); }
+    });
 });
 
 module.exports = router;

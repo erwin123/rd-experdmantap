@@ -63,7 +63,7 @@ exports.updateUser = function (uname, User, done) {
 exports.getAllUserDetail = function (done) {
     db.get(db.um, function (err, connection) {
         if (err) {console.log(err);return done('Database problem')}
-        connection.query('SELECT Username, FirstName, LastName, Phone, Gender, Email, BornDate FROM UserDetail', function (err, rows) {
+        connection.query('SELECT Username, FirstName, LastName, Phone, Gender, Email, DATE_FORMAT(BornDate, "%Y-%m-%d") BornDate FROM UserDetail', function (err, rows) {
             connection.release();
             if (err) return done(err)
             done(null, rows)
@@ -74,8 +74,9 @@ exports.getAllUserDetail = function (done) {
 exports.getAllUserDetailUsername = function (uname, done) {
     db.get(db.um, function (err, connection) {
         if (err) {console.log(err);return done('Database problem')}
-        connection.query('SELECT Username, FirstName, LastName, Phone, Gender, Email, BornDate FROM UserDetail WHERE Username = ?',uname, function (err, rows) {
+        connection.query('SELECT Username, FirstName, LastName, Phone, Gender, Email, DATE_FORMAT(BornDate, "%Y-%m-%d") BornDate FROM UserDetail WHERE Username = ?',uname, function (err, rows) {
             connection.release();
+            console.log(rows);
             if (err) return done(err)
             done(null, rows)
         })
