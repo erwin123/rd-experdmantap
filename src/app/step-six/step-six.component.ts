@@ -96,7 +96,7 @@ export class StepSixComponent implements OnInit {
       this.ttwService.uploadTr(this.pdfRwd).subscribe(res => {
         let tr: Talkthewalk = new Talkthewalk();
         let urlPath:any = res;
-        tr.URLpath = urlPath.filename;
+        tr.URLpath = urlPath;
         tr.BranchCode = this.empInfo.BranchCode;
         tr.ProjectCode = this.empInfo.ProjectCode;
         tr.TRtype = 1;
@@ -125,21 +125,24 @@ export class StepSixComponent implements OnInit {
         this.ttwService.uploadTr(el).subscribe(res => {
           let tr: Talkthewalk = new Talkthewalk();
           let urlPath:any = res;
-          tr.URLpath = urlPath.filename;
+          tr.URLpath = urlPath;
           tr.BranchCode = this.empInfo.BranchCode;
           tr.ProjectCode = this.empInfo.ProjectCode;
           tr.Username = this.empInfo.Username;
           tr.TRtype = 2;
-          this.ttwService.postTr(tr).subscribe(data => {
-            this.stateService.setTraffic(false);
-            itemsProcessed++;
-            if (itemsProcessed === array.length) {
-              this.toastr.success('', 'Dokumen berhasil tersimpan');
-            }
-          }, err => {
-            this.stateService.setTraffic(false);
-            this.toastr.error('', 'Terjadi kesalahan jaringan, Hanya beberapa foto terunggah');
-          })
+          setTimeout(() => {
+            this.ttwService.postTr(tr).subscribe(data => {
+              this.stateService.setTraffic(false);
+              itemsProcessed++;
+              if (itemsProcessed === array.length) {
+                this.toastr.success('', 'Dokumen berhasil tersimpan');
+              }
+            }, err => {
+              this.stateService.setTraffic(false);
+              this.toastr.error('', 'Terjadi kesalahan jaringan, Hanya beberapa foto terunggah');
+            })
+          }, 2000);
+          
         }, err => {
           this.stateService.setTraffic(false);
           this.toastr.error('', 'Terjadi kesalahan jaringan');
